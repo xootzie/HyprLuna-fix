@@ -1,0 +1,82 @@
+// Material You Theme for HyprNoon Shell By Pharmaracist
+
+// Core Colors
+$primary: #a8c8ff;
+$onPrimary: #002752;
+$primaryContainer: #456597;
+$onPrimaryContainer: #ffffff;
+$secondary: #bdc7dc;
+$onSecondary: #1f2838;
+$secondaryContainer: #5b6577;
+$onSecondaryContainer: #ffffff;
+$tertiary: #dbbce1;
+$onTertiary: #35203c;
+$tertiaryContainer: #755c7c;
+$onTertiaryContainer: #ffffff;
+$error: #ffb4ab;
+$onError: #580003;
+$errorContainer: #c32220;
+$onErrorContainer: #ffffff;
+$background: #111318;
+$onBackground: #e1e2e9;
+$surface: #111318;
+$onSurface: #e6e6ed;
+
+// Surface Variants
+$surfaceVariant: #43474e;
+$onSurfaceVariant: #c4c6cf;
+$surfaceDim: #111318;
+$surfaceBright: #3c3e43;
+$surfaceContainerLowest: #090c10;
+$surfaceContainerLow: #1a1c21;
+$surfaceContainer: #212328;
+$surfaceContainerHigh: #2b2d32;
+$surfaceContainerHighest: #36383d;
+
+// Other Colors
+$outline: #93969f;
+$outlineVariant: #61646c;
+$shadow: #000000;
+$scrim: #000000;
+$inverseSurface: #e1e2e9;
+$inverseOnSurface: #2e3035;
+$inversePrimary: #375889;
+$surfaceTint: #a8c8ff;
+
+// Fixed Colors
+$primaryFixed: #d5e3ff;
+$primaryFixedDim: #a8c8ff;
+$onPrimaryFixed: #001b3c;
+$onPrimaryFixedVariant: #244676;
+$secondaryFixed: #d9e3f8;
+$secondaryFixedDim: #bdc7dc;
+$onSecondaryFixed: #121c2b;
+$onSecondaryFixedVariant: #3d4657;
+$tertiaryFixed: #f8d8fe;
+$tertiaryFixedDim: #dbbce1;
+$onTertiaryFixed: #28132f;
+$onTertiaryFixedVariant: #553d5c;
+
+// Optional Colors (Checks for the generator)
+$success: $primary;
+$onSuccess: $onPrimary;
+$successContainer: $primaryContainer;
+$onSuccessContainer: $onPrimaryContainer;
+
+// Term Colors
+$term0: $primary;
+$term1: $onPrimary;
+$term2: $primaryContainer;
+$term3: $onPrimaryContainer;
+$term4: $secondary;
+$term5: $onSecondary;
+$term6: $secondaryContainer;
+$term7: $onSecondaryContainer;
+$term8: $tertiary;
+$term9: $onTertiary;
+$term10: $tertiaryContainer;
+$term11: $onTertiaryContainer;
+$term12: $surface;
+$term13: $onSurface;
+$term14: $surfaceVariant;
+$term15: $onSurfaceVariant;
