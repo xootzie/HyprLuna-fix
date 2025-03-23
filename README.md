@@ -110,6 +110,9 @@ cp -r .local ~/
 cp -r .fonts ~/ 2>/dev/null || echo "No .fonts directory to copy"
 cp -r .ags ~/ 2>/dev/null || echo "No .ags directory to copy"
 cp -r Pictures ~/
+chmod +x ~/.config/hypr/scripts/*
+chmod +x ~/.config/ags/scripts/hyprland/*
+sh ~/.config/ags/scripts/color_generation/wallpapers.sh -r
 ```
 
 <div align="center" style="background-color: #11111b; border-radius: 8px; padding: 15px;">
