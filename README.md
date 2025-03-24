@@ -1,6 +1,9 @@
 <div align="center">
     <h1>HyprLuna Dotfiles by Lunaris project</h1>
       <div>
+        <a href="https://discord.gg/qnAHD9keWr">
+          <img src="https://img.shields.io/badge/Join%20Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord">
+        </a>
         <a href="https://github.com/Lunaris-Project/HyprLuna/stargazers">
           <img src="https://img.shields.io/github/stars/Lunaris-Project/HyprLuna?color=CBA6F7&labelColor=1E1E2E&style=for-the-badge&logo=starship&logoColor=CBA6F7" alt="Stars">
         </a>
