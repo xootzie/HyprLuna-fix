@@ -4,13 +4,12 @@
         <a href="https://discord.gg/qnAHD9keWr">
           <img src="https://img.shields.io/badge/Join%20Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord">
         </a>
-        <a href="https://github.com/Lunaris-Project/HyprLuna/stargazers">
-          <img src="https://img.shields.io/github/stars/Lunaris-Project/HyprLuna?color=CBA6F7&labelColor=1E1E2E&style=for-the-badge&logo=starship&logoColor=CBA6F7" alt="Stars">
-        </a>
         <a href="https://archlinux.org/">
           <img src="https://img.shields.io/badge/Arch_Linux-Compatible-89DCEB?style=for-the-badge&logo=arch-linux&logoColor=white&labelColor=1E1E2E" alt="Arch Linux Compatible">
         </a>
-        <a href="https://github.com/Lunaris-Project/HyprLuna/issues">
+      </div>
+      <div>
+      <a href="https://github.com/Lunaris-Project/HyprLuna/issues">
           <img src="https://img.shields.io/github/issues/Lunaris-Project/HyprLuna?style=for-the-badge&logo=gitbook&color=94E2D5&labelColor=1E1E2E" alt="Issues">
         </a>
         <a href="https://github.com/Lunaris-Project/HyprLuna/blob/main/LICENSE">
@@ -19,8 +18,13 @@
         <a href="https://github.com/Lunaris-Project/HyprLuna">
           <img src="https://img.shields.io/github/repo-size/Lunaris-Project/HyprLuna?style=for-the-badge&logo=github&color=F9E2AF&labelColor=1E1E2E&label=Size" alt="Repo Size">
         </a>
+      </div>
+      <div>
         <a href="https://github.com/Lunaris-Project/HyprLuna/commits/main">
           <img src="https://img.shields.io/github/last-commit/Lunaris-Project/HyprLuna?style=for-the-badge&logo=git&color=F38BA8&labelColor=1E1E2E" alt="Last Commit">
+        </a>
+        <a href="https://github.com/Lunaris-Project/HyprLuna/stargazers">
+          <img src="https://img.shields.io/github/stars/Lunaris-Project/HyprLuna?color=CBA6F7&labelColor=1E1E2E&style=for-the-badge&logo=starship&logoColor=CBA6F7" alt="Stars">
         </a>
       </div>
 <p align="center">
