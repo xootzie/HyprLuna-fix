@@ -203,7 +203,6 @@ const getRandomImage = () => {
     const animeDir = `${GLib.get_home_dir()}/.config/ags/assets/anime`;
     const dir = Gio.File.new_for_path(animeDir);
 
-    // List files in directory
     const enumerator = dir.enumerate_children(
       "standard::name,standard::type",
       Gio.FileQueryInfoFlags.NONE,
@@ -214,20 +213,18 @@ const getRandomImage = () => {
     let fileInfo;
     while ((fileInfo = enumerator.next_file(null)) !== null) {
       const name = fileInfo.get_name();
-      // Only add files with image extensions
       if (name.match(/\.(jpg|jpeg|png|gif)$/i)) {
-        imageFiles.push(name.replace(/\.[^/.]+$/, "")); // Remove extension
+        imageFiles.push(name.replace(/\.[^/.]+$/, "")); 
       }
     }
 
-    if (imageFiles.length === 0) return "1"; // fallback if no images
+    if (imageFiles.length === 0) return "hyprluna"; 
 
-    // Get random image name
     const randomIndex = Math.floor(Math.random() * imageFiles.length);
     return imageFiles[randomIndex];
   } catch (error) {
     console.error("Error getting random image:", error);
-    return "1"; // fallback to default
+    return "hyprluna";
   }
 };
 
