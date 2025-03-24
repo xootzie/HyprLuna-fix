@@ -119,6 +119,10 @@ chmod +x ~/.config/hypr/scripts/*
 chmod +x ~/.config/ags/scripts/hyprland/*
 sh ~/.config/ags/scripts/color_generation/wallpapers.sh -r
 ```
+## Keybindings:
+```bash
+// now the keybinds are missy needs to be refactored SOON
+```
 
 <div align="center" style="background-color: #11111b; border-radius: 8px; padding: 15px;">
 
