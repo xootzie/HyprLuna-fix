@@ -1,4 +1,4 @@
-# HyprNoon Matugen Config By Lunaris-Project
+# HyprLuna Matugen Config By Lunaris-Project
 
 [config]
 reload_apps = true
@@ -96,7 +96,7 @@ output_path = "~/.config/spicetify/Themes/Comfy/colors.ini"
 
 [templates.discord]
 input_path = "~/.config/matugen/templates/discord.css"
-output_path = "~/.config/vesktop/themes/HyprNoon.css"
+output_path = "~/.config/vesktop/themes/HyprLuna.css"
 
 [templates.obsidian]
 input_path = "~/.config/matugen/templates/obsidian.css"

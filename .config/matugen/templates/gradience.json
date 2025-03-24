@@ -1,5 +1,5 @@
 {
-    "name": "HyprNoon",
+    "name": "HyprLuna",
     "variables": {
       "theme_fg_color": "{{colors.on_surface_variant.default.hex}}",
       "theme_text_color": "{{colors.on_surface.default.hex}}",
