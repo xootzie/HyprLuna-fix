@@ -1,5 +1,5 @@
 #!/bin/bash
-# HyprLunaris Bar Selector By PharmaRacist
+# HyprLunar Bar Selector
 
 # Define your modes
 modes=(
