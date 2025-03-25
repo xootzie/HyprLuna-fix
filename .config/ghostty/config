@@ -1,5 +1,5 @@
 theme = material
-font-family = "SF Pro Display 10"
+font-family = "SF Mono"
 # font-size = 12
 window-decoration = false
 command = fish
