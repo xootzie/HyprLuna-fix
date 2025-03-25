@@ -162,6 +162,7 @@ const BatteryContent = () => {
             detailsRevealer.revealChild = !detailsRevealer.revealChild;
         },
         child: Box({
+            css: "font-size: 11px; font-weight: 700; margin: 0;",
             className: "battery-module spacing-h-5",
             children: [
                 Overlay({

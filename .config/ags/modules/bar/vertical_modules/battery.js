@@ -111,7 +111,8 @@ const BatteryContent = () => {
 
     return EventBox({
         child: Box({
-            className: "battery-module spacing-h-5",
+            css: "font-size: 11px; font-weight: 700; margin: 0;",
+            className: "battery-module spacing-h-5 ",
             vertical: true,
             children: [batteryIcon],
         }),
