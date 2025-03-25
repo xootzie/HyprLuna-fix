@@ -200,31 +200,50 @@ export const sidebarOptionsStack = ExpandingIconTabContainer({
 });
 const getRandomImage = () => {
   try {
-    const animeDir = `${GLib.get_home_dir()}/.config/ags/assets/anime`;
-    const dir = Gio.File.new_for_path(animeDir);
-
-    const enumerator = dir.enumerate_children(
-      "standard::name,standard::type",
-      Gio.FileQueryInfoFlags.NONE,
-      null
-    );
-    const imageFiles = [];
-
-    let fileInfo;
-    while ((fileInfo = enumerator.next_file(null)) !== null) {
-      const name = fileInfo.get_name();
-      if (name.match(/\.(jpg|jpeg|png|gif)$/i)) {
-        imageFiles.push(name.replace(/\.[^/.]+$/, "")); 
+      const animeDir = `${GLib.get_home_dir()}/.config/ags/assets/anime`;
+      const dir = Gio.File.new_for_path(animeDir);
+      
+      // Check if directory exists
+      if (!dir.query_exists(null)) {
+          console.error(`Directory does not exist: ${animeDir}`);
+          return "hyprluna";
       }
-    }
 
-    if (imageFiles.length === 0) return "hyprluna"; 
+      const enumerator = dir.enumerate_children(
+          "standard::name,standard::type",
+          Gio.FileQueryInfoFlags.NONE,
+          null
+      );
+      
+      const imageFiles = [];
+      let fileInfo;
 
-    const randomIndex = Math.floor(Math.random() * imageFiles.length);
-    return imageFiles[randomIndex];
+      while ((fileInfo = enumerator.next_file(null)) !== null) {
+          const name = fileInfo.get_name();
+          // More comprehensive image extension check
+          if (name.match(/\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i)) {
+              // Keep the extension if needed (some systems might need it)
+              imageFiles.push(name); 
+              // Alternatively, if you really want to remove extension:
+              imageFiles.push(name.replace(/\.[^/.]+$/, ""));
+          }
+      }
+
+      enumerator.close(null);
+
+      console.debug(`Found ${imageFiles.length} images`);
+      if (imageFiles.length === 0) {
+          console.error("No images found in directory");
+          return "hyprluna";
+      }
+
+      const randomIndex = Math.floor(Math.random() * imageFiles.length);
+      const selected = imageFiles[randomIndex];
+      console.debug(`Selected image: ${selected}`);
+      return selected;
   } catch (error) {
-    console.error("Error getting random image:", error);
-    return "hyprluna";
+      console.error("Error getting random image:", error.message);
+      return "hyprluna";
   }
 };
 

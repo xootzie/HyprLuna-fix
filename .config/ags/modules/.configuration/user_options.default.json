@@ -2,7 +2,8 @@
   "muslim": {
     "enabled": true,
     "prayerTimes": {
-      "city": "Cairo"
+      "city": "Cairo",
+      "country": "Egypt"
     }
   },
   "indicators": {

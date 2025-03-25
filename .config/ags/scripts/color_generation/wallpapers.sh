@@ -337,7 +337,8 @@ DEPENDENCIES
     - swww      : For wallpaper display and transitions
 
 AUTHOR
-    Github: PharmaRacist
+    Github: https://github.com/Lunaris-Project
+    Maintainer: https://github.com/N1xev
 EOF
             exit 1
             ;;

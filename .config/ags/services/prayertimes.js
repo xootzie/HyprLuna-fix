@@ -96,30 +96,39 @@ class PrayerTimesService extends Service {
         this._nextPrayerTime = nextPrayer.time;
     }
 
-    #fetchPrayerTimes() {
-        const currentDate = new Date();
-        const day = currentDate.getDate().toString().padStart(2, '0');
-        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-        const year = currentDate.getFullYear();
-        const formattedDate = `${day}-${month}-${year}`;
-        const city = userOptions.asyncGet().muslim.prayerTimes.city;
-        execAsync([
-            'curl',
-            '-s',
-            `https://api.aladhan.com/v1/timingsByCity/${formattedDate}?city=Sanaa&country=${city}`,
-        ]).then(output => {
-            try {
-                const data = JSON.parse(output);
-                this.#updateTimes(data);
-            } catch (error) {
-                console.error('Error parsing prayer times:', error);
-                this.#loadFromCache();
-            }
-        }).catch(error => {
-            console.error('Error fetching prayer times:', error);
-            this.#loadFromCache();
-        });
+   #fetchPrayerTimes() {
+    const currentDate = new Date();
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = currentDate.getFullYear();
+    const formattedDate = `${day}-${month}-${year}`;
+
+    // Explicitly get both city and country
+    const city = userOptions.asyncGet().muslim.prayerTimes.city;
+    const country = userOptions.asyncGet().muslim.prayerTimes.country;
+
+    if (!city || !country) {
+        console.error('City and country must be specified');
+        return;
     }
+
+    execAsync([
+        'curl',
+        '-s',
+        `https://api.aladhan.com/v1/timingsByCity/${formattedDate}?city=${city}&country=${country}`,
+    ]).then(output => {
+        try {
+            const data = JSON.parse(output);
+            this.#updateTimes(data);
+        } catch (error) {
+            console.error('Error parsing prayer times:', error);
+            this.#loadFromCache();
+        }
+    }).catch(error => {
+        console.error('Error fetching prayer times:', error);
+        this.#loadFromCache();
+    });
+}
 
     #getCacheFilePath() {
         const cacheDir = GLib.get_user_cache_dir();
