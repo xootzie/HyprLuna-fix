@@ -115,6 +115,8 @@ git clone https://github.com/Lunaris-Project/HyprLuna.git ~/HyprLuna
 cd HyprLuna
 cp -r .config ~/
 cp -r .local ~/
+cp -r .cursor ~/
+cp -r .vscode ~/
 cp -r .fonts ~/ 2>/dev/null || echo "No .fonts directory to copy"
 cp -r .ags ~/ 2>/dev/null || echo "No .ags directory to copy"
 cp -r Pictures ~/
