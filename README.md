@@ -68,8 +68,8 @@
   </tr> -->
 </table>
 <div>
-<h1>Do you need help or join us?<h1>
-<h3>Join our discord server here: </h3>
+</br>
+<h1>Do you need help or join us? <a href="https://discord.gg/qnAHD9keWr">Join Here</a><h1>
 </div>
 <h1>👻 How to install? 👻</h1>
 </div>
