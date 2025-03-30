@@ -19,7 +19,7 @@ if [[ "${lines[1]}" == *"transparent"* ]]; then
     hypr_opacity=0.9
     rofi_alpha="#00000090"
     rofi_alpha_element="#00000025"
-    term_alpha=0.8
+    term_alpha=0.9
     if [[ "${lines[6]}" == *"intense"* ]]; then 
         transProfile=Intense 
     else 
