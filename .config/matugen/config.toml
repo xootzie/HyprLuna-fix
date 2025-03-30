@@ -104,15 +104,15 @@ output_path = "~/Documents/HyprLuna/.obsidian/themes/Border/theme.css"
 
 [templates.vscode]
 input_path = "~/.config/matugen/templates/hyprlunavsc.json"
-output_path = "~/.vscode/extensions/hyprluna.hyprluna-matugen-theme-1.0.0/themes/hyprluna.json"
+output_path = "~/.vscode/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprluna.json"
 
 [templates.cursor]
 input_path = "~/.config/matugen/templates/hyprlunavsc.json"
-output_path = "~/.cursor/extensions/hyprluna.hyprluna-matugen-theme-1.0.0/themes/hyprluna.json"
+output_path = "~/.cursor/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprluna.json"
 
 [templates.windsurf]
 input_path = "~/.config/matugen/templates/hyprlunavsc.json"
-output_path = "~/.windsurf/extensions/hyprluna.hyprluna-matugen-theme-1.0.0/themes/hyprluna.json"
+output_path = "~/.windsurf/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprluna.json"
 
 [templates.pywalfox]
 input_path = '~/.config/matugen/templates/pywalfox-colors.json'
