@@ -4,6 +4,13 @@
     "prayerTimes": {
       "city": "Cairo",
       "country": "Egypt"
+    },
+    "adhanFiles": {
+      "fajr": "adhan_fajr.mp3",
+      "dhuhr": "adhan_default.mp3",
+      "asr": "adhan_default.mp3",
+      "maghrib": "adhan_default.mp3",
+      "isha": "adhan_default.mp3"
     }
   },
   "indicators": {
@@ -407,8 +414,8 @@
         "prevTab": "Page_Up"
       },
       "options": {
-        "nextTab": "Page_Down",
-        "prevTab": "Page_Up"
+        "nextTab": "Ctrl+l",
+        "prevTab": "Ctrl+h"
       },
       "pin": "Ctrl+p",
       "cycleTab": "Ctrl+Tab",

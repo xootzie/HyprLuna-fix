@@ -2,8 +2,15 @@
   "muslim": {
     "enabled": true,
     "prayerTimes": {
-      "city": "Cairo",
+      "city": "Matrouh",
       "country": "Egypt"
+    },
+    "adhanFiles": {
+      "fajr": "adhan_fajr.mp3",
+      "dhuhr": "adhan_default.mp3",
+      "asr": "adhan_default.mp3",
+      "maghrib": "adhan_default.mp3",
+      "isha": "adhan_default.mp3"
     }
   },
   "indicators": {
@@ -319,30 +326,26 @@
     }
   },
   "weather": {
-    "city": "Cairo",
+    "city": "Matrouh",
     "preferredUnit": "C"
   },
   "workspaces": {
     "shown": 10,
-    "style": "chinese"
+    "style": "english"
   },
   "dock": {
     "enabled": true,
     "hiddenThickness": 7,
     "dockSize": 36,
     "pinnedApps": [
-      "zen-browser",
-      "spotube",
-      "github-desktop",
-      "Code",
-      "zeditor",
+      "code",
+      "com.mitchellh.ghostty",
+      "com.obsproject.Studio",
       "firefox",
-      "nwg-look",
-      "Obisidian",
-      "steam",
-      "heroic-games-launcher",
-      "org.gnome.Nautilus",
-      "bottles"
+      "jetbrains-webstorm",
+      "nvim",
+      "spotify",
+      "vesktop"
     ],
     "layer": "top",
     "monitorExclusivity": true,
@@ -407,8 +410,8 @@
         "prevTab": "Page_Up"
       },
       "options": {
-        "nextTab": "Page_Down",
-        "prevTab": "Page_Up"
+        "nextTab": "Ctrl+l",
+        "prevTab": "Ctrl+h"
       },
       "pin": "Ctrl+p",
       "cycleTab": "Ctrl+Tab",
@@ -435,12 +438,8 @@
     },
     "pinnedApps": [
       "windsurf",
-      "heroic",
-      "io.bassi.Amberol",
-      "nwg-look",
-      "org.gnome.Nautilus",
-      "spotify-launcher",
-      "steam"
+      "nautilus",
+      "spotify"
     ],
     "elements": {
       "showWindowTitle": true,
