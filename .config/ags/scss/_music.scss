@@ -96,10 +96,9 @@ radial-gradient(
 
 .osd-music-controlbtn {
     @include menu_decel;
-    min-width: 3.045rem;
-    min-height: 3.045rem;
-    @include full-rounding;
-    
+    min-width: 2.1rem;
+    min-height: 2.1rem;
+    border-radius: 0.8rem;
 }
 
 .osd-music-controlbtn:hover,
@@ -116,8 +115,8 @@ radial-gradient(
     @include element_decel;
     transition: 100ms cubic-bezier(0.05, 0.7, 0.1, 1);
     @include icon-material;
-    font-size: 1.9364rem;
-    margin: -0.1rem 0rem;
+    font-size: 1.4rem;
+    margin: 0;
 }
 
 .osd-music-circprog {
@@ -177,5 +176,94 @@ radial-gradient(
         .cava-bar-down {
             border-radius: 0 0 4px 4px;
         }
+    }
+}
+
+// Mode switching styles
+.music-mode-controls {
+    @include element_decel;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: $rounding_medium;
+    background-color: transparentize($secondaryContainer, 0.3);
+}
+
+.music-mode-button {
+    @include menu_decel;
+    @include full-rounding;
+    min-width: 2.6rem;
+    min-height: 2.6rem;
+    background-color: $secondaryContainer;
+    color: $onSecondaryContainer;
+    
+    &:hover {
+        background-color: mix($secondaryContainer, $onSecondaryContainer, 90%);
+    }
+    
+    &:active {
+        background-color: mix($secondaryContainer, $onSecondaryContainer, 85%);
+    }
+}
+
+.music-mode-indicator {
+    @include titlefont;
+    color: $onSecondaryContainer;
+    font-size: 1.2rem;
+    margin: 0.4rem 0.1rem;
+}
+
+// MPRIS player list styles
+.mpris-player-button {
+    @include element_decel;
+    border-radius: $rounding_medium;
+    padding: 0.6rem 0.8rem;
+    margin: 0.2rem 0;
+    background-color: $secondaryContainer;
+    
+    &:hover {
+        background-color: mix($secondaryContainer, $onSecondaryContainer, 90%);
+    }
+    
+    &:active {
+        background-color: mix($secondaryContainer, $onSecondaryContainer, 85%);
+    }
+    
+    &.mpris-player-button-active {
+        background-color: mix($primary, $secondaryContainer, 30%);
+        border-left: 3px solid $primary;
+    }
+}
+
+.player-name-label {
+    @include titlefont;
+    color: $onSecondaryContainer;
+    font-size: 1.1rem;
+}
+
+.player-track-label {
+    @include mainfont;
+    color: mix($onSecondaryContainer, $secondaryContainer, 80%);
+    font-size: 0.9rem;
+}
+
+.empty-music-message {
+    padding: 2rem;
+    
+    .empty-music-icon {
+        color: mix($onSecondaryContainer, $secondaryContainer, 60%);
+        margin-bottom: 1rem;
+    }
+    
+    .empty-music-title {
+        @include titlefont;
+        color: $onSecondaryContainer;
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .empty-music-subtitle {
+        @include mainfont;
+        color: mix($onSecondaryContainer, $secondaryContainer, 80%);
+        font-size: 1rem;
     }
 }
