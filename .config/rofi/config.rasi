@@ -1,6 +1,6 @@
 /*****----- Configuration -----*****/
 configuration {
-	modi:                       "drun,filebrowser,emoji,run,recursivebrowser";
+	modi:                       "drun,filebrowser,run,recursivebrowser";
     show-icons:                 true;
     display-drun:               "";
     display-run:                "";
@@ -42,8 +42,8 @@ configuration {
     alternate-active-background: var(primary-container);
     alternate-background:        @element-bg;
     alternate-active-foreground: var(on-primary-container);
-wbg:#00000090;
-element-bg:#00000025;
+wbg:var(surface);
+element-bg:var(surface-container-low);
     }
 /*****----- Main Window -----*****/
 window {
