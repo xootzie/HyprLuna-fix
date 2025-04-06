@@ -1,3 +1,5 @@
 .config/ags/ags_project_rules.md
 .config/ags/issues/WIFI_ISSUES.md
 .config/ags/.cursor
+.config/hypr/hyprland.conf
+.gitignore
