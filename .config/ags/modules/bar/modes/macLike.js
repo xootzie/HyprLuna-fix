@@ -10,21 +10,20 @@ const { Box, EventBox } = Widget;
 
 const barStatusIcons = StatusIcons({
   className: "onSurfaceVariant",
-    // setup: (self) =>
-    //   self.hook(App, (self, currentName, visible) => {
-    //     // if (currentName === "sideright") {
-    //     //   self.toggleClassName("bar-statusicons-active", visible);
-    //     // }
-    //   }),
-  },
-);
+  setup: (self) =>
+    self.hook(App, (self, currentName, visible) => {
+      if (currentName === "sideright") {
+        self.toggleClassName("bar-statusicons-active", visible);
+      }
+    }),
+});
 const IslandBarContent = async () => {
   return Widget.CenterBox({
     startWidget: Widget.Box({
       className: "bar-floating",
-      css: "margin: 1rem 0 0 3rem;padding: 0.3rem 2rem",
-      spacing: 15,
-      hpack: "start",
+      css: "margin: 1rem 10rem; padding: 0.3rem 1rem;",
+      spacing: 20,
+     hpack: "start",
       homogeneous: true,
       children: [
         Scrolledmodule({
