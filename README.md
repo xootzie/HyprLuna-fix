@@ -28,7 +28,7 @@
         </a>
       </div>
 <p align="center">
- <img src="previews/logo.png" alt="Logo image" style="border-radius: 15px;">
+ <img src="previews/HyprLuna.png" alt="Logo image" style="border-radius: 15px;">
 </p>
 
 <h1>✨ ShowCase ✨</h1>
