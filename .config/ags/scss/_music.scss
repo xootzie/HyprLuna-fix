@@ -18,6 +18,7 @@ $secondaryContainer: transparentize(mix(mix($background, $color2, 50%), $color6,
     border: 0.2px solid $outliner;
     border-radius: 0 0 0 0;
     padding: 0.46rem 1.423rem;
+    min-width: 600px;
 
 }
 .normal-music {
@@ -26,11 +27,6 @@ $secondaryContainer: transparentize(mix(mix($background, $color2, 50%), $color6,
 .amberoled {
     background: 
 // Central glow effect
-radial-gradient(
-    ellipse at 50% 50%,
-    transparentize($music_gradient3, $music_colorstart_transparentize - 0.25) 0%,
-    transparentize($music_gradient3, $music_colorstart_transparentize - $music_transparentize_amount) 70%
-),
     // Solid base layer
     linear-gradient($background, $background);
 
@@ -41,35 +37,36 @@ radial-gradient(
 
 .osd-music-cover {
     @include menu_decel;
-    margin: 2.023rem;
-    min-width: 230px;
-    min-height: 230px;
+    margin: 0.8rem;
+    min-width: 150px;
+    min-height: 150px;
+    
+    .osd-music-cover-art {
+        border-radius: 16px;
+        margin: 0.4rem;
+        box-shadow: 
+            0 4px 16px rgba(0, 0, 0, 0.1),
+            0 2px 4px rgba(0, 0, 0, 0.2);
+    }
 }
 .elevate-music{
     border-radius: $rounding_large;
 }
-.osd-music-cover-art {
-    border-radius: 20px;
-    margin:0.8rem;
-    box-shadow: 
-    0 5px 20px rgba(0, 0, 0, 0.1), /* Increased blur and slightly darker */
-    0 4px 8px rgba(0, 0, 0, 0.2), /* Increased blur and slightly darker */
-}
 .osd-music-info {
-    margin: 1.023rem 0rem;
+    margin: 0.5rem 0;
 }
 
 .osd-music-title {
     @include element_decel;
     @include titlefont;
-    font-size: 3.364rem;
+    font-size: 2.5rem;
     color: $onSecondaryContainer;
 }
 
 .osd-music-artists {
     @include element_decel;
     @include mainfont;
-    font-size: 1.955rem;
+    font-size: 1.5rem;
     color: mix($onSecondaryContainer, $secondaryContainer, 80%);
 }
 
@@ -129,9 +126,9 @@ radial-gradient(
 
 .osd-music-playstate {
     @include menu_decel;
-    min-height: 4.068rem;
-    min-width: 4.068rem;
-    border-radius: 10rem;
+    min-height: 3.5rem;
+    min-width: 3.5rem;
+    border-radius: 100px;
     background-color: $secondaryContainer;
     color: $onSecondaryContainer;
 }
@@ -151,7 +148,6 @@ radial-gradient(
         font-size: 24px;
         color: $primary;
         border-radius: 12px;
-        padding: 10px;
         background-color: $secondaryContainer;
         .cava-bar {
             background-color: mix($secondary, $background, 70%);
@@ -182,7 +178,7 @@ radial-gradient(
 // Mode switching styles
 .music-mode-controls {
     @include element_decel;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem;
     margin-bottom: 1rem;
     border-radius: $rounding_medium;
     background-color: transparentize($secondaryContainer, 0.3);
@@ -191,8 +187,8 @@ radial-gradient(
 .music-mode-button {
     @include menu_decel;
     @include full-rounding;
-    min-width: 2.6rem;
-    min-height: 2.6rem;
+    min-width: 1.6rem;
+    min-height: 1.6rem;
     background-color: $secondaryContainer;
     color: $onSecondaryContainer;
     
@@ -265,5 +261,50 @@ radial-gradient(
         @include mainfont;
         color: mix($onSecondaryContainer, $secondaryContainer, 80%);
         font-size: 1rem;
+    }
+}
+
+.osd-music-volume {
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.osd-music-volume-slider {
+    margin: 0 5px;
+    
+    trough {
+        background-color: mix($secondaryContainer, $onSecondaryContainer, 85%);
+        border-radius: 100px;
+        min-height: 6px;
+    }
+    
+    highlight {
+        background-color: $primary;
+        border-radius: 100px;
+    }
+    
+    slider {
+        background-color: $primary;
+        border-radius: 50%;
+        min-width: 16px;
+        min-height: 16px;
+        margin: -5px;
+    }
+}
+
+.osd-music-player-menu {
+    background-color: $background;
+    border: 1px solid $outliner;
+    border-radius: $rounding_medium;
+    padding: 4px;
+    
+    menuitem {
+        padding: 6px 8px;
+        border-radius: $rounding_small;
+        
+        &:hover {
+            background-color: $secondaryContainer;
+        }
     }
 }
