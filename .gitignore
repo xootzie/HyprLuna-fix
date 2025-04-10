@@ -3,3 +3,4 @@
 .config/ags/.cursor
 .config/hypr/hyprland.conf
 .gitignore
+!.config/presets/
