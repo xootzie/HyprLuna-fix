@@ -86,6 +86,7 @@ const volumeIndicator = OsdValue({
     attribute: { headphones: undefined, device: undefined },
     nameSetup: (self) => Utils.timeout(1, () => {
         // Store signal handler IDs for cleanup
+        let audioSignalId = null;
         let updateTimeout = null;
         
         const updateAudioDevice = (self) => {
