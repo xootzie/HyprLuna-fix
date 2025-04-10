@@ -10,24 +10,6 @@ COLORMODE_FILE="$STATE_DIR/user/colormode.txt"
 
 cd "$CONFIG_DIR" || exit 1
 
-# Create state directory and colormode file if they don't exist
-mkdir -p "$(dirname "$COLORMODE_FILE")"
-
-# Default colormode settings if file doesn't exist
-if [ ! -f "$COLORMODE_FILE" ]; then
-    echo "Creating default colormode.txt file..."
-    {
-        echo "dark"       # Line 0: dark/light
-        echo "transparent"      # Line 1: solid/transparent
-        echo "palette1"   # Line 2: palette selection
-        echo "material3"  # Line 3: theme style
-        echo "border"     # Line 4: border/noborder
-        echo "normal"     # Line 5: normal/vibrant
-        echo "normal"     # Line 6: normal/intense (for transparency)
-    } > "$COLORMODE_FILE"
-    echo "Created default colormode.txt with dark mode and transparent theme"
-fi
-
 # Read the colormode file into an array (0-indexed)
 mapfile -t lines < "$COLORMODE_FILE"
 
@@ -92,13 +74,6 @@ transparency() {
     local hypr_line="windowrule = opacity $hypr_opacity override, class:.*"
     if [[ $(sed -n '1p' "$hypr_config") != "$hypr_line" ]]; then
         sed -i "1s/.*/$hypr_line/" "$hypr_config"
-    fi
-    
-    # Hyprland Border Size
-    local hypr_layout="$XDG_CONFIG_HOME/hypr/hyprland/layouts/default.conf"
-    local border_line="    border_size = $hypr_border"
-    if grep -q "border_size" "$hypr_layout"; then
-        sed -i "s/^[[:space:]]*border_size[[:space:]]*=.*/$border_line/" "$hypr_layout"
     fi
     
     # Terminals Transparency

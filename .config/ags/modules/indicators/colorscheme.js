@@ -161,7 +161,7 @@ const ColorSchemeSettings = () => Widget.Box({
                         try {
                             const vibrancy = newValue == 0 ? "normal" : "vibrant";
                             await execAsync([`bash`, `-c`, `mkdir -p ${GLib.get_user_state_dir()}/ags/user && sed -i "6s/.*/${vibrancy}/"  ${GLib.get_user_state_dir()}/ags/user/colormode.txt`]);
-                            await execAsync(['bash', '-c', `${App.configDir}/scripts/color_generation/applycolor.sh &`]);
+                            await execAsync([`bash`, `-c`, `go run ${App.configDir}/scripts/color_generation/applycolor.go`]);
                         } catch (error) {
                             console.error('Error changing vibrancy:', error);
                         }
@@ -176,7 +176,7 @@ const ColorSchemeSettings = () => Widget.Box({
                         try {
                             const transparency = newValue == 0 ? "opaque" : "transparent";
                             await execAsync([`bash`, `-c`, `mkdir -p ${GLib.get_user_state_dir()}/ags/user && sed -i "2s/.*/${transparency}/"  ${GLib.get_user_state_dir()}/ags/user/colormode.txt`]);
-                            await execAsync(['bash', '-c', `${App.configDir}/scripts/color_generation/applycolor.sh &`]);
+                            await execAsync([`bash`, `-c`, `go run ${App.configDir}/scripts/color_generation/applycolor.go`]);
                         } catch (error) {
                             console.error('Error changing transparency:', error);
                         }
@@ -191,7 +191,7 @@ const ColorSchemeSettings = () => Widget.Box({
                         try {
                             const transparencyMode = newValue == 0 ? "normal" : "intense";
                             await execAsync([`bash`, `-c`, `mkdir -p ${GLib.get_user_state_dir()}/ags/user && sed -i "7s/.*/${transparencyMode}/"  ${GLib.get_user_state_dir()}/ags/user/colormode.txt`]);
-                            await execAsync(['bash', '-c', `${App.configDir}/scripts/color_generation/applycolor.sh &`]);
+                            await execAsync([`bash`, `-c`, `go run ${App.configDir}/scripts/color_generation/applycolor.go`]);
                         } catch (error) {
                             console.error('Error changing transparency:', error);
                         }
@@ -206,7 +206,7 @@ const ColorSchemeSettings = () => Widget.Box({
                         try {
                             const border = newValue == 0 ? "noborder" : "border";
                             await execAsync([`bash`, `-c`, `mkdir -p ${GLib.get_user_state_dir()}/ags/user && sed -i "5s/.*/${border}/"  ${GLib.get_user_state_dir()}/ags/user/colormode.txt`]);
-                            await execAsync(['bash', '-c', `${App.configDir}/scripts/color_generation/applycolor.sh &`]);
+                            await execAsync([`bash`, `-c`, `go run ${App.configDir}/scripts/color_generation/applycolor.go`]);
                         } catch (error) {
                             console.error('Error changing border mode:', error);
                         }

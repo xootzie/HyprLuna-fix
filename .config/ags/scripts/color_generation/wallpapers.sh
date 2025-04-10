@@ -144,7 +144,7 @@ pick_color() {
             --type "$SCHEME" \
             --contrast "$CONTRAST"
         cp "$CACHE_DIR/user/generated/material_colors.scss" "$STATE_DIR/scss/_material.scss"
-        color_generation/applycolor.sh
+        go run "$CONFIG_DIR/scripts/color_generation/applycolor.go"
     fi
 }
 
