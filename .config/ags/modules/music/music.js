@@ -18,27 +18,24 @@ const elevate = userOptions.asyncGet().etc.widgetCorners
 const mode = userOptions.asyncGet().etc.enableAmberol ? "amberoled " : "";
 
 var lastCoverPath = "";
-
-// Store the last manually selected player
 let lastSelectedPlayer = null;
 
 export const getPlayer = () => {
-    // Get all players except playerctld
     const players = Mpris.players.filter(p => p.busName !== "playerctld");
     if (players.length === 0) return null;
-
-    // If we have a last selected player and it's still available, use it
     if (lastSelectedPlayer) {
         const found = players.find(p => p.busName === lastSelectedPlayer.busName);
         if (found) return found;
-        lastSelectedPlayer = null; // Clear if not found
+        lastSelectedPlayer = null;
     }
-
-    // If no selected player, return first available player
     return players[0];
 };
 
 function lengthStr(length) {
+  if (isNaN(length) || length < 0) {
+    return "0:00";
+  }
+  
   const min = Math.floor(length / 60);
   const sec = Math.floor(length % 60);
   const sec0 = sec < 10 ? "0" : "";
@@ -46,20 +43,31 @@ function lengthStr(length) {
 }
 
 function detectMediaSource(link) {
-  if (link.startsWith("file://")) {
-    if (link.includes("firefox-mpris")) return "󰈹  Firefox";
-    return "󰎆   Lofi";
+  if (!link) return "Unknown";
+
+  try {
+    if (link.startsWith("file://")) {
+      if (link.includes("firefox-mpris")) return "󰈹  Firefox";
+      return "󰎆   Lofi";
+    }
+    
+    let url = link.replace(/(^\w+:|^)\/\//, "");
+    if (!url.includes(".") || !url.match(/(?:[a-z]+\.)?([a-z]+\.[a-z]+)/i)) {
+      return "Local Source";
+    }
+    
+    let domain = url.match(/(?:[a-z]+\.)?([a-z]+\.[a-z]+)/i)[1];
+    if (domain == "ytimg.com") return "󰗃   Youtube";
+    if (domain == "discordapp.net") return "󰙯   Discord";
+    if (domain == "scdn.co") return "   Spotify";
+    if (domain == "sndcdn.com") return "󰓀   SoundCloud";
+    return domain;
+  } catch (e) {
+    return "Unknown";
   }
-  let url = link.replace(/(^\w+:|^)\/\//, "");
-  let domain = url.match(/(?:[a-z]+\.)?([a-z]+\.[a-z]+)/i)[1];
-  if (domain == "ytimg.com") return "󰗃   Youtube";
-  if (domain == "discordapp.net") return "󰙯   Discord";
-  if (domain == "scdn.co") return "   Spotify";
-  if (domain == "sndcdn.com") return "󰓀   SoundCloud";
-  return domain;
 }
 
-const DEFAULT_MUSIC_FONT = "Gabarito, sans-serif";
+const DEFAULT_MUSIC_FONT = "Geist, sans-serif";
 function getTrackfont(player) {
   const title = player.trackTitle;
   const artists = player.trackArtists.join(" ");
@@ -68,16 +76,16 @@ function getTrackfont(player) {
     artists.includes("USAO") ||
     artists.includes("Kobaryo")
   )
-    return "Chakra Petch"; // Rigid square replacement
-  if (title.includes("東方")) return "Crimson Text, serif"; // Serif for Touhou stuff
+    return "Geist";
+  if (title.includes("東方")) return "Crimson Text, serif";
   return DEFAULT_MUSIC_FONT;
 }
 
 function trimTrackTitle(title) {
   if (!title) return "";
   const cleanPatterns = [
-    /【[^】]*】/, // Remove certain bracketed text (e.g., Touhou/weeb stuff)
-    " [FREE DOWNLOAD]", // Remove literal text such as F-777's suffix
+    /【[^】]*】/,
+    " [FREE DOWNLOAD]",
   ];
   cleanPatterns.forEach((expr) => (title = title.replace(expr, "")));
   return title;
@@ -89,11 +97,15 @@ const TrackProgress = ({ player, ...rest }) => {
       circprog.css = `font-size: 0px;`;
       return;
     }
-    // Update circular progress; the font size scales with playback progress.
-    circprog.css = `font-size: ${Math.max(
-      (player.position / player.length) * 100,
-      0
-    )}px;`;
+    
+    try {
+      const position = typeof player.position === 'number' ? Math.max(0, player.position) : 0;
+      const length = typeof player.length === 'number' ? Math.max(1, player.length) : 1;
+      const progressPercent = Math.min(Math.max((position / length) * 100, 0), 100);
+      circprog.css = `font-size: ${progressPercent}px;`;
+    } catch (e) {
+      circprog.css = `font-size: 0px;`;
+    }
   };
   
   return AnimatedCircProg({
@@ -103,35 +115,23 @@ const TrackProgress = ({ player, ...rest }) => {
     extraSetup: (self) => {
       let mprisSignalId = null;
       let pollId = null;
-      
-      // Connect to Mpris signal
       mprisSignalId = self.hook(Mpris, _updateProgress);
-      
-      // Set up polling
       pollId = self.poll(3000, _updateProgress);
-      
-      // Clean up on destroy
       self.connect("destroy", () => {
-        // Disconnect Mpris signal
         if (mprisSignalId) {
           try {
             Mpris.disconnect(mprisSignalId);
           } catch (e) {
-            // Silent error handling
           }
           mprisSignalId = null;
         }
-        
-        // Remove poll
         if (pollId) {
           try {
             self.removePoll(pollId);
           } catch (e) {
-            // Silent error handling - fallback to GLib.Source.remove if removePoll fails
             try {
               GLib.Source.remove(pollId);
             } catch (e2) {
-              // Silent error handling
             }
           }
           pollId = null;
@@ -148,17 +148,28 @@ const TrackTitle = ({ player, ...rest }) =>
     xalign: 0,
     truncate: "end",
     className: "osd-music-title txt-shadow",
+    css: "font-size: 1.4em;",
     setup: (self) => {
       if (player) {
         self.hook(
           player,
           (self) => {
+            if (!player || typeof player.trackTitle === 'undefined') {
+              self.label = "No media";
+              return;
+            }
+            
             self.label =
-              player.trackTitle.length > 0
+              player.trackTitle && player.trackTitle.length > 0
                 ? trimTrackTitle(player.trackTitle)
                 : "No media";
-            const fontForThisTrack = getTrackfont(player);
-            self.css = `font-family: ${fontForThisTrack}, ${DEFAULT_MUSIC_FONT};`;
+            
+            try {
+              const fontForThisTrack = getTrackfont(player);
+              self.css = `font-family: ${fontForThisTrack}, ${DEFAULT_MUSIC_FONT}; font-size: 1.4em;`;
+            } catch (e) {
+              self.css = `font-family: ${DEFAULT_MUSIC_FONT}; font-size: 1.4em;`;
+            }
           },
           "notify::track-title"
         );
@@ -174,12 +185,18 @@ const TrackArtists = ({ player, ...rest }) =>
     xalign: 0,
     label: "HyprLuna",
     className: "osd-music-artists txt-shadow",
+    css: "font-size: 0.9em;",
     truncate: "end",
     setup: (self) => {
       if (player) {
         self.hook(
           player,
           (self) => {
+            if (!player || !player.trackArtists) {
+              self.label = "";
+              return;
+            }
+            
             self.label =
               player.trackArtists.length > 0
                 ? player.trackArtists.join(", ")
@@ -204,31 +221,22 @@ const CoverArt = ({ player, ...rest }) => {
       self.connect("draw", (widget, cr) => {
         if (!currentCoverPath) return;
         try {
-          // Load the full image
           let pixbuf = GdkPixbuf.Pixbuf.new_from_file(currentCoverPath);
           const imgWidth = pixbuf.get_width();
           const imgHeight = pixbuf.get_height();
-          
-          // Calculate scale factor to fit within the area while maintaining aspect ratio
           const scale = Math.min(
             DEFAULT_COVER_SIZE / imgWidth,
             DEFAULT_COVER_SIZE / imgHeight
           );
           const newWidth = Math.round(imgWidth * scale);
           const newHeight = Math.round(imgHeight * scale);
-          
-          // Center the image
           const offsetX = (DEFAULT_COVER_SIZE - newWidth) / 2;
           const offsetY = (DEFAULT_COVER_SIZE - newHeight) / 2;
-          
-          // Scale the image
           pixbuf = pixbuf.scale_simple(
             newWidth,
             newHeight,
             GdkPixbuf.InterpType.BILINEAR
           );
-
-          // Create rounded corners clip region
           const radius = 16;
           cr.arc(radius, radius, radius, Math.PI, 1.5 * Math.PI);
           cr.arc(
@@ -254,8 +262,6 @@ const CoverArt = ({ player, ...rest }) => {
           );
           cr.closePath();
           cr.clip();
-
-          // Paint the scaled image
           Gdk.cairo_set_source_pixbuf(cr, pixbuf, offsetX, offsetY);
           cr.paint();
         } catch (e) {
@@ -282,7 +288,6 @@ const CoverArt = ({ player, ...rest }) => {
     }),
     setup: (self) => {
       const updateCover = () => {
-        // Show cover if player exists and has media, regardless of play state
         if (!player || !player.trackTitle) {
           currentCoverPath = null;
           drawingArea.queue_draw();
@@ -333,7 +338,6 @@ const TrackControls = ({ player, ...rest }) => {
         try {
           if (menu && id > 0) menu.disconnect(id);
         } catch (e) {
-          // Silent cleanup
         }
       });
       signalIds = [];
@@ -341,7 +345,6 @@ const TrackControls = ({ player, ...rest }) => {
       try {
         menu.destroy();
       } catch (e) {
-        // Silent cleanup
       }
       menu = null;
     }
@@ -403,37 +406,11 @@ const TrackControls = ({ player, ...rest }) => {
                   ],
                 }),
                 onActivate: () => {
-                  // Set as last selected player
                   lastSelectedPlayer = p;
-                  
-                  // Force an update of the widget
-                  const window = App.getWindow('music');
-                  if (!window) return;
-                  
-                  const musicBox = window.get_child();
-                  if (!musicBox || !musicBox.children) return;
-                  
-                  // Find the widget that has our update function
-                  const findMusicWidget = (widget) => {
-                    if (!widget) return null;
-                    if (widget.updatePlayer) return widget;
-                    if (!widget.children) return null;
-                    
-                    for (const child of widget.children) {
-                      const found = findMusicWidget(child);
-                      if (found) return found;
-                    }
-                    return null;
-                  };
-                  
-                  // Start search from the Box that contains our music widget
-                  const container = musicBox.children[1];
-                  if (!container) return;
-                  
-                  const musicWidget = findMusicWidget(container);
-                  if (musicWidget && musicWidget.updatePlayer) {
-                    musicWidget.updatePlayer(p);
-                  }
+                  Utils.timeout(10, () => {
+                    Mpris.emit('changed');
+                    return false;
+                  });
                 },
               })),
             });
@@ -557,22 +534,23 @@ const TrackSource = ({ player, ...rest }) =>
             
             const updateLabel = () => {
               if (!isDestroyed) {
-                self.label = player ? detectMediaSource(player.trackCoverUrl) : "";
+                try {
+                  self.label = player ? detectMediaSource(player.trackCoverUrl || "") : "";
+                } catch (e) {
+                  self.label = "";
+                  console.log("خطأ في تحديث مصدر المسار:", e);
+                }
               }
             };
             
             if (player) {
-              // Use hook instead of direct connect
               self.hook(player, updateLabel, "notify::cover-path");
-              updateLabel(); // Initial update
+              updateLabel();
             } else {
               self.label = "";
             }
-            
-            // Cleanup on destroy
             self.connect("destroy", () => {
               isDestroyed = true;
-              // No need to manually disconnect when using hook
             });
           },
         }),
@@ -589,6 +567,7 @@ const TrackTime = ({ player, ...rest }) => {
       ...rest,
       vpack: "center",
       className: "osd-music-pill spacing-h-5",
+      css: "font-weight: bold; margin: 0 10px; background-color: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 8px;",
       children: [
         Label({
           setup: (self) => {
@@ -597,7 +576,14 @@ const TrackTime = ({ player, ...rest }) => {
             
             const updatePosition = () => {
               if (!isDestroyed && player) {
-                self.label = lengthStr(player.position);
+                try {
+                  const position = typeof player.position === 'number' ? 
+                    Math.max(0, player.position) : 0;
+                  
+                  self.label = lengthStr(position);
+                } catch (e) {
+                  self.label = "0:00";
+                }
               }
               return !isDestroyed;
             };
@@ -616,8 +602,6 @@ const TrackTime = ({ player, ...rest }) => {
             } else {
               self.label = "0:00";
             }
-            
-            // Ensure cleanup happens before GC
             self.connect("destroy", () => {
               isDestroyed = true;
               if (pollId) {
@@ -634,22 +618,25 @@ const TrackTime = ({ player, ...rest }) => {
             
             const updateLength = () => {
               if (!isDestroyed && player) {
-                self.label = lengthStr(player.length);
+                try {
+                  const length = typeof player.length === 'number' ? 
+                    Math.max(0, player.length) : 0;
+                  
+                  self.label = lengthStr(length);
+                } catch (e) {
+                  self.label = "0:00";
+                }
               }
             };
             
             if (player) {
-              // Use hook instead of direct connect
               self.hook(player, updateLength, "notify::length");
-              updateLength(); // Initial update
+              updateLength();
             } else {
               self.label = "0:00";
             }
-            
-            // Cleanup on destroy
             self.connect("destroy", () => {
               isDestroyed = true;
-              // No need to manually disconnect when using hook
             });
           },
         }),
@@ -699,17 +686,13 @@ const PlayState = ({ player }) => {
               };
               
               if (player) {
-                // Use hook instead of direct connect
                 self.hook(player, updatePlayState, "notify::play-back-status");
-                updatePlayState(); // Initial update
+                updatePlayState();
               } else {
                 self.label = "play_arrow";
               }
-              
-              // Cleanup on destroy
               self.connect("destroy", () => {
                 isDestroyed = true;
-                // No need to manually disconnect when using hook
               });
             },
           }),
@@ -748,29 +731,20 @@ const CavaVisualizer = () => {
   let isActive = false;
   let updateTimeout = null;
   let isDestroyed = false;
-  
-  // Store references to bar elements to avoid GC issues
   const barElements = [];
-  
-  // Function to safely update a widget property
   const safeUpdate = (widget, property, value) => {
     if (!widget || isDestroyed) return false;
     
     try {
-      // Try to access a property to check if widget is valid
       const test = widget.css;
-      // If we get here, the widget is likely still valid
       widget[property] = value;
       return true;
     } catch (e) {
-      // Widget is likely destroyed
       return false;
     }
   };
-  
-  // Initialize bar elements array
   const initBars = () => {
-    barElements.length = 0; // Clear existing elements
+    barElements.length = 0;
     
     bars.forEach((barWrapper) => {
       if (barWrapper && barWrapper.children && barWrapper.children.length >= 2) {
@@ -783,27 +757,21 @@ const CavaVisualizer = () => {
       }
     });
   };
-  
-  // Call once to initialize
   initBars();
 
   const updateBars = () => {
     if (!isActive || isDestroyed) return;
-    
-    // Clear any existing timeout to prevent duplicates
     if (updateTimeout) {
       try {
         GLib.Source.remove(updateTimeout);
         updateTimeout = null;
       } catch (e) {
-        // Silent error handling
       }
     }
 
     try {
       const output = CavaService.output;
       if (!output || typeof output !== "string") {
-        // Schedule next update if still active
         if (!isDestroyed && isActive) {
           updateTimeout = Utils.timeout(8, updateBars);
         }
@@ -816,8 +784,6 @@ const CavaVisualizer = () => {
       });
 
       const step = Math.floor(values.length / barElements.length);
-      
-      // Update each bar individually
       for (let i = 0; i < barElements.length; i++) {
         if (isDestroyed) break;
         
@@ -839,16 +805,12 @@ const CavaVisualizer = () => {
             margin: 0 2px;
             transition: all 100ms cubic-bezier(0.4, 0, 0.2, 1);
           `;
-
-          // Update properties safely - use separate calls to avoid chained operations
           let upValid = false;
           let downValid = false;
           
           try {
-            // Update CSS first
             upValid = safeUpdate(upBar, "css", barCss);
             if (upValid) {
-              // Only try to update class if CSS update succeeded
               upValid = safeUpdate(upBar, "className", `cava-bar cava-bar-${intensity} cava-bar-up`);
             }
           } catch (e) {
@@ -856,17 +818,13 @@ const CavaVisualizer = () => {
           }
           
           try {
-            // Update CSS first
             downValid = safeUpdate(downBar, "css", barCss);
             if (downValid) {
-              // Only try to update class if CSS update succeeded
               downValid = safeUpdate(downBar, "className", `cava-bar cava-bar-${intensity} cava-bar-down`);
             }
           } catch (e) {
             downValid = false;
           }
-          
-          // Mark as invalid if either widget is no longer valid
           if (!upValid || !downValid) {
             barData.valid = false;
           }
@@ -874,13 +832,10 @@ const CavaVisualizer = () => {
           barData.valid = false;
         }
       }
-
-      // Schedule next update if still active
       if (!isDestroyed && isActive) {
         updateTimeout = Utils.timeout(8, updateBars);
       }
     } catch (e) {
-      // Silent error handling
     }
   };
 
@@ -896,24 +851,17 @@ const CavaVisualizer = () => {
     isActive = false;
 
     try {
-      // Stop the Cava service
       try {
         CavaService.stop();
       } catch (e) {
-        // Silent error handling
       }
-
-      // Clear any pending timeout
       if (updateTimeout) {
         try {
           GLib.Source.remove(updateTimeout);
         } catch (e) {
-          // Silent error handling
         }
         updateTimeout = null;
       }
-
-      // Reset all bars to their initial state
       for (let i = 0; i < barElements.length; i++) {
         if (isDestroyed) break;
         
@@ -928,15 +876,11 @@ const CavaVisualizer = () => {
             min-width: 8px;
             margin: 0 2px;
           `;
-          
-          // Update properties safely
           const upValid = safeUpdate(upBar, "css", barCss) && 
                         safeUpdate(upBar, "className", "cava-bar cava-bar-low cava-bar-up");
                         
           const downValid = safeUpdate(downBar, "css", barCss) && 
                           safeUpdate(downBar, "className", "cava-bar cava-bar-low cava-bar-down");
-          
-          // Mark as invalid if either widget is no longer valid
           if (!upValid || !downValid) {
             barData.valid = false;
           }
@@ -945,7 +889,6 @@ const CavaVisualizer = () => {
         }
       }
     } catch (e) {
-      // Silent error handling
     }
   };
 
@@ -956,7 +899,6 @@ const CavaVisualizer = () => {
     vexpand: false,
     children: bars,
     setup: (self) => {
-      // Start monitoring player status
       const mprisSignalId = self.hook(Mpris, () => {
         const player = getPlayer();
         if (!player || player.playBackStatus !== "Playing") {
@@ -965,58 +907,52 @@ const CavaVisualizer = () => {
         }
         startUpdates();
       });
-
-      // Monitor window visibility
       let windowSignalId = null;
-      Utils.timeout(100, () => {
+      const checkWindowVisibility = () => {
         if (isDestroyed) return false;
         
-        const window = App.getWindow("music");
-        if (!window) return false;
-
-        windowSignalId = window.connect("notify::visible", () => {
-          if (isDestroyed) return;
-          const player = getPlayer();
-          if (window.visible && player?.playBackStatus === "Playing") {
-            startUpdates();
-          } else {
-            stopUpdates();
+        try {
+          const window = App.getWindow("music");
+          if (!window) {
+            Utils.timeout(1000, checkWindowVisibility);
+            return false;
           }
-        });
 
-        // Initial check
-        if (window.visible) {
-          const player = getPlayer();
-          if (player?.playBackStatus === "Playing") {
-            startUpdates();
+          windowSignalId = window.connect("notify::visible", () => {
+            if (isDestroyed) return;
+            const player = getPlayer();
+            if (window.visible && player?.playBackStatus === "Playing") {
+              startUpdates();
+            } else {
+              stopUpdates();
+            }
+          });
+          if (window.visible) {
+            const player = getPlayer();
+            if (player?.playBackStatus === "Playing") {
+              startUpdates();
+            }
           }
+        } catch (e) {
+          Utils.timeout(2000, checkWindowVisibility);
         }
         
-        return false; // Don't repeat
-      });
-
-      // Cleanup - use connect instead of on for more reliable destruction
+        return false;
+      };
+      Utils.timeout(1000, checkWindowVisibility);
       self.connect("destroy", () => {
-        // Mark as destroyed first to prevent new updates
         isDestroyed = true;
-        
-        // Stop all updates
         stopUpdates();
-        
-        // Disconnect window signal if it exists
         if (windowSignalId) {
           const window = App.getWindow("music");
           if (window) {
             try {
               window.disconnect(windowSignalId);
             } catch (e) {
-              // Silent error handling
             }
           }
           windowSignalId = null;
         }
-        
-        // Clear all references to widgets
         for (let i = 0; i < barElements.length; i++) {
           if (barElements[i]) {
             barElements[i].upBar = null;
@@ -1025,25 +961,17 @@ const CavaVisualizer = () => {
             barElements[i].valid = false;
           }
         }
-        
-        // Clear any pending timeout immediately
         if (updateTimeout) {
           try {
             GLib.Source.remove(updateTimeout);
           } catch (e) {
-            // Silent error handling
           }
           updateTimeout = null;
         }
-        
-        // Stop cava service
         try {
           CavaService.stop();
         } catch (e) {
-          // Silent error handling
         }
-        
-        // Clear all bar references
         barElements.length = 0;
       });
     },
@@ -1068,11 +996,7 @@ const VolumeControl = () => {
         },
         setup: (self) => {
           if (!Audio.speaker) return;
-          
-          // Initial value
           self.value = Audio.speaker.volume;
-          
-          // Update on volume change
           self.hook(Audio, (self) => {
             if (!Audio.speaker) return;
             self.value = Audio.speaker.volume;
@@ -1116,27 +1040,11 @@ const PlayerSwitcher = () => {
                 ],
               }),
               onActivate: () => {
-                const window = App.getWindow('music');
-                if (!window) return;
-                
-                const musicBox = window.get_child();
-                if (!musicBox || !musicBox.children) return;
-                
-                // Find the music widget
-                const findMusicWidget = (widget) => {
-                  if (!widget || !widget.children) return null;
-                  for (const child of widget.children) {
-                    if (child.updatePlayer) return child;
-                    const found = findMusicWidget(child);
-                    if (found) return found;
-                  }
-                  return null;
-                };
-                
-                const musicWidget = findMusicWidget(musicBox);
-                if (musicWidget && musicWidget.updatePlayer) {
-                  musicWidget.updatePlayer(p);
-                }
+                lastSelectedPlayer = player;
+                Utils.timeout(10, () => {
+                  Mpris.emit('changed');
+                  return false;
+                });
               },
             })),
           });
@@ -1157,7 +1065,7 @@ const createContent = (player) =>
           Box({
             spacing: 15,
             children: [
-              CoverArt({ 
+              CoverArt({
                 player: player,
                 css: 'min-width: 80px; min-height: 80px;'
               }),
@@ -1189,7 +1097,7 @@ const createContent = (player) =>
             children: [
               TrackControls({ player: player }),
               Widget.Box({ hexpand: true }),
-              ...(hasPlasmaIntegration ? [TrackTime({ player: player })] : []),
+              TrackTime({ player: player }),
               PlayState({ player: player }),
             ],
           }),
@@ -1202,95 +1110,80 @@ const musicWidget = () => {
   let currentContent = null;
   let currentPlayer = null;
   let signalIds = [];
-  
-  const widget = Box({
+  let widget;
+  const updateChildren = (newPlayer) => {
+    try {
+      const player = newPlayer || getPlayer();
+      if (!player || !widget) return;
+      if (!player.busName) {
+        return;
+      }
+      const shouldRecreate =
+        (currentPlayer?.busName !== player.busName) ||
+        (currentPlayer?.playBackStatus !== player.playBackStatus) ||
+        !currentContent;
+      
+      if (shouldRecreate) {
+        try {
+          const oldPlayer = currentPlayer;
+          const oldContent = currentContent;
+          const newContent = createContent(player);
+          currentPlayer = player;
+          currentContent = newContent;
+          if (widget && widget.children) {
+            widget.children = [newContent];
+            if (widget.show_all) {
+              widget.show_all();
+            }
+          }
+        } catch (e) {
+          console.error("خطأ في إنشاء محتوى الواجهة:", e);
+        }
+      }
+    } catch (e) {
+      console.error("خطأ في تحديث واجهة الموسيقى:", e);
+    }
+  };
+  widget = Box({
     className: `normal-music ${mode} ${elevate}`,
     css: 'min-height: 180px; margin: 0; border-radius: 12px 12px 0 0;',
     vpack: "end",
     setup: (self) => {
-      const updateChildren = (newPlayer) => {
-        const player = newPlayer || getPlayer();
-        if (!player) return;
-        
-        // Only update if player changed
-        if (currentPlayer?.busName !== player.busName) {
-          currentPlayer = player;
-          
-          // If we don't have content yet, create it
-          if (!currentContent) {
-            currentContent = createContent(player);
-            self.children = [currentContent];
-          } else {
-            // Update existing content instead of recreating
-            const coverArt = currentContent.children[0].children[0].children[0];
-            const trackInfo = currentContent.children[0].children[0].children[1];
-            const controls = currentContent.children[2].children[1];
-            
-            // Update cover art
-            if (coverArt.updateCover) {
-              coverArt.updateCover(player);
+      const setupMprisHooks = () => {
+        try {
+          self.hook(Mpris, updateChildren, "notify::players");
+          self.hook(Mpris, () => {
+            const player = getPlayer();
+            if (player) {
+              updateChildren(player);
             }
-            
-            // Update track info
-            if (trackInfo.children[0].hook) {
-              trackInfo.children[0].hook(player, () => {
-                trackInfo.children[0].label = player.trackTitle || "No media";
-                const fontForThisTrack = getTrackfont(player);
-                trackInfo.children[0].css = `font-family: ${fontForThisTrack}, ${DEFAULT_MUSIC_FONT};`;
-              }, "notify::track-title");
-            }
-            
-            if (trackInfo.children[1].hook) {
-              trackInfo.children[1].hook(player, () => {
-                trackInfo.children[1].label = player.trackArtists.join(", ") || "";
-              }, "notify::track-artists");
-            }
-            
-            if (trackInfo.children[2].children[0].hook) {
-              trackInfo.children[2].children[0].hook(player, () => {
-                trackInfo.children[2].children[0].label = detectMediaSource(player.trackCoverUrl);
-              }, "notify::cover-path");
-            }
-            
-            // Update controls
-            controls.children.forEach(control => {
-              if (control.updatePlayer) {
-                control.updatePlayer(player);
+          }, "player-changed");
+          self.hook(Mpris, () => {
+            try {
+              const player = getPlayer();
+              if (player) {
+                updateChildren(player);
               }
-            });
-          }
-          
-          // Force widget update
-          if (self.show_all) self.show_all();
+            } catch (e) {
+              console.error("خطأ في استجابة إشارة player-changed:", e);
+            }
+          }, "changed");
+        } catch (e) {
+          console.error("فشل إعداد مراقبة الإشارات:", e);
         }
       };
-
-      // Store signal IDs for cleanup
-      signalIds = [
-        self.hook(Mpris, () => {
-          updateChildren();
-        }, "notify::players"),
-        
-        self.hook(Mpris, () => {
-          const player = getPlayer();
-          updateChildren(player);
-        }, "player-changed")
-      ];
-      
-      // Initial update
-      updateChildren();
-
-      // Export the update function
-      self.updatePlayer = updateChildren;
-
-      // Cleanup on destroy
+      Utils.timeout(100, () => {
+        updateChildren();
+        setupMprisHooks();
+        return false;
+      });
       self.connect('destroy', () => {
         currentContent = null;
         currentPlayer = null;
-        signalIds = [];
       });
     },
   });
+  widget.updateChildren = updateChildren;
 
   return widget;
 };
