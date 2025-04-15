@@ -66,65 +66,8 @@
 </br>
 <h1>Do you need help or join us? <a href="https://discord.gg/qnAHD9keWr">Join Here</a><h1>
 </div>
-<h1>👻 How to install? 👻</h1>
+<h1>To install please read our official website: <a href="https://hyprluna.vercel.app">Hyprluna wiki</a></h1>
 </div>
-
-## 🆘 We need to install aur helper first (better use paru):
-
-```bash
-sudo pacman -S --needed base-devel
-git clone https://aur.archlinux.org/paru.git
-cd paru
-makepkg -si
-```
-
-## 📦 Then we need install needed pkgs:
-
-```bash
-paru -S hyprland axel bc coreutils cliphist cmake curl rofi-wayland rsync wget ripgrep jq npm meson typescript gjs xdg-user-dirs brightnessctl ddcutil pavucontrol wireplumber libdbusmenu-gtk3 playerctl swww git gobject-introspection glib2-devel gvfs glib2 glibc gtk3 gtk-layer-shell libpulse pam gnome-bluetooth-3.0 gammastep libsoup3 libnotify networkmanager power-profiles-daemon upower adw-gtk-theme-git qt5ct qt5-wayland fontconfig ttf-readex-pro ttf-jetbrains-mono-nerd ttf-material-symbols-variable-git apple-fonts ttf-space-mono-nerd ttf-rubik-vf ttf-gabarito-git fish foot starship polkit-gnome gnome-keyring gnome-control-center blueberry webp-pixbuf-loader gtksourceview3 yad ydotool xdg-user-dirs-gtk tinyxml2 gtkmm3 gtksourceviewmm cairomm xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-hyprland gradience python-libsass python-pywalfox matugen-bin python-build python-pillow python-pywal python-setuptools-scm python-wheel swappy wf-recorder grim tesseract tesseract-data-eng slurp dart-sass python-pywayland python-psutil hypridle hyprutils hyprlock wlogout wl-clipboard hyprpicker ghostty ttf-noto-sans-cjk-vf noto-fonts-emoji metar ttf-material-symbols-variable-git
-```
-
-## We need also latest ags v1 repo
-
-```bash
-git clone --recursive https://github.com/Lunaris-Project/agsv1
-cd agsv1
-makepkg -si
-cd
-```
-
-## Create backup: !!Not needed if you are in fresh installation!!
-
-```bash
-mkdir -p ~/HyprLuna-User-Bak
-cp -r ~/.config ~/HyprLuna-User-Bak/
-cp -r ~/.local ~/HyprLuna-User-Bak/
-cp -r ~/.fonts ~/HyprLuna-User-Bak/ 2>/dev/null || echo "No .fonts directory to backup"
-cp -r ~/.ags ~/HyprLuna-User-Bak/ 2>/dev/null || echo "No .ags directory to backup"
-cp -r ~/Pictures ~/HyprLuna-User-Bak/
-```
-
-## Then clone HyprLuna repo:
-
-```bash
-git clone https://github.com/Lunaris-Project/HyprLuna.git ~/HyprLuna
-cd ~/HyprLuna
-cp -r .config ~/
-cp -r .local ~/
-cp -r .cursor ~/
-cp -r .vscode ~/
-cp -r .fonts ~/ 2>/dev/null || echo "No .fonts directory to copy"
-cp -r .ags ~/ 2>/dev/null || echo "No .ags directory to copy"
-cp -r Pictures ~/
-chmod +x ~/.config/hypr/scripts/*
-chmod +x ~/.config/ags/scripts/hyprland/*
-sh ~/.config/ags/scripts/color_generation/wallpapers.sh -r
-```
-## Keybindings:
-```bash
-// now the keybinds are missy needs to be refactored SOON
-```
-
 <div align="center" style="background-color: #11111b; border-radius: 8px; padding: 15px;">
 
 ## 📝 License & Copyright
