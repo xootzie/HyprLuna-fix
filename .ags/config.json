@@ -46,9 +46,7 @@
     "safety": true,
     "writingCursor": " ...",
     "proxyUrl": "",
-    "__custom": [
-      "extraGptModels"
-    ]
+    "__custom": ["extraGptModels"]
   },
   "animations": {
     "choreographyDelay": 50,
@@ -83,16 +81,8 @@
   "battery": {
     "low": 20,
     "critical": 10,
-    "warnLevels": [
-      20,
-      15,
-      5
-    ],
-    "warnTitles": [
-      "Low battery",
-      "Very low battery",
-      "Critical Battery"
-    ],
+    "warnLevels": [20, 15, 5],
+    "warnTitles": ["Low battery", "Very low battery", "Critical Battery"],
     "warnMessages": [
       "Plug in the charger",
       "You there?",
@@ -108,7 +98,7 @@
   "cheatsheet": {
     "enabled": true,
     "keybinds": {
-      "configPath": ""
+      "configPath": "~/.config/hypr/hyprland/keybinds/default.conf"
     }
   },
   "i18n": {
@@ -182,12 +172,10 @@
     },
     "ai": {
       "medicalDictionary": {
-        "apiKey": ""
+        "apiKey": "95d164ef-7ea5-48f9-855a-58d0ba4ee390"
       },
       "logo": "deepseek-symbolic",
-      "__custom": [
-        "extraGptModels"
-      ],
+      "__custom": ["extraGptModels"],
       "extraGptModels": {
         "zuki": {
           "name": "ZoukiJourney API",
@@ -247,30 +235,22 @@
       "initMessages": []
     },
     "pages": {
-      "order": [
-        "apis",
-        "tools",
-        "github"
-      ],
+      "order": ["apis", "tools", "github"],
       "apis": {
-        "order": [
-          "gpt",
-          "gemini",
-          "quran",
-          "translater"
-        ]
+        "order": ["gpt", "gemini", "quran", "translater", "medicaldictionary"]
       }
     },
     "translater": {
-      "__custom": [
-        "languages"
-      ],
+      "__custom": ["languages"],
       "from": "auto",
       "to": "ar",
       "languages": {
         "auto": "Auto",
         "en": "English",
-        "ar": "Arabic"
+        "ar": "Arabic",
+        "fr": "French",
+        "de": "German",
+        "ru": "Russian"
       }
     }
   },
@@ -289,9 +269,7 @@
       "webSearch": true
     },
     "engineBaseUrl": "https://www.google.com/search?q=",
-    "excludedSites": [
-      "quora.com"
-    ]
+    "excludedSites": ["quora.com"]
   },
   "timers": {
     "presets": [
@@ -350,10 +328,7 @@
     "layer": "top",
     "monitorExclusivity": true,
     "searchPinnedAppIcons": true,
-    "trigger": [
-      "client-added",
-      "client-removed"
-    ],
+    "trigger": ["client-added", "client-removed"],
     "autoHide": [
       {
         "trigger": "client-added",
@@ -366,13 +341,8 @@
     ]
   },
   "icons": {
-    "__custom": [
-      "substitutions",
-      "regexSubstitutions"
-    ],
-    "searchPaths": [
-      ""
-    ],
+    "__custom": ["substitutions", "regexSubstitutions"],
+    "searchPaths": [""],
     "symbolicIconTheme": {
       "dark": "Adwaita",
       "light": "Adwaita"
@@ -410,8 +380,8 @@
         "prevTab": "Page_Up"
       },
       "options": {
-        "nextTab": "Ctrl+l",
-        "prevTab": "Ctrl+h"
+        "nextTab": "Page_Down",
+        "prevTab": "Page_Up"
       },
       "pin": "Ctrl+p",
       "cycleTab": "Ctrl+Tab",
@@ -436,11 +406,7 @@
     "verticalBar": {
       "position": "left"
     },
-    "pinnedApps": [
-      "windsurf",
-      "nautilus",
-      "spotify"
-    ],
+    "pinnedApps": ["code", "nautilus", "spotify"],
     "elements": {
       "showWindowTitle": true,
       "showWorkspaces": true,
