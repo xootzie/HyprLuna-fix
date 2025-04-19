@@ -16,8 +16,8 @@ const POWER_PATHS = {
     VOLTAGE: "/sys/class/power_supply/BAT0/voltage_now"
 };
 
-const powerDrawCache = { 
-    value: "N/A", 
+const powerDrawCache = {
+    value: "N/A",
     timestamp: 0,
     duration: 30000 // 30 seconds instead of 5
 };
@@ -27,7 +27,7 @@ const fetchPowerDraw = async () => {
     if (!Battery?.available) {
         return 'N/A';
     }
-    
+
     if (powerDrawCache.timestamp + powerDrawCache.duration > Date.now()) {
         return powerDrawCache.value;
     }
@@ -36,7 +36,7 @@ const fetchPowerDraw = async () => {
         const current = parseInt(await execAsync(`cat ${POWER_PATHS.CURRENT}`), 10);
         const voltage = parseInt(await execAsync(`cat ${POWER_PATHS.VOLTAGE}`), 10);
         const powerInWatts = ((current * voltage) / 1e12).toFixed(2);
-        
+
         powerDrawCache.value = `${powerInWatts} W`;
         powerDrawCache.timestamp = Date.now();
         return powerDrawCache.value;
@@ -55,7 +55,7 @@ const BarBatteryProgress = () => AnimatedCircProg({
         self._lastLowBattery = null;
         self._lastCharged = null;
         self._lastCharging = null;
-        
+
         self.hook(Battery, (circprog) => {
             // Check if battery is available
             if (!Battery?.available) {
@@ -65,27 +65,27 @@ const BarBatteryProgress = () => AnimatedCircProg({
                 }
                 return;
             }
-            
+
             // Ensure percent is never negative
             const percent = Math.max(0, Battery.percent);
-            
+
             // Only update CSS when needed
             if (self._lastPercent !== percent) {
                 circprog.css = `font-size: ${percent}px;`;
                 self._lastPercent = percent;
             }
-            
+
             const lowBattery = percent <= (userOptions.battery?.low || 20);
             if (self._lastLowBattery !== lowBattery) {
                 circprog.toggleClassName("bar-bat-circprog-low", lowBattery);
                 self._lastLowBattery = lowBattery;
             }
-            
+
             if (self._lastCharged !== Battery.charged) {
                 circprog.toggleClassName("bar-bat-circprog-full", Battery.charged);
                 self._lastCharged = Battery.charged;
             }
-            
+
             if (self._lastCharging !== Battery.charging) {
                 circprog.toggleClassName("bar-bat-circprog-charging", Battery.charging);
                 self._lastCharging = Battery.charging;
@@ -107,11 +107,11 @@ const BatteryContent = () => {
                 vpack: "center",
                 className: "bar-bat",
                 homogeneous: true,
-                children: [Label({ 
+                children: [Label({
                     setup: (self) => {
                         self._lastLabel = '';
                         self._lastClassName = '';
-                        
+
                         self.hook(Battery, (label) => {
                             // Check if battery is available
                             if (!Battery?.available) {
@@ -123,14 +123,14 @@ const BatteryContent = () => {
                                 }
                                 return;
                             }
-                            
+
                             if (Battery.charging) {
                                 const newClassName = "icon-material sec-txt txt-bold txt-small";
                                 if (self._lastClassName !== newClassName) {
                                     label.className = newClassName;
                                     self._lastClassName = newClassName;
                                 }
-                                
+
                                 if (self._lastLabel !== "bolt") {
                                     label.label = "bolt";
                                     self._lastLabel = "bolt";
@@ -141,7 +141,7 @@ const BatteryContent = () => {
                                     label.className = newClassName;
                                     self._lastClassName = newClassName;
                                 }
-                                
+
                                 const newLabel = `${Battery.percent.toFixed(0)}`;
                                 if (self._lastLabel !== newLabel) {
                                     label.label = newLabel;
@@ -155,7 +155,7 @@ const BatteryContent = () => {
                     self._lastLowBattery = null;
                     self._lastCharged = null;
                     self._lastCharging = null;
-                    
+
                     self.hook(Battery, (box) => {
                         // Only apply classes if battery is available
                         if (Battery?.available) {
@@ -164,12 +164,12 @@ const BatteryContent = () => {
                                 box.toggleClassName("bar-bat-low", lowBattery);
                                 self._lastLowBattery = lowBattery;
                             }
-                            
+
                             if (self._lastCharged !== Battery.charged) {
                                 box.toggleClassName("bar-bat-full", Battery.charged);
                                 self._lastCharged = Battery.charged;
                             }
-                            
+
                             if (self._lastCharging !== Battery.charging) {
                                 box.toggleClassName("bar-bat-charging", Battery.charging);
                                 self._lastCharging = Battery.charging;
@@ -189,13 +189,13 @@ const BatteryContent = () => {
             batteryIcon.tooltipText = "No battery";
             return;
         }
-        
+
         const powerDraw = await fetchPowerDraw();
         try {
             const result = await execAsync("upower -i /org/freedesktop/UPower/devices/battery_BAT0");
             const timeInfo = result.split('\n').find(line => line.includes("time to"));
             const timeText = timeInfo ? timeInfo.split(":")[1].trim() : "N/A";
-            
+
             tooltipText = `Battery: ${Battery.percent.toFixed(0)}%\nPower: ${powerDraw}\n${timeText}`;
             batteryIcon.tooltipText = tooltipText;
         } catch (error) {
@@ -235,12 +235,19 @@ const BatteryContent = () => {
     });
 };
 
-export default () => EventBox({
-    onPrimaryClick: () => {
-      App.toggleWindow("sideleft");
-    },
-    onSecondaryClick: () => {
-        execAsync(["bash", "-c", userOptions.asyncGet().apps.taskManager]);
-    },
-    child: BatteryContent(),
-});
+export default () => {
+    // Don't show battery widget on systems without batteries
+    if (!Battery?.available) {
+        return Widget.Box({});
+    }
+
+    return EventBox({
+        onPrimaryClick: () => {
+            App.toggleWindow("sideleft");
+        },
+        onSecondaryClick: () => {
+            execAsync(["bash", "-c", userOptions.asyncGet().apps.taskManager]);
+        },
+        child: BatteryContent(),
+    });
+};

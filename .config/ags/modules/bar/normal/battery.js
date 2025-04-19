@@ -23,7 +23,7 @@ const BarBatteryProgress = () => {
       }
       return;
     }
-    
+
     // Ensure the percent value is valid and non-negative
     const percent = Math.max(0, Battery.percent);
     const key = `${percent}-${Battery.charged}-${Battery.charging}`;
@@ -37,25 +37,25 @@ const BarBatteryProgress = () => {
           const firstKey = batteryProgressCache.keys().next().value;
           batteryProgressCache.delete(firstKey);
         }
-        
+
         const css = `font-size: ${percent}px;`;
         batteryProgressCache.set(key, css);
       }
 
       circprog.css = batteryProgressCache.get(key);
       circprog._lastKey = key;
-      
+
       const lowBattery = percent <= options.battery.low;
       if (circprog._lastLow !== lowBattery) {
         circprog.toggleClassName("bar-batt-circprog-low", lowBattery);
         circprog._lastLow = lowBattery;
       }
-      
+
       if (circprog._lastCharged !== Battery.charged) {
         circprog.toggleClassName("bar-batt-circprog-full", Battery.charged);
         circprog._lastCharged = Battery.charged;
       }
-      
+
       if (circprog._lastCharging !== Battery.charging) {
         circprog.toggleClassName("bar-batt-charging", Battery.charging);
         circprog._lastCharging = Battery.charging;
@@ -74,7 +74,7 @@ const BarBatteryProgress = () => {
       self._lastCharged = null;
       self._lastCharging = null;
       self._batteryHandler = Battery.connect("changed", () => _updateProgress(self));
-      
+
       // Make sure to safely disconnect when destroyed
       self.connect("destroy", () => {
         if (self._batteryHandler) {
@@ -90,7 +90,7 @@ const BarBatteryProgress = () => {
           self._batteryHandler = 0;
         }
       });
-      
+
       // Initial update
       _updateProgress(self);
     },
@@ -110,7 +110,7 @@ const BarBattery = () => {
       css: "margin-left: 8px;",
       setup: (self) => {
         self._lastValue = "";
-        
+
         self.hook(Battery, () => {
           // Check if battery is available
           if (!Battery?.available) {
@@ -120,7 +120,7 @@ const BarBattery = () => {
             }
             return;
           }
-          
+
           const newValue = `${Battery.percent}% ${Battery.charging ? "" : " "}`;
           if (self._lastValue !== newValue) {
             self.label = newValue;
@@ -158,7 +158,7 @@ const BarBattery = () => {
                   self._lastLow = null;
                   self._lastCharged = null;
                   self._lastCharging = null;
-                  
+
                   self.hook(Battery, (box) => {
                     // Check if battery is available
                     if (!Battery?.available) {
@@ -172,18 +172,18 @@ const BarBattery = () => {
                       }
                       return;
                     }
-                    
+
                     const lowBattery = Battery.percent <= userOptions.asyncGet().battery.low;
                     if (self._lastLow !== lowBattery) {
                       box.toggleClassName("bar-batt-low", lowBattery);
                       self._lastLow = lowBattery;
                     }
-                    
+
                     if (self._lastCharged !== Battery.charged) {
                       box.toggleClassName("bar-batt-full", Battery.charged);
                       self._lastCharged = Battery.charged;
                     }
-                    
+
                     if (self._lastCharging !== Battery.charging) {
                       box.toggleClassName("bar-batt-charging", Battery.charging);
                       self._lastCharging = Battery.charging;
@@ -220,15 +220,15 @@ const cachedBatteryModule = Box({
             stack.shown = "hidden";
           }
         };
-        
+
         // React to dev mode changes
         if (globalThis.devMode) {
           stack.hook(globalThis.devMode, updateVisibility);
         }
-        
+
         // React to battery availability changes
         stack.hook(Battery, updateVisibility);
-        
+
         // Initial state
         updateVisibility();
       },
@@ -237,10 +237,17 @@ const cachedBatteryModule = Box({
 });
 
 // Export a function that returns the cached module to prevent recreation
-export default () => EventBox({
-  onScrollUp: () => execAsync(`brightnessctl set 10%+`),
-  onScrollDown: () => execAsync(`brightnessctl set 10%-`),
-  child: Widget.Box({
-    children: [cachedBatteryModule],
-  }),
-});
+export default () => {
+  // Don't show battery widget on systems without batteries
+  if (!Battery?.available) {
+    return Widget.Box({});
+  }
+
+  return EventBox({
+    onScrollUp: () => execAsync(`brightnessctl set 10%+`),
+    onScrollDown: () => execAsync(`brightnessctl set 10%-`),
+    child: Widget.Box({
+      children: [cachedBatteryModule],
+    }),
+  });
+};

@@ -47,28 +47,28 @@ const BatteryScale = () => {
             }
             return;
         }
-        
+
         const percent = Math.max(0, Math.min(100, Battery.percent));
         const isCharging = Battery.charging;
         const isLow = percent <= userOptions.asyncGet().battery.low;
-        
+
         // Only update values when they change
         if (lastLow !== isLow) {
             batteryIcon.toggleClassName("bar-batt-low", isLow);
             batteryProgress.toggleClassName("bar-batt-low", isLow);
             lastLow = isLow;
         }
-        
+
         if (lastCharging !== isCharging) {
             batteryIcon.toggleClassName("bar-batt-charging", isCharging);
             batteryProgress.toggleClassName("bar-batt-charging", isCharging);
             lastCharging = isCharging;
         }
-        
+
         if (lastPercent !== percent) {
             batteryProgress.fraction = Math.max(0, Math.min(1, percent / 100));
             batteryProgress.tooltipText = `${percent}%${isCharging ? " Charging" : ""}`;
-            
+
             const chargingText = isCharging ? "  " : "";
             percentageLabel.label = `${percent} % ${chargingText} `;
             lastPercent = percent;
@@ -91,10 +91,10 @@ const BatteryScale = () => {
                 }
                 batteryHook = 0;
             }
-            
+
             // Set up new hooks
             batteryHook = Battery.connect('changed', updateBatteryInfo);
-            
+
             self.connect('destroy', () => {
                 if (batteryHook) {
                     if (globalThis.safeDisconnect) {
@@ -151,17 +151,17 @@ const BatteryScaleModule = () => Box({
                         stack.shown = "hidden";
                     }
                 };
-                
+
                 // React to dev mode changes
                 if (globalThis.devMode) {
                     stack.hook(globalThis.devMode, updateVisibility);
                 }
-                
+
                 // React to battery availability changes
                 stack.hook(Battery, () => {
                     updateVisibility();
                 });
-                
+
                 // Initial visibility
                 updateVisibility();
             },
@@ -169,4 +169,11 @@ const BatteryScaleModule = () => Box({
     ],
 });
 
-export default BatteryScaleModule;
+export default () => {
+    // Don't show battery widget on systems without batteries
+    if (!Battery?.available) {
+        return Widget.Box({});
+    }
+
+    return BatteryScaleModule();
+};

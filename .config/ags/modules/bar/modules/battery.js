@@ -33,7 +33,7 @@ const fetchPowerDraw = async () => {
     if (!Battery?.available) {
         return 'N/A';
     }
-    
+
     const now = Date.now();
     if (powerDrawCache.timestamp + POWER_DRAW.CACHE_DURATION > now) {
         return powerDrawCache.value;
@@ -59,16 +59,16 @@ const BarBatteryProgress = () => {
     const _updateProgress = (circprog) => {
         // Check if battery service has a valid percent - otherwise default to 0
         const percent = Battery?.available ? Battery.percent : 0;
-        
+
         // Ensure percent is never negative
         const safePercent = Math.max(0, percent);
-        
+
         // Only update CSS when value changed to reduce redraws
         if (circprog._lastPercent !== safePercent) {
             circprog.css = `font-size: ${safePercent}px;`;
             circprog._lastPercent = safePercent;
         }
-        
+
         // Only apply these classes if battery is available
         if (Battery?.available) {
             const lowBattery = Battery.percent <= (userOptions.battery?.low || 20);
@@ -76,12 +76,12 @@ const BarBatteryProgress = () => {
                 circprog.toggleClassName("bar-bat-circprog-low", lowBattery);
                 circprog._lastLowBattery = lowBattery;
             }
-            
+
             if (circprog._lastCharged !== Battery.charged) {
                 circprog.toggleClassName("bar-bat-circprog-full", Battery.charged);
                 circprog._lastCharged = Battery.charged;
             }
-            
+
             if (circprog._lastCharging !== Battery.charging) {
                 circprog.toggleClassName("bar-bat-circprog-charging", Battery.charging);
                 circprog._lastCharging = Battery.charging;
@@ -98,7 +98,7 @@ const BarBatteryProgress = () => {
             self._lastCharged = null;
             self._lastCharging = null;
             self._batteryHandler = Battery.connect("changed", () => _updateProgress(self));
-            
+
             // Ensure proper cleanup
             self.connect('destroy', () => {
                 if (self._batteryHandler) {
@@ -114,7 +114,7 @@ const BarBatteryProgress = () => {
                     self._batteryHandler = 0;
                 }
             });
-            
+
             // Initial update
             _updateProgress(self);
         },
@@ -179,7 +179,7 @@ const BatteryContent = () => {
                     self._lastLowBattery = null;
                     self._lastCharging = null;
                     self._lastCharged = null;
-                    
+
                     self.hook(Battery, (box) => {
                         // Only apply these classes if battery is available
                         if (Battery?.available) {
@@ -188,12 +188,12 @@ const BatteryContent = () => {
                                 box.toggleClassName("bar-bat-low", lowBattery);
                                 self._lastLowBattery = lowBattery;
                             }
-                            
+
                             if (self._lastCharged !== Battery.charged) {
                                 box.toggleClassName("bar-bat-full", Battery.charged);
                                 self._lastCharged = Battery.charged;
                             }
-                            
+
                             if (self._lastCharging !== Battery.charging) {
                                 box.toggleClassName("bar-bat-charging", Battery.charging);
                                 self._lastCharging = Battery.charging;
@@ -216,14 +216,14 @@ const BatteryContent = () => {
     const updateBatteryDetails = async () => {
         // Skip updates if not visible
         if (!detailsRevealer.revealChild) return;
-        
+
         // Skip on systems without battery
         if (!Battery?.available) {
             powerDrawLabel.label = 'Power: N/A';
             timeToEmptyFullLabel.label = 'N/A';
             return;
         }
-        
+
         const powerDraw = await fetchPowerDraw();
         powerDrawLabel.label = `Power: ${powerDraw}`;
 
@@ -291,9 +291,16 @@ const BatteryContent = () => {
     });
 };
 
-export default () => Widget.EventBox({
-    onSecondaryClick: () => {
-        execAsync(["bash", "-c", userOptions.asyncGet().apps.taskManager]);
-    },
-    child: BatteryContent(),
-});
+export default () => {
+    // Don't show battery widget on systems without batteries
+    if (!Battery?.available) {
+        return Widget.Box({});
+    }
+
+    return Widget.EventBox({
+        onSecondaryClick: () => {
+            execAsync(["bash", "-c", userOptions.asyncGet().apps.taskManager]);
+        },
+        child: BatteryContent(),
+    });
+};
