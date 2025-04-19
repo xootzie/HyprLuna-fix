@@ -78,16 +78,42 @@ function calculateSchemeInitIndex(optionsArr, searchValue = 'content') {
 }
 const gowallArr = [
     [
+        { name: getString('Arc Dark'), value: 'arcdark' },
+        { name: getString('Atom Dark'), value: 'atomdark' },
+        { name: getString('Cat Frappe'), value: 'cat-frappe' },
+        { name: getString('Cat Latte'), value: 'cat-latte' },
         { name: getString('Catppuccin'), value: 'catppuccin' },
-        { name: getString('Nord'), value: 'nord' },
+        { name: getString('Cyberpunk'), value: 'cyberpunk' },
         { name: getString('Dracula'), value: 'dracula' },
-        { name: getString('Tokyo'), value: 'tokyo-night' },
         { name: getString('Everforest'), value: 'everforest' },
+    ],
+    [
+        { name: getString('GitHub Light'), value: 'github-light' },
         { name: getString('Gruvbox'), value: 'gruvbox' },
+        { name: getString('Kanagawa'), value: 'kanagawa' },
+        { name: getString('Material'), value: 'material' },
+        { name: getString('Monochrome'), value: 'monochrome' },
+        { name: getString('Monokai'), value: 'monokai' },
+        { name: getString('Night Owl'), value: 'night-owl' },
+        { name: getString('Nord'), value: 'nord' },
+    ],
+    [
+        { name: getString('Oceanic Next'), value: 'oceanic-next' },
         { name: getString('One Dark'), value: 'onedark' },
+        { name: getString('Rose Pine'), value: 'rose-pine' },
+        { name: getString('Shades of Purple'), value: 'shades-of-purple' },
         { name: getString('Solarized'), value: 'solarized' },
-        { name: getString('Cyber'), value: 'cyberpunk' },
-        { name: getString('B&W'), value: 'monochrome' },
+        { name: getString('Srcery'), value: 'srcery' },
+        { name: getString('Sunset Aurant'), value: 'sunset-aurant' },
+    ],
+    [
+        { name: getString('Sunset Tangerine'), value: 'sunset-tangerine' },
+        { name: getString('Synthwave 84'), value: 'synthwave-84' },
+        { name: getString('Tokyo Dark'), value: 'tokyo-dark' },
+        { name: getString('Tokyo Moon'), value: 'tokyo-moon' },
+        { name: getString('Tokyo Storm'), value: 'tokyo-storm' },
+        { name: getString('Tokyo Night'), value: 'tokyo-night' },
+        { name: getString('Sunset Saffron'), value: 'sunset-saffron' },
     ],
 ];
 const schemeOptionsArr = [
