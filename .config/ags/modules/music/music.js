@@ -35,7 +35,7 @@ function lengthStr(length) {
   if (isNaN(length) || length < 0) {
     return "0:00";
   }
-  
+
   const min = Math.floor(length / 60);
   const sec = Math.floor(length % 60);
   const sec0 = sec < 10 ? "0" : "";
@@ -46,16 +46,24 @@ function detectMediaSource(link) {
   if (!link) return "Unknown";
 
   try {
+    // Check player name first (for zen-browser)
+    const player = getPlayer();
+    if (player) {
+      const name = player.name?.toLowerCase();
+      if (name?.includes('zen')) return "󰖟  Zen Browser";
+    }
+
     if (link.startsWith("file://")) {
       if (link.includes("firefox-mpris")) return "󰈹  Firefox";
+      if (link.includes("zen-browser")) return "󰖟  Zen Browser";
       return "󰎆   Lofi";
     }
-    
+
     let url = link.replace(/(^\w+:|^)\/\//, "");
     if (!url.includes(".") || !url.match(/(?:[a-z]+\.)?([a-z]+\.[a-z]+)/i)) {
       return "Local Source";
     }
-    
+
     let domain = url.match(/(?:[a-z]+\.)?([a-z]+\.[a-z]+)/i)[1];
     if (domain == "ytimg.com") return "󰗃   Youtube";
     if (domain == "discordapp.net") return "󰙯   Discord";
@@ -97,7 +105,7 @@ const TrackProgress = ({ player, ...rest }) => {
       circprog.css = `font-size: 0px;`;
       return;
     }
-    
+
     try {
       const position = typeof player.position === 'number' ? Math.max(0, player.position) : 0;
       const length = typeof player.length === 'number' ? Math.max(1, player.length) : 1;
@@ -107,7 +115,7 @@ const TrackProgress = ({ player, ...rest }) => {
       circprog.css = `font-size: 0px;`;
     }
   };
-  
+
   return AnimatedCircProg({
     ...rest,
     className: "osd-music-circprog",
@@ -158,12 +166,12 @@ const TrackTitle = ({ player, ...rest }) =>
               self.label = "No media";
               return;
             }
-            
+
             self.label =
               player.trackTitle && player.trackTitle.length > 0
                 ? trimTrackTitle(player.trackTitle)
                 : "No media";
-            
+
             try {
               const fontForThisTrack = getTrackfont(player);
               self.css = `font-family: ${fontForThisTrack}, ${DEFAULT_MUSIC_FONT}; font-size: 1.4em;`;
@@ -196,7 +204,7 @@ const TrackArtists = ({ player, ...rest }) =>
               self.label = "";
               return;
             }
-            
+
             self.label =
               player.trackArtists.length > 0
                 ? player.trackArtists.join(", ")
@@ -331,7 +339,7 @@ const CoverArt = ({ player, ...rest }) => {
 const TrackControls = ({ player, ...rest }) => {
   let menu = null;
   let signalIds = [];
-  
+
   const cleanupMenu = () => {
     if (menu) {
       signalIds.forEach(id => {
@@ -341,7 +349,7 @@ const TrackControls = ({ player, ...rest }) => {
         }
       });
       signalIds = [];
-      
+
       try {
         menu.destroy();
       } catch (e) {
@@ -349,7 +357,7 @@ const TrackControls = ({ player, ...rest }) => {
       menu = null;
     }
   };
-  
+
   return Widget.Revealer({
     revealChild: true,
     transition: "slide_right",
@@ -398,7 +406,7 @@ const TrackControls = ({ player, ...rest }) => {
                       xalign: 0,
                       hexpand: true,
                     }),
-                    p.playBackStatus === "Playing" ? 
+                    p.playBackStatus === "Playing" ?
                       Widget.Label({
                         className: "icon-material",
                         label: "play_arrow",
@@ -531,7 +539,7 @@ const TrackSource = ({ player, ...rest }) =>
           setup: (self) => {
             let signalId = null;
             let isDestroyed = false;
-            
+
             const updateLabel = () => {
               if (!isDestroyed) {
                 try {
@@ -542,7 +550,7 @@ const TrackSource = ({ player, ...rest }) =>
                 }
               }
             };
-            
+
             if (player) {
               self.hook(player, updateLabel, "notify::cover-path");
               updateLabel();
@@ -573,13 +581,13 @@ const TrackTime = ({ player, ...rest }) => {
           setup: (self) => {
             let pollId = null;
             let isDestroyed = false;
-            
+
             const updatePosition = () => {
               if (!isDestroyed && player) {
                 try {
-                  const position = typeof player.position === 'number' ? 
+                  const position = typeof player.position === 'number' ?
                     Math.max(0, player.position) : 0;
-                  
+
                   self.label = lengthStr(position);
                 } catch (e) {
                   self.label = "0:00";
@@ -587,7 +595,7 @@ const TrackTime = ({ player, ...rest }) => {
               }
               return !isDestroyed;
             };
-            
+
             if (player) {
               pollId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => {
                 if (isDestroyed) {
@@ -615,20 +623,20 @@ const TrackTime = ({ player, ...rest }) => {
         Label({
           setup: (self) => {
             let isDestroyed = false;
-            
+
             const updateLength = () => {
               if (!isDestroyed && player) {
                 try {
-                  const length = typeof player.length === 'number' ? 
+                  const length = typeof player.length === 'number' ?
                     Math.max(0, player.length) : 0;
-                  
+
                   self.label = lengthStr(length);
                 } catch (e) {
                   self.label = "0:00";
                 }
               }
             };
-            
+
             if (player) {
               self.hook(player, updateLength, "notify::length");
               updateLength();
@@ -670,7 +678,7 @@ const PlayState = ({ player }) => {
             vpack: "center",
             setup: (self) => {
               let isDestroyed = false;
-              
+
               const updatePlayState = () => {
                 if (!isDestroyed) {
                   if (player) {
@@ -684,7 +692,7 @@ const PlayState = ({ player }) => {
                   }
                 }
               };
-              
+
               if (player) {
                 self.hook(player, updatePlayState, "notify::play-back-status");
                 updatePlayState();
@@ -734,7 +742,7 @@ const CavaVisualizer = () => {
   const barElements = [];
   const safeUpdate = (widget, property, value) => {
     if (!widget || isDestroyed) return false;
-    
+
     try {
       const test = widget.css;
       widget[property] = value;
@@ -745,7 +753,7 @@ const CavaVisualizer = () => {
   };
   const initBars = () => {
     barElements.length = 0;
-    
+
     bars.forEach((barWrapper) => {
       if (barWrapper && barWrapper.children && barWrapper.children.length >= 2) {
         barElements.push({
@@ -786,19 +794,19 @@ const CavaVisualizer = () => {
       const step = Math.floor(values.length / barElements.length);
       for (let i = 0; i < barElements.length; i++) {
         if (isDestroyed) break;
-        
+
         const barData = barElements[i];
         if (!barData || !barData.valid) continue;
-        
+
         try {
           const start = i * step;
           const end = start + step;
           const avg = values.slice(start, end).reduce((a, b) => a + b, 0) / step || 0;
           const height = Math.max(1, Math.pow(avg, 1.9) * 4);
           const intensity = avg > 6 ? "high" : avg > 3 ? "med" : "low";
-          
+
           const { upBar, downBar } = barData;
-          
+
           const barCss = `
             min-height: ${height}px;
             min-width: 8px;
@@ -807,7 +815,7 @@ const CavaVisualizer = () => {
           `;
           let upValid = false;
           let downValid = false;
-          
+
           try {
             upValid = safeUpdate(upBar, "css", barCss);
             if (upValid) {
@@ -816,7 +824,7 @@ const CavaVisualizer = () => {
           } catch (e) {
             upValid = false;
           }
-          
+
           try {
             downValid = safeUpdate(downBar, "css", barCss);
             if (downValid) {
@@ -864,22 +872,22 @@ const CavaVisualizer = () => {
       }
       for (let i = 0; i < barElements.length; i++) {
         if (isDestroyed) break;
-        
+
         const barData = barElements[i];
         if (!barData || !barData.valid) continue;
-        
+
         try {
           const { upBar, downBar } = barData;
-          
+
           const barCss = `
             min-height: 1px;
             min-width: 8px;
             margin: 0 2px;
           `;
-          const upValid = safeUpdate(upBar, "css", barCss) && 
+          const upValid = safeUpdate(upBar, "css", barCss) &&
                         safeUpdate(upBar, "className", "cava-bar cava-bar-low cava-bar-up");
-                        
-          const downValid = safeUpdate(downBar, "css", barCss) && 
+
+          const downValid = safeUpdate(downBar, "css", barCss) &&
                           safeUpdate(downBar, "className", "cava-bar cava-bar-low cava-bar-down");
           if (!upValid || !downValid) {
             barData.valid = false;
@@ -910,7 +918,7 @@ const CavaVisualizer = () => {
       let windowSignalId = null;
       const checkWindowVisibility = () => {
         if (isDestroyed) return false;
-        
+
         try {
           const window = App.getWindow("music");
           if (!window) {
@@ -936,7 +944,7 @@ const CavaVisualizer = () => {
         } catch (e) {
           Utils.timeout(2000, checkWindowVisibility);
         }
-        
+
         return false;
       };
       Utils.timeout(1000, checkWindowVisibility);
@@ -1032,7 +1040,7 @@ const PlayerSwitcher = () => {
                     xalign: 0,
                     hexpand: true,
                   }),
-                  player.playBackStatus === "Playing" ? 
+                  player.playBackStatus === "Playing" ?
                     Widget.Label({
                       className: "icon-material",
                       label: "play_arrow",
@@ -1114,15 +1122,56 @@ const musicWidget = () => {
   const updateChildren = (newPlayer) => {
     try {
       const player = newPlayer || getPlayer();
-      if (!player || !widget) return;
+
+      // Check if there are any audio apps running
+      if (!player || !widget) {
+        // No audio apps running, show "No apps playing right now" message
+        if (widget && widget.children) {
+          const noAppsContent = Widget.Box({
+            vertical: true,
+            vpack: "center",
+            hpack: "center",
+            hexpand: true,
+            vexpand: true,
+            css: "min-height: 180px;",
+            children: [
+              Widget.Box({
+                vertical: true,
+                hpack: "center",
+                vpack: "center",
+                className: "spacing-v-15",
+                children: [
+                  Widget.Label({
+                    label: "music_note",
+                    className: "icon-material onSurfaceVariant",
+                    css: "font-size: 48px; margin-bottom: 10px;"
+                  }),
+                  Widget.Label({
+                    label: "No apps playing right now",
+                    className: "txt-large onSurfaceVariant",
+                    css: "font-weight: 500;"
+                  })
+                ]
+              })
+            ]
+          });
+          widget.children = [noAppsContent];
+          if (widget.show_all) {
+            widget.show_all();
+          }
+        }
+        return;
+      }
+
       if (!player.busName) {
         return;
       }
+
       const shouldRecreate =
         (currentPlayer?.busName !== player.busName) ||
         (currentPlayer?.playBackStatus !== player.playBackStatus) ||
         !currentContent;
-      
+
       if (shouldRecreate) {
         try {
           const oldPlayer = currentPlayer;
