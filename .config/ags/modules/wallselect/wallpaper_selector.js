@@ -85,7 +85,7 @@ const getWallpaperPaths = async () => {
         if (wallpaperPathsCache && now - wallpaperPathsCacheTime < CACHE_DURATION) {
             return wallpaperPathsCache;
         }
-        
+
         // فحص وجود المجلد
         const dir = Gio.File.new_for_path(WALLPAPER_DIR);
         if (!dir.query_exists(null)) {
@@ -94,50 +94,50 @@ const getWallpaperPaths = async () => {
         }
 
         console.log(`البحث عن الصور في: ${WALLPAPER_DIR}`);
-        
+
         try {
             // استخدام Gio لقراءة محتويات المجلد مباشرة بدلاً من الاعتماد على أمر find
             const wallpaperFiles = [];
             const validExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.tga', '.tiff', '.bmp', '.ico'];
-            
+
             const enumerator = dir.enumerate_children('standard::*', Gio.FileQueryInfoFlags.NONE, null);
             let fileInfo;
-            
+
             while ((fileInfo = enumerator.next_file(null)) !== null) {
                 // تجاهل المجلدات
                 if (fileInfo.get_file_type() === Gio.FileType.DIRECTORY) {
                     continue;
                 }
-                
+
                 const fileName = fileInfo.get_name();
                 const fileExtension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
-                
+
                 if (validExtensions.includes(fileExtension)) {
                     const filePath = WALLPAPER_DIR + '/' + fileName;
                     wallpaperFiles.push(filePath);
                 }
             }
-                        
+
             wallpaperPathsCache = wallpaperFiles;
             wallpaperPathsCacheTime = now;
-            
+
             return wallpaperFiles;
         } catch (error) {
             console.error('خطأ أثناء قراءة المجلد:', error);
-            
+
             // محاولة الاستخدام بأمر ls كحل بديل إذا فشلت الطريقة السابقة
             const lsCommand = `ls -1 "${WALLPAPER_DIR}" | grep -E "\\.(jpg|jpeg|png|gif|webp|tga|tiff|bmp|ico)$" | awk '{print "${WALLPAPER_DIR}/"$0}'`;
-            
+
             const files = await Utils.execAsync(['bash', '-c', lsCommand]);
-            
+
             if (!files || !files.trim()) {
                 console.log('لم يتم العثور على صور خلفيات.');
                 return [];
             }
-            
+
             wallpaperPathsCache = files.split("\n").filter(Boolean);
             wallpaperPathsCacheTime = now;
-                        
+
             return wallpaperPathsCache;
         }
     } catch (error) {
@@ -156,11 +156,11 @@ const WallpaperPreview = (path) =>
                 let pixbuf = null;
                 let imageLoaded = false;
                 let loadPromise = null;
-                
+
                 // تأخير تحميل الصورة حتى تكون مرئية
                 const loadImage = () => {
                     if (imageLoaded || loadPromise) return;
-                    
+
                     // تحميل الصورة بعد تأخير صغير لتحسين الأداء
                     loadPromise = Utils.timeout(50, () => {
                         loadPreviewAsync(path)
@@ -176,7 +176,7 @@ const WallpaperPreview = (path) =>
                         return false; // لا يتكرر
                     });
                 };
-                
+
                 // تحميل الصورة عند ظهورها فقط
                 if (drawingArea.get_mapped()) {
                     loadImage();
@@ -307,17 +307,17 @@ const createContent = async () => {
     try {
         console.log("Loading wallpapers from:", WALLPAPER_DIR);
         const wallpaperPaths = await getWallpaperPaths();
-        
+
         console.log(`Found ${wallpaperPaths.length} wallpapers.`);
-        
+
         if (!wallpaperPaths.length) {
             console.log("No wallpapers found.");
             return createPlaceholder();
         }
-        
+
         // حساب عدد الصفحات الإجمالي
         const totalPages = Math.ceil(wallpaperPaths.length / IMAGES_PER_PAGE);
-        
+
         // التأكد من أن مؤشر الصفحة الحالية ضمن النطاق المسموح
         if (currentPage >= totalPages) {
             currentPage = totalPages - 1;
@@ -325,37 +325,62 @@ const createContent = async () => {
         if (currentPage < 0) {
             currentPage = 0;
         }
-        
+
         // تحديد مجموعة الصور التي سيتم عرضها في الصفحة الحالية
         const startIndex = currentPage * IMAGES_PER_PAGE;
         const endIndex = Math.min(startIndex + IMAGES_PER_PAGE, wallpaperPaths.length);
         const currentPageWallpapers = wallpaperPaths.slice(startIndex, endIndex);
-        
+
         console.log(`Displaying page ${currentPage + 1}/${totalPages} (images ${startIndex + 1}-${endIndex} of ${wallpaperPaths.length})`);
-        
-        return Box({
+
+        const contentBox = Box({
             vertical: true,
             spacing: 10,
             children: [
-                EventBox({
-                    onPrimaryClick: () => App.closeWindow("wallselect"),
-                    onSecondaryClick: () => App.closeWindow("wallselect"),
-                    onMiddleClick: () => App.closeWindow("wallselect"),
-                    child: Scrollable({
-                        hexpand: true,
-                        vexpand: false,
-                        hscroll: "always",
-                        vscroll: "never",
-                        child: Box({
-                            className: "wallpaper-list",
-                            children: currentPageWallpapers.map(WallpaperPreview),
-                        }),
-                    }),
+                Box({
+                    setup: (self) => {
+                        // Create a scrollable container
+                        const scrollable = Scrollable({
+                            hexpand: true,
+                            vexpand: false,
+                            hscroll: "always",
+                            vscroll: "never",
+                            child: Box({
+                                className: "wallpaper-list",
+                                children: currentPageWallpapers.map(WallpaperPreview),
+                            }),
+                        });
+
+                        // Create an event box to handle clicks and scrolling
+                        const eventBox = EventBox({
+                            onPrimaryClick: () => App.closeWindow("wallselect"),
+                            onSecondaryClick: () => App.closeWindow("wallselect"),
+                            onMiddleClick: () => App.closeWindow("wallselect"),
+                            onScrollUp: () => {
+                                // Scroll left when mouse wheel scrolls up
+                                const adj = scrollable.get_hadjustment();
+                                const scrollAmount = 80; // Reduced scroll amount for smoother scrolling
+                                adj.set_value(Math.max(adj.get_value() - scrollAmount, adj.get_lower()));
+                            },
+                            onScrollDown: () => {
+                                // Scroll right when mouse wheel scrolls down
+                                const adj = scrollable.get_hadjustment();
+                                const scrollAmount = 80; // Reduced scroll amount for smoother scrolling
+                                adj.set_value(Math.min(adj.get_value() + scrollAmount, adj.get_upper() - adj.get_page_size()));
+                            },
+                            child: scrollable,
+                        });
+
+                        // Add the event box to the container
+                        self.add(eventBox);
+                    },
                 }),
                 // إضافة أزرار التنقل بين الصفحات
                 createPaginationControls(totalPages)
             ]
         });
+
+        return contentBox;
     } catch (error) {
         console.error("Error loading wallpapers:", error);
         return Box({
@@ -367,7 +392,9 @@ const createContent = async () => {
     }
 };
 
-// استخدام دالة لإنشاء المحتوى والتحديث
+// Note: This function is kept for reference but not currently used
+// It can be used to update the content without recreating the entire widget
+/*
 const updateContent = async (contentBox) => {
     try {
         const content = await createContent();
@@ -378,6 +405,7 @@ const updateContent = async (contentBox) => {
         console.error('Error updating content:', error);
     }
 };
+*/
 
 export default () =>
     Box({
@@ -426,7 +454,7 @@ export default () =>
                             console.error('Error in contentUpdateCallback:', error);
                         }
                     };
-                    
+
                     self.hook(App, async (_, name, visible) => {
                         if (name === "wallselect" && visible) {
                             // إعادة تعيين الصفحة الحالية في كل مرة يتم فيها فتح النافذة
