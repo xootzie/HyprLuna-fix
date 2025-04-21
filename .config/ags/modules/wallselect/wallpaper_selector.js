@@ -93,8 +93,6 @@ const getWallpaperPaths = async () => {
             return [];
         }
 
-        console.log(`البحث عن الصور في: ${WALLPAPER_DIR}`);
-
         try {
             // استخدام Gio لقراءة محتويات المجلد مباشرة بدلاً من الاعتماد على أمر find
             const wallpaperFiles = [];
@@ -236,79 +234,110 @@ const createPlaceholder = () =>
         ],
     });
 
-// إنشاء مكون أزرار التنقل بين الصفحات
+// Create pagination controls following Material You design
 const createPaginationControls = (totalPages) => {
-    const updatePageDisplay = (label) => {
-        label.label = `${currentPage + 1} / ${totalPages}`;
-    };
-
+    // Create a label for page counter
     const pageInfoLabel = Label({
-        className: 'txt-small txt',
+        className: 'wallpaper-pagination-counter',
+        xalign: 0.5, // Center align text
+        label: `${currentPage + 1}/${totalPages}`,
+        css: 'font-size: 1rem;', // Set font size directly
     });
 
+    // Update the page display
+    const updatePageDisplay = () => {
+        pageInfoLabel.label = `${currentPage + 1}/${totalPages}`;
+    };
+
     return Box({
-        className: 'wallpaper-pagination material-pagination-container',
+        className: 'material-pagination-container',
         hpack: 'center',
-        spacing: 10,
+        spacing: 4,
         children: [
+            // First page button
             Button({
                 className: 'wallpaper-pagination-btn',
                 child: MaterialIcon('first_page', 'norm'),
+                setup: (self) => {
+                    if (self.child) {
+                        self.child.css = 'font-size: 18px;';
+                    }
+                },
                 tooltipText: 'First page',
                 onClicked: () => {
                     if (currentPage !== 0) {
                         currentPage = 0;
+                        updatePageDisplay();
                         if (contentUpdateCallback) contentUpdateCallback();
                     }
                 },
             }),
+            // Previous page button
             Button({
                 className: 'wallpaper-pagination-btn',
                 child: MaterialIcon('navigate_before', 'norm'),
+                setup: (self) => {
+                    if (self.child) {
+                        self.child.css = 'font-size: 18px;';
+                    }
+                },
                 tooltipText: 'Previous page',
                 onClicked: () => {
                     if (currentPage > 0) {
                         currentPage--;
+                        updatePageDisplay();
                         if (contentUpdateCallback) contentUpdateCallback();
                     }
                 },
             }),
+            // Page counter
             pageInfoLabel,
+            // Next page button
             Button({
                 className: 'wallpaper-pagination-btn',
                 child: MaterialIcon('navigate_next', 'norm'),
+                setup: (self) => {
+                    if (self.child) {
+                        self.child.css = 'font-size: 18px;';
+                    }
+                },
                 tooltipText: 'Next page',
                 onClicked: () => {
                     if (currentPage < totalPages - 1) {
                         currentPage++;
+                        updatePageDisplay();
                         if (contentUpdateCallback) contentUpdateCallback();
                     }
                 },
             }),
+            // Last page button
             Button({
                 className: 'wallpaper-pagination-btn',
                 child: MaterialIcon('last_page', 'norm'),
+                setup: (self) => {
+                    if (self.child) {
+                        self.child.css = 'font-size: 18px;';
+                    }
+                },
                 tooltipText: 'Last page',
                 onClicked: () => {
                     if (currentPage !== totalPages - 1) {
                         currentPage = totalPages - 1;
+                        updatePageDisplay();
                         if (contentUpdateCallback) contentUpdateCallback();
                     }
                 },
             }),
         ],
-        setup: (self) => {
-            updatePageDisplay(pageInfoLabel);
-        },
     });
 };
 
 const createContent = async () => {
     try {
-        console.log("Loading wallpapers from:", WALLPAPER_DIR);
+        // console.log("Loading wallpapers from:", WALLPAPER_DIR);
         const wallpaperPaths = await getWallpaperPaths();
 
-        console.log(`Found ${wallpaperPaths.length} wallpapers.`);
+        // console.log(`Found ${wallpaperPaths.length} wallpapers.`);
 
         if (!wallpaperPaths.length) {
             console.log("No wallpapers found.");
@@ -331,7 +360,7 @@ const createContent = async () => {
         const endIndex = Math.min(startIndex + IMAGES_PER_PAGE, wallpaperPaths.length);
         const currentPageWallpapers = wallpaperPaths.slice(startIndex, endIndex);
 
-        console.log(`Displaying page ${currentPage + 1}/${totalPages} (images ${startIndex + 1}-${endIndex} of ${wallpaperPaths.length})`);
+        // console.log(`Displaying page ${currentPage + 1}/${totalPages} (images ${startIndex + 1}-${endIndex} of ${wallpaperPaths.length})`);
 
         const contentBox = Box({
             vertical: true,
@@ -411,31 +440,7 @@ export default () =>
     Box({
         vertical: true,
         className: `wallselect-bg ${elevate}`,
-        css: `
-            .material-pagination-container {
-                margin: 10px 0;
-                padding: 8px 12px;
-                border-radius: 16px;
-                background-color: $surfaceContainerLow;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            }
-            .wallpaper-pagination-btn {
-                padding: 6px 10px;
-                border-radius: 50%;
-                background-color: $surfaceContainerLowest;
-                color: $onSurface;
-                margin: 0 4px;
-                min-width: 36px;
-                min-height: 36px;
-            }
-            .wallpaper-pagination-btn:hover {
-                background-color: $surfaceContainerHigh;
-            }
-            .wallpaper-pagination-btn:active {
-                background-color: $primaryContainer;
-                color: $onPrimaryContainer;
-            }
-        `,
+
         children: [
             Box({
                 className: "wallselect-header",
