@@ -12,8 +12,8 @@ import { substitute } from '../.miscutils/icons.js';
 import { getValidIcon } from '../.miscutils/icon_handling.js';
 
 const icon_files = userOptions.asyncGet().icons.searchPaths.map(e => getAllFiles(e)).flat(1)
-let dockSize = userOptions.asyncGet().dock.dockSize 
-let elevate = userOptions.asyncGet().etc.widgetCorners ? "dock-bg dock-round " : "elevation dock-bg" 
+let dockSize = userOptions.asyncGet().dock.dockSize
+let elevate = userOptions.asyncGet().etc.widgetCorners ? "dock-bg dock-round " : "elevation dock-bg"
 let appSpacing = dockSize / 15
 let isPinned = false
 let cachePath = new Map()
@@ -153,11 +153,32 @@ const Taskbar = (monitor) => Widget.Box({
             if (!removedButton) return;
             removedButton.revealChild = false;
 
-            Utils.timeout(userOptions.asyncGet().animations.durationLarge, () => {
-                removedButton.destroy();
-                box.attribute.map.delete(address);
-                box.children = Array.from(box.attribute.map.values());
+            // Store the timeout ID so we can clean it up if needed
+            const timeoutId = Utils.timeout(userOptions.asyncGet().animations.durationLarge, () => {
+                // Check if the widget still exists before trying to destroy it
+                if (removedButton && !removedButton.is_destroyed) {
+                    try {
+                        removedButton.destroy();
+                    } catch (error) {
+                        console.log(`Error destroying button: ${error.message}`);
+                    }
+                }
+
+                // Update the map and children only if the box still exists
+                if (box && !box.is_destroyed) {
+                    box.attribute.map.delete(address);
+                    try {
+                        box.children = Array.from(box.attribute.map.values());
+                    } catch (error) {
+                        console.log(`Error updating box children: ${error.message}`);
+                    }
+                }
             })
+
+            // Register the timeout for cleanup
+            if (globalThis.cleanupRegistry) {
+                globalThis.cleanupRegistry.registerTimeout(timeoutId);
+            }
         },
     },
     setup: (self) => {
@@ -177,7 +198,7 @@ const PinnedApps = () => Widget.Box({
             const icon = userOptions.asyncGet().dock.searchPinnedAppIcons
                 ? getIconPath(app.name, false)  // Don't use cache for pinned apps
                 : app.icon_name || getIconPath(app.name, false);
-                
+
             const newButton = AppButton({
                 icon: icon,
                 onClicked: () => {
