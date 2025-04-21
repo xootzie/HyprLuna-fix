@@ -13,7 +13,6 @@ $secondaryContainer: transparentize(mix(mix($background, $color2, 50%), $color6,
 
 .osd-music {
     @include menu_decel;
-    @include shadows1;
     background-color: $background;
     border: 0.2px solid $outliner;
     border-radius: 0 0 0 0;
@@ -25,7 +24,7 @@ $secondaryContainer: transparentize(mix(mix($background, $color2, 50%), $color6,
     background-color: $layer0; // coherent theme
 }
 .amberoled {
-    background: 
+    background:
 // Central glow effect
     // Solid base layer
     linear-gradient($background, $background);
@@ -40,13 +39,10 @@ $secondaryContainer: transparentize(mix(mix($background, $color2, 50%), $color6,
     margin: 0.8rem;
     min-width: 150px;
     min-height: 150px;
-    
+
     .osd-music-cover-art {
         border-radius: 16px;
         margin: 0.4rem;
-        box-shadow: 
-            0 4px 16px rgba(0, 0, 0, 0.1),
-            0 2px 4px rgba(0, 0, 0, 0.2);
     }
 }
 .elevate-music{
@@ -85,27 +81,61 @@ $secondaryContainer: transparentize(mix(mix($background, $color2, 50%), $color6,
     @include full-rounding;
     @include titlefont;
     min-width: 2.833rem;
-    padding: 0.205rem;
+    padding: 0.3rem;
     background-color: $secondaryContainer;
     color: $onSecondaryContainer;
-    border: 0.6px solid $outliner;
+    border: 1px solid transparentize($outliner, 0.5);
 }
 
 .osd-music-controlbtn {
     @include menu_decel;
-    min-width: 2.1rem;
-    min-height: 2.1rem;
-    border-radius: 0.8rem;
+    min-width: 2.3rem;
+    min-height: 2.3rem;
+    border-radius: 1rem;
+    margin: 0 0.1rem;
+    transition: all 200ms cubic-bezier(0.05, 0.7, 0.1, 1);
+    background-color: transparentize($secondaryContainer, 0.7);
 }
 
 .osd-music-controlbtn:hover,
 .osd-music-controlbtn:focus {
-    background-color: mix($secondaryContainer, $onSecondaryContainer, 90%);
-    border: 0.1px solid $outliner;
+    background-color: mix($secondaryContainer, $primary, 85%);
+    margin-top: -1px;
+    margin-bottom: 1px;
 }
 
 .osd-music-controlbtn:active {
-    background-color: mix($secondaryContainer, $onSecondaryContainer, 85%);
+    background-color: mix($secondaryContainer, $primary, 75%);
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.osd-music-controlbtn.active {
+    background-color: mix($secondaryContainer, $primary, 70%);
+    color: $onPrimary;
+}
+
+.osd-music-player-btn {
+    min-width: 6rem;
+    padding: 0 0.2rem;
+    margin: 0 0.3rem;
+    border-radius: 1rem;
+    background-color: mix($secondaryContainer, $onSecondaryContainer, 95%);
+    border: 1px solid transparentize($outliner, 0.7);
+}
+
+.osd-music-player-btn:hover {
+    background-color: mix($secondaryContainer, $primary, 90%);
+}
+
+.osd-music-player-indicator {
+    transition: opacity 200ms cubic-bezier(0.05, 0.7, 0.1, 1);
+}
+
+.osd-music-player-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $onSecondaryContainer;
 }
 
 .osd-music-controlbtn-txt {
@@ -153,15 +183,15 @@ $secondaryContainer: transparentize(mix(mix($background, $color2, 50%), $color6,
             background-color: mix($secondary, $background, 70%);
             border-radius: 4px;
             transition: all 80ms cubic-bezier(0.4, 0, 0.2, 1);
-            
+
             &.cava-bar-low {
                 background-color: mix($secondary, $background, 70%);
             }
-            
+
             &.cava-bar-med {
                 background-color: mix($primary, $background, 80%);
             }
-            
+
             &.cava-bar-high {
                 background-color: mix($primary, $background, 95%);
             }
@@ -191,11 +221,11 @@ $secondaryContainer: transparentize(mix(mix($background, $color2, 50%), $color6,
     min-height: 1.6rem;
     background-color: $secondaryContainer;
     color: $onSecondaryContainer;
-    
+
     &:hover {
         background-color: mix($secondaryContainer, $onSecondaryContainer, 90%);
     }
-    
+
     &:active {
         background-color: mix($secondaryContainer, $onSecondaryContainer, 85%);
     }
@@ -215,15 +245,15 @@ $secondaryContainer: transparentize(mix(mix($background, $color2, 50%), $color6,
     padding: 0.6rem 0.8rem;
     margin: 0.2rem 0;
     background-color: $secondaryContainer;
-    
+
     &:hover {
         background-color: mix($secondaryContainer, $onSecondaryContainer, 90%);
     }
-    
+
     &:active {
         background-color: mix($secondaryContainer, $onSecondaryContainer, 85%);
     }
-    
+
     &.mpris-player-button-active {
         background-color: mix($primary, $secondaryContainer, 30%);
         border-left: 3px solid $primary;
@@ -244,19 +274,19 @@ $secondaryContainer: transparentize(mix(mix($background, $color2, 50%), $color6,
 
 .empty-music-message {
     padding: 2rem;
-    
+
     .empty-music-icon {
         color: mix($onSecondaryContainer, $secondaryContainer, 60%);
         margin-bottom: 1rem;
     }
-    
+
     .empty-music-title {
         @include titlefont;
         color: $onSecondaryContainer;
         font-size: 1.4rem;
         margin-bottom: 0.5rem;
     }
-    
+
     .empty-music-subtitle {
         @include mainfont;
         color: mix($onSecondaryContainer, $secondaryContainer, 80%);
@@ -272,18 +302,18 @@ $secondaryContainer: transparentize(mix(mix($background, $color2, 50%), $color6,
 
 .osd-music-volume-slider {
     margin: 0 5px;
-    
+
     trough {
         background-color: mix($secondaryContainer, $onSecondaryContainer, 85%);
         border-radius: 100px;
         min-height: 6px;
     }
-    
+
     highlight {
         background-color: $primary;
         border-radius: 100px;
     }
-    
+
     slider {
         background-color: $primary;
         border-radius: 50%;
@@ -298,11 +328,11 @@ $secondaryContainer: transparentize(mix(mix($background, $color2, 50%), $color6,
     border: 1px solid $outliner;
     border-radius: $rounding_medium;
     padding: 4px;
-    
+
     menuitem {
         padding: 6px 8px;
         border-radius: $rounding_small;
-        
+
         &:hover {
             background-color: $secondaryContainer;
         }
