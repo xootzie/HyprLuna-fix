@@ -43,19 +43,44 @@ function lengthStr(length) {
 }
 
 function detectMediaSource(link) {
-  if (!link) return "Unknown";
-
-  try {
-    // Check player name first (for zen-browser)
+  if (!link) {
+    // If no link is provided, try to identify by player name
     const player = getPlayer();
     if (player) {
-      const name = player.name?.toLowerCase();
-      if (name?.includes('zen')) return "󰖟  Zen Browser";
+      const name = player.name?.toLowerCase() || '';
+      if (name.includes('brave')) return "󰖟  Brave";
+      if (name.includes('zen')) return "󰖟  Zen Browser";
+      if (name.includes('chromium')) return "󰊯  Chromium";
+      if (name.includes('chrome')) return "󰊭  Chrome";
+      if (name.includes('firefox')) return "󰈹  Firefox";
+      if (name.includes('spotify')) return "   Spotify";
+      if (name.includes('mpv')) return "󰎁  MPV";
+      if (name.includes('vlc')) return "󰕼  VLC";
+      return name; // Return the player name if we can't identify it specifically
+    }
+    return "Unknown";
+  }
+
+  try {
+    // Check player name first for browser identification
+    const player = getPlayer();
+    if (player) {
+      const name = player.name?.toLowerCase() || '';
+
+      // Browser-specific checks
+      if (name.includes('brave')) return "󰖟  Brave";
+      if (name.includes('zen')) return "󰖟  Zen Browser";
+      if (name.includes('chromium')) return "󰊯  Chromium";
+      if (name.includes('chrome')) return "󰊭  Chrome";
+      if (name.includes('firefox')) return "󰈹  Firefox";
     }
 
     if (link.startsWith("file://")) {
       if (link.includes("firefox-mpris")) return "󰈹  Firefox";
+      if (link.includes("brave")) return "󰖟  Brave";
       if (link.includes("zen-browser")) return "󰖟  Zen Browser";
+      if (link.includes("chromium")) return "󰊯  Chromium";
+      if (link.includes("chrome")) return "󰊭  Chrome";
       return "󰎆   Lofi";
     }
 
@@ -65,10 +90,10 @@ function detectMediaSource(link) {
     }
 
     let domain = url.match(/(?:[a-z]+\.)?([a-z]+\.[a-z]+)/i)[1];
-    if (domain == "ytimg.com") return "󰗃   Youtube";
-    if (domain == "discordapp.net") return "󰙯   Discord";
-    if (domain == "scdn.co") return "   Spotify";
-    if (domain == "sndcdn.com") return "󰓀   SoundCloud";
+    if (domain == "ytimg.com" || domain == "youtube.com" || domain == "youtu.be") return "󰗃   Youtube";
+    if (domain == "discordapp.net" || domain == "discord.com") return "󰙯   Discord";
+    if (domain == "scdn.co" || domain == "spotify.com") return "   Spotify";
+    if (domain == "sndcdn.com" || domain == "soundcloud.com") return "󰓀   SoundCloud";
     return domain;
   } catch (e) {
     return "Unknown";
@@ -337,26 +362,183 @@ const CoverArt = ({ player, ...rest }) => {
 };
 
 const TrackControls = ({ player, ...rest }) => {
+  // Track the current player index
+  let currentPlayerIndex = 0;
   let menu = null;
   let signalIds = [];
 
+
+
+  // Function to clean up menu
   const cleanupMenu = () => {
     if (menu) {
       signalIds.forEach(id => {
         try {
           if (menu && id > 0) menu.disconnect(id);
-        } catch (e) {
-        }
+        } catch (e) {}
       });
       signalIds = [];
 
       try {
         menu.destroy();
-      } catch (e) {
-      }
+      } catch (e) {}
       menu = null;
     }
   };
+
+  // Function to switch to the next player with animation
+  const switchToNextPlayer = () => {
+    const players = Mpris.players.filter(p => p.busName !== "playerctld");
+    if (players.length <= 1) return;
+
+    // Update player index
+    currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+    lastSelectedPlayer = players[currentPlayerIndex];
+
+    // Create a simple animation using opacity
+    if (playerIndicator && playerLabel && playerIcon) {
+      // Fade out
+      const duration = userOptions.asyncGet().animations.durationSmall;
+      playerIndicator.css = `transition: opacity ${duration}ms ease; opacity: 0;`;
+
+      // After fade out, update content and fade back in
+      Utils.timeout(duration, () => {
+        // Update content
+        playerLabel.label = lastSelectedPlayer.name;
+        playerIcon.label = getPlayerIcon(lastSelectedPlayer.name);
+
+        // Fade back in
+        playerIndicator.css = `transition: opacity ${duration}ms ease; opacity: 1;`;
+      });
+    } else {
+      // Fallback if animation not possible
+      if (playerLabel && playerIcon) {
+        playerLabel.label = lastSelectedPlayer.name;
+        playerIcon.label = getPlayerIcon(lastSelectedPlayer.name);
+      }
+    }
+
+    // Notify the system about the player change
+    Utils.timeout(10, () => {
+      Mpris.emit('changed');
+    });
+  };
+
+  // Function to switch to the previous player with animation
+  const switchToPrevPlayer = () => {
+    const players = Mpris.players.filter(p => p.busName !== "playerctld");
+    if (players.length <= 1) return;
+
+    // Update player index
+    currentPlayerIndex = (currentPlayerIndex - 1 + players.length) % players.length;
+    lastSelectedPlayer = players[currentPlayerIndex];
+
+    // Create a simple animation using opacity
+    if (playerIndicator && playerLabel && playerIcon) {
+      // Fade out
+      const duration = userOptions.asyncGet().animations.durationSmall;
+      playerIndicator.css = `transition: opacity ${duration}ms ease; opacity: 0;`;
+
+      // After fade out, update content and fade back in
+      Utils.timeout(duration, () => {
+        // Update content
+        playerLabel.label = lastSelectedPlayer.name;
+        playerIcon.label = getPlayerIcon(lastSelectedPlayer.name);
+
+        // Fade back in
+        playerIndicator.css = `transition: opacity ${duration}ms ease; opacity: 1;`;
+      });
+    } else {
+      // Fallback if animation not possible
+      if (playerLabel && playerIcon) {
+        playerLabel.label = lastSelectedPlayer.name;
+        playerIcon.label = getPlayerIcon(lastSelectedPlayer.name);
+      }
+    }
+
+    // Notify the system about the player change
+    Utils.timeout(10, () => {
+      Mpris.emit('changed');
+    });
+  };
+
+  // Function to show player selection menu
+  const showPlayerMenu = (button) => {
+    const players = Mpris.players.filter(p => p.busName !== "playerctld");
+    if (players.length <= 1) return;
+
+    cleanupMenu();
+
+    menu = Widget.Menu({
+      className: "osd-music-player-menu",
+      children: players.map(p => Widget.MenuItem({
+        child: Widget.Box({
+          spacing: 8,
+          children: [
+            Widget.Label({
+              className: "icon-material",
+              label: getPlayerIcon(p.name),
+              css: "min-width: 24px; margin-right: 4px;"
+            }),
+            Widget.Label({
+              label: p.name,
+              xalign: 0,
+              hexpand: true,
+            }),
+            p.playBackStatus === "Playing" ?
+              Widget.Label({
+                className: "icon-material",
+                label: "play_arrow",
+              }) : null,
+          ],
+        }),
+        onActivate: () => {
+          lastSelectedPlayer = p;
+          Utils.timeout(10, () => {
+            Mpris.emit('changed');
+            return false;
+          });
+        },
+      })),
+    });
+
+    signalIds.push(
+      menu.connect('destroy', () => {
+        menu = null;
+        signalIds = [];
+      })
+    );
+
+    menu.popup_at_widget(button, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null);
+  };
+
+  // Function to get the appropriate icon for a player
+  const getPlayerIcon = (name) => {
+    const lowerName = name?.toLowerCase() || '';
+    if (lowerName.includes('brave')) return "󰖟";
+    if (lowerName.includes('zen')) return "󰖟";
+    if (lowerName.includes('chromium')) return "󰊯";
+    if (lowerName.includes('chrome')) return "󰊭";
+    if (lowerName.includes('firefox')) return "󰈹";
+    if (lowerName.includes('spotify')) return "";
+    if (lowerName.includes('mpv')) return "󰎁";
+    if (lowerName.includes('vlc')) return "󰕼";
+    return "music_note"; // Default icon
+  };
+
+  // Initialize player label and icon references
+  let playerLabel = null;
+  let playerIcon = null;
+  let playerIndicator = null;
+
+
+
+  // Set the current player index
+  if (player) {
+    const players = Mpris.players.filter(p => p.busName !== "playerctld");
+    currentPlayerIndex = players.findIndex(p => p.busName === player.busName);
+    if (currentPlayerIndex === -1) currentPlayerIndex = 0;
+  }
 
   return Widget.Revealer({
     revealChild: true,
@@ -372,8 +554,10 @@ const TrackControls = ({ player, ...rest }) => {
         });
       },
       children: [
+        // Previous track button
         Button({
           className: "osd-music-controlbtn",
+          tooltipText: "Previous Track",
           onClicked: () => {
             if (!player || !player.previous) return;
             player.previous();
@@ -383,58 +567,99 @@ const TrackControls = ({ player, ...rest }) => {
             label: "skip_previous",
           }),
         }),
+
+        // Previous player button
         Button({
           className: "osd-music-controlbtn",
-          child: Widget.Label({
+          onClicked: switchToPrevPlayer,
+          child: Label({
             className: "icon-material osd-music-controlbtn-txt",
-            label: "queue_music",
+            label: "navigate_before",
           }),
-          onClicked: (button) => {
-            const players = Mpris.players.filter(p => p.busName !== "playerctld");
-            if (players.length <= 1) return;
+          tooltipText: "Previous Player",
+        }),
 
-            cleanupMenu();
-
-            menu = Widget.Menu({
-              className: "osd-music-player-menu",
-              children: players.map(p => Widget.MenuItem({
-                child: Widget.Box({
-                  spacing: 8,
-                  children: [
-                    Widget.Label({
-                      label: p.name,
-                      xalign: 0,
-                      hexpand: true,
-                    }),
-                    p.playBackStatus === "Playing" ?
-                      Widget.Label({
-                        className: "icon-material",
-                        label: "play_arrow",
-                      }) : null,
-                  ],
-                }),
-                onActivate: () => {
-                  lastSelectedPlayer = p;
-                  Utils.timeout(10, () => {
-                    Mpris.emit('changed');
-                    return false;
+        // Current player indicator (clickable to show menu)
+        Button({
+          className: "osd-music-controlbtn osd-music-player-btn",
+          hexpand: false,
+          onClicked: (button) => showPlayerMenu(button),
+          tooltipText: "Select Player",
+          child: Widget.Box({
+            className: "osd-music-player-indicator",
+            homogeneous: false,
+            spacing: 4,
+            css: "padding: 0 4px;",
+            setup: (self) => {
+              playerIndicator = self;
+            },
+            children: [
+              Label({
+                className: "icon-material",
+                css: "margin-right: 4px;",
+                label: getPlayerIcon(player?.name || ""),
+                setup: (self) => {
+                  playerIcon = self;
+                  self.hook(Mpris, () => {
+                    if (!player) return;
+                    self.label = getPlayerIcon(player.name);
                   });
                 },
-              })),
-            });
-
-            signalIds.push(
-              menu.connect('destroy', () => {
-                menu = null;
-                signalIds = [];
-              })
-            );
-
-            menu.popup_at_widget(button, Gdk.Gravity.SOUTH, Gdk.Gravity.NORTH, null);
-          },
+              }),
+              Label({
+                className: "txt osd-music-player-name",
+                css: "font-weight: bold;",
+                label: player?.name || "No Player",
+                truncate: "end",
+                maxWidthChars: 8,
+                setup: (self) => {
+                  playerLabel = self;
+                  self.hook(Mpris, () => {
+                    if (!player) return;
+                    self.label = player.name;
+                  });
+                },
+              }),
+            ],
+          }),
         }),
+
+        // Next player button
         Button({
           className: "osd-music-controlbtn",
+          onClicked: switchToNextPlayer,
+          child: Label({
+            className: "icon-material osd-music-controlbtn-txt",
+            label: "navigate_next",
+          }),
+          tooltipText: "Next Player",
+        }),
+
+        // Play/Pause button
+        Button({
+          className: "osd-music-controlbtn",
+          tooltipText: "Play/Pause",
+          onClicked: () => {
+            if (!player || !player.playPause) return;
+            player.playPause();
+          },
+          child: Label({
+            className: "icon-material osd-music-controlbtn-txt",
+            css: "font-size: 1.6rem;", // Slightly larger icon for play/pause
+            label: player?.playBackStatus === "Playing" ? "pause" : "play_arrow",
+            setup: (self) => {
+              self.hook(Mpris, () => {
+                if (!player) return;
+                self.label = player.playBackStatus === "Playing" ? "pause" : "play_arrow";
+              });
+            },
+          }),
+        }),
+
+        // Shuffle button
+        Button({
+          className: "osd-music-controlbtn",
+          tooltipText: "Shuffle",
           child: Widget.Label({
             className: "icon-material osd-music-controlbtn-txt",
             label: "shuffle",
@@ -443,6 +668,12 @@ const TrackControls = ({ player, ...rest }) => {
             self.hook(Mpris, () => {
               if (!player) return;
               self.toggleClassName("active", player.shuffleStatus);
+              // Update icon color based on state
+              if (player.shuffleStatus) {
+                self.child.css = "color: $onPrimary;";
+              } else {
+                self.child.css = "";
+              }
             });
           },
           onClicked: function () {
@@ -455,10 +686,19 @@ const TrackControls = ({ player, ...rest }) => {
               newState ? "On" : "Off",
             ]).catch((err) => console.error("Failed to set shuffle:", err));
             this.toggleClassName("active", newState);
+            // Update icon color based on new state
+            if (newState) {
+              this.child.css = "color: $onPrimary;";
+            } else {
+              this.child.css = "";
+            }
           },
         }),
+
+        // Repeat button
         Button({
           className: "osd-music-controlbtn",
+          tooltipText: "Repeat Mode",
           child: Widget.Label({
             className: "icon-material osd-music-controlbtn-txt",
             label: "repeat",
@@ -474,6 +714,12 @@ const TrackControls = ({ player, ...rest }) => {
                   ? "repeat_one"
                   : "repeat";
               self.toggleClassName("active", status !== "None");
+              // Update icon color based on state
+              if (status !== "None") {
+                self.child.css = "color: $onPrimary;";
+              } else {
+                self.child.css = "";
+              }
             });
           },
           onClicked: function () {
@@ -507,10 +753,19 @@ const TrackControls = ({ player, ...rest }) => {
                 ? "repeat_one"
                 : "repeat";
             this.toggleClassName("active", newStatus !== "None");
+            // Update icon color based on new state
+            if (newStatus !== "None") {
+              this.child.css = "color: $onPrimary;";
+            } else {
+              this.child.css = "";
+            }
           },
         }),
+
+        // Next track button
         Button({
           className: "osd-music-controlbtn",
+          tooltipText: "Next Track",
           onClicked: () => (player && player.next ? player.next() : null),
           child: Label({
             className: "icon-material osd-music-controlbtn-txt",
@@ -537,7 +792,6 @@ const TrackSource = ({ player, ...rest }) =>
           css: `margin-top:0.75rem`,
           className: "txt-large onSurfaceVariant",
           setup: (self) => {
-            let signalId = null;
             let isDestroyed = false;
 
             const updateLabel = () => {
