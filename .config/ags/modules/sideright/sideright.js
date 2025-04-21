@@ -202,7 +202,7 @@ const getRandomImage = () => {
   try {
       const animeDir = `${GLib.get_home_dir()}/.config/ags/assets/anime`;
       const dir = Gio.File.new_for_path(animeDir);
-      
+
       // Check if directory exists
       if (!dir.query_exists(null)) {
           console.error(`Directory does not exist: ${animeDir}`);
@@ -214,7 +214,7 @@ const getRandomImage = () => {
           Gio.FileQueryInfoFlags.NONE,
           null
       );
-      
+
       const imageFiles = [];
       let fileInfo;
 
@@ -222,10 +222,13 @@ const getRandomImage = () => {
           const name = fileInfo.get_name();
           // More comprehensive image extension check
           if (name.match(/\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i)) {
-              // Keep the extension if needed (some systems might need it)
-              imageFiles.push(name); 
-              // Alternatively, if you really want to remove extension:
-              imageFiles.push(name.replace(/\.[^/.]+$/, ""));
+              // Create full path to the image file
+              const fullPath = `${animeDir}/${name}`;
+              // Check if the file exists and is readable
+              const file = Gio.File.new_for_path(fullPath);
+              if (file.query_exists(null)) {
+                  imageFiles.push(fullPath);
+              }
           }
       }
 
