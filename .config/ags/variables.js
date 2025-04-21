@@ -100,13 +100,23 @@ globalThis["openWindowOnAllMonitors"] = (name) => {
   });
 };
 
-globalThis["closeEverything"] = () => {
+globalThis["closeEverything"] = async () => {
   const numMonitors = Gdk.Display.get_default()?.get_n_monitors() || 1;
   for (let i = 0; i < numMonitors; i++) {
     App.closeWindow(`cheatsheet${i}`);
     App.closeWindow(`session${i}`);
   }
-  Utils.execAsync(`pkill rofi`);
+
+  try {
+    // Use await to properly handle the promise
+    await Utils.execAsync(`pkill rofi`).catch(() => {
+      // Ignore errors if rofi is not running
+      console.log("No rofi process to kill");
+    });
+  } catch (error) {
+    console.log("Error killing rofi: " + error.message);
+  }
+
   App.closeWindow("sideleft");
   App.closeWindow("sideright");
   App.closeWindow("overview");
@@ -147,7 +157,7 @@ Utils.timeout(0, () => {
 globalThis.cleanupRegistry = {
   timeouts: new Set(),
   intervals: new Set(),
-  
+
   // Register a timeout to be cleaned up on app exit
   registerTimeout: (id) => {
     if (id) {
@@ -156,7 +166,7 @@ globalThis.cleanupRegistry = {
     }
     return 0;
   },
-  
+
   // Register an interval to be cleaned up on app exit
   registerInterval: (id) => {
     if (id) {
@@ -165,7 +175,7 @@ globalThis.cleanupRegistry = {
     }
     return 0;
   },
-  
+
   // Cleanup a specific timeout
   clearTimeout: (id) => {
     if (id && globalThis.cleanupRegistry.timeouts.has(id)) {
@@ -173,7 +183,7 @@ globalThis.cleanupRegistry = {
       globalThis.cleanupRegistry.timeouts.delete(id);
     }
   },
-  
+
   // Cleanup a specific interval
   clearInterval: (id) => {
     if (id && globalThis.cleanupRegistry.intervals.has(id)) {
@@ -181,7 +191,7 @@ globalThis.cleanupRegistry = {
       globalThis.cleanupRegistry.intervals.delete(id);
     }
   },
-  
+
   // Cleanup all registered timeouts and intervals
   cleanupAll: () => {
     for (const id of globalThis.cleanupRegistry.timeouts) {
@@ -235,34 +245,34 @@ Utils.timeout(1000, () => {
 // Create a memory-efficient LRU cache
 globalThis.createLRUCache = (maxSize = 50) => {
   const cache = new Map();
-  
+
   return {
     get: (key) => {
       if (!cache.has(key)) return undefined;
-      
+
       // Access refreshes position in LRU
       const value = cache.get(key);
       cache.delete(key);
       cache.set(key, value);
       return value;
     },
-    
+
     set: (key, value) => {
       // Remove oldest entry if cache is full
       if (cache.size >= maxSize) {
         const firstKey = cache.keys().next().value;
         cache.delete(firstKey);
       }
-      
+
       cache.set(key, value);
     },
-    
+
     has: (key) => cache.has(key),
-    
+
     delete: (key) => cache.delete(key),
-    
+
     clear: () => cache.clear(),
-    
+
     get size() {
       return cache.size;
     }
@@ -272,9 +282,9 @@ globalThis.createLRUCache = (maxSize = 50) => {
 // Add a safe signal disconnection utility
 globalThis.safeDisconnect = (object, handlerId) => {
   if (!object || !handlerId || handlerId <= 0) return false;
-  
+
   try {
-    if (typeof object.handlerIsConnected === 'function' && 
+    if (typeof object.handlerIsConnected === 'function' &&
         !object.handlerIsConnected(handlerId)) {
       console.log(`Signal ${handlerId} not connected to object ${object}`);
       return false;
