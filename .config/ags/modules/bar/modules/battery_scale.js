@@ -132,48 +132,29 @@ const BatteryScale = () => {
     return widget;
 };
 
-const BatteryScaleModule = () => Box({
-    className: "spacing-h-4",
-    children: [
-        Stack({
-            transition: "slide_up_down",
-            transitionDuration: userOptions.asyncGet().animations.durationLarge,
-            children: {
-                laptop: BatteryScale(),
-                hidden: Widget.Box({}),
-            },
-            setup: (stack) => {
-                // Only show battery widget if either we're in dev mode or battery is available
-                const updateVisibility = () => {
-                    if (globalThis.devMode?.value || Battery?.available) {
-                        stack.shown = "laptop";
-                    } else {
-                        stack.shown = "hidden";
-                    }
-                };
-
-                // React to dev mode changes
-                if (globalThis.devMode) {
-                    stack.hook(globalThis.devMode, updateVisibility);
-                }
-
-                // React to battery availability changes
-                stack.hook(Battery, () => {
-                    updateVisibility();
-                });
-
-                // Initial visibility
-                updateVisibility();
-            },
+const BatteryScaleModule = () => {
+    // Create a container that will show/hide based on battery availability
+    const batteryContainer = Widget.Box({
+        visible: Battery?.available || false,
+        setup: (self) => {
+            // Update visibility when battery availability changes
+            self.hook(Battery, () => {
+                self.visible = Battery?.available || false;
+            });
+        },
+        child: Box({
+            className: "spacing-h-4",
+            children: [BatteryScale()],
         }),
-    ],
-});
+    });
 
+    return batteryContainer;
+};
+
+// Export both the function and the module directly
 export default () => {
-    // Don't show battery widget on systems without batteries
-    if (!Battery?.available) {
-        return Widget.Box({});
-    }
-
     return BatteryScaleModule();
 };
+
+// Export the module directly for use in bar modes
+export { BatteryScaleModule };

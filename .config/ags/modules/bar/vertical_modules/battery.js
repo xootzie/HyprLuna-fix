@@ -236,12 +236,16 @@ const BatteryContent = () => {
 };
 
 export default () => {
-    // Don't show battery widget on systems without batteries
-    if (!Battery?.available) {
-        return Widget.Box({});
-    }
-
-    return EventBox({
+    // Create a container that will show/hide based on battery availability
+    const batteryContainer = Widget.Box({
+        visible: Battery?.available || false,
+        setup: (self) => {
+            // Update visibility when battery availability changes
+            self.hook(Battery, () => {
+                self.visible = Battery?.available || false;
+            });
+        },
+        child: EventBox({
         onPrimaryClick: () => {
             App.toggleWindow("sideleft");
         },
@@ -249,5 +253,8 @@ export default () => {
             execAsync(["bash", "-c", userOptions.asyncGet().apps.taskManager]);
         },
         child: BatteryContent(),
+    }),
     });
+
+    return batteryContainer;
 };

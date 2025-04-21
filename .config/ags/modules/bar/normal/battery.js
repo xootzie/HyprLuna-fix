@@ -201,53 +201,26 @@ const BarBattery = () => {
   });
 };
 
-// Only create this module once, not on every render
-const cachedBatteryModule = Box({
-  className: "spacing-h-4",
-  children: [
-    Stack({
-      transition: "slide_up_down",
-      transitionDuration: userOptions.asyncGet().animations.durationLarge,
-      children: {
-        laptop: BarBattery(),
-        hidden: Widget.Box({}),
-      },
-      setup: (stack) => {
-        const updateVisibility = () => {
-          if (globalThis.devMode?.value || Battery?.available) {
-            stack.shown = "laptop";
-          } else {
-            stack.shown = "hidden";
-          }
-        };
-
-        // React to dev mode changes
-        if (globalThis.devMode) {
-          stack.hook(globalThis.devMode, updateVisibility);
-        }
-
-        // React to battery availability changes
-        stack.hook(Battery, updateVisibility);
-
-        // Initial state
-        updateVisibility();
-      },
-    }),
-  ],
-});
-
-// Export a function that returns the cached module to prevent recreation
+// Create a battery module that properly handles battery availability
 export default () => {
-  // Don't show battery widget on systems without batteries
-  if (!Battery?.available) {
-    return Widget.Box({});
-  }
-
-  return EventBox({
+  // Create a container that will show/hide based on battery availability
+  const batteryContainer = Widget.Box({
+    visible: Battery?.available || false,
+    setup: (self) => {
+      // Update visibility when battery availability changes
+      self.hook(Battery, () => {
+        self.visible = Battery?.available || false;
+      });
+    },
+    child: EventBox({
     onScrollUp: () => execAsync(`brightnessctl set 10%+`),
     onScrollDown: () => execAsync(`brightnessctl set 10%-`),
     child: Widget.Box({
-      children: [cachedBatteryModule],
+      className: "spacing-h-4",
+      children: [BarBattery()],
     }),
+  }),
   });
+
+  return batteryContainer;
 };
