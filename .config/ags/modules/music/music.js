@@ -403,12 +403,17 @@ const TrackControls = ({ player, ...rest }) => {
 
       // After fade out, update content and fade back in
       Utils.timeout(duration, () => {
-        // Update content
-        playerLabel.label = lastSelectedPlayer.name;
-        playerIcon.label = getPlayerIcon(lastSelectedPlayer.name);
+        // Check if widgets still exist before updating
+        if (playerLabel && !playerLabel.is_destroyed &&
+            playerIcon && !playerIcon.is_destroyed &&
+            playerIndicator && !playerIndicator.is_destroyed) {
+          // Update content
+          playerLabel.label = lastSelectedPlayer.name;
+          playerIcon.label = getPlayerIcon(lastSelectedPlayer.name);
 
-        // Fade back in
-        playerIndicator.css = `transition: opacity ${duration}ms ease; opacity: 1;`;
+          // Fade back in
+          playerIndicator.css = `transition: opacity ${duration}ms ease; opacity: 1;`;
+        }
       });
     } else {
       // Fallback if animation not possible
@@ -441,12 +446,17 @@ const TrackControls = ({ player, ...rest }) => {
 
       // After fade out, update content and fade back in
       Utils.timeout(duration, () => {
-        // Update content
-        playerLabel.label = lastSelectedPlayer.name;
-        playerIcon.label = getPlayerIcon(lastSelectedPlayer.name);
+        // Check if widgets still exist before updating
+        if (playerLabel && !playerLabel.is_destroyed &&
+            playerIcon && !playerIcon.is_destroyed &&
+            playerIndicator && !playerIndicator.is_destroyed) {
+          // Update content
+          playerLabel.label = lastSelectedPlayer.name;
+          playerIcon.label = getPlayerIcon(lastSelectedPlayer.name);
 
-        // Fade back in
-        playerIndicator.css = `transition: opacity ${duration}ms ease; opacity: 1;`;
+          // Fade back in
+          playerIndicator.css = `transition: opacity ${duration}ms ease; opacity: 1;`;
+        }
       });
     } else {
       // Fallback if animation not possible
