@@ -3,13 +3,13 @@ import WallpaperImage from "./wallpaper.js";
 import SystemWidget from "./onscreenwidgets/system.js";
 import Normal from "./onscreenwidgets/simpleclock.js";
 import Auva from "./onscreenwidgets/auva.js";
-// import { zaWiseCat } from "./onscreenwidgets/zaWizeCat.js";
+import { zaWizeCat } from "./onscreenwidgets/zaWizeCat.js";
 
 export default (monitor) =>
   Widget.Window({
     name: `desktopbackground${monitor}`,
     layer: "background",
-    exclusivity: 'ignore',
+    exclusivity: "ignore",
     visible: userOptions.asyncGet().desktopBackground.visible ? true : false,
     keymode: "on-demand",
     child: Widget.Overlay({
@@ -20,8 +20,15 @@ export default (monitor) =>
             Auva(),
             // Normal(),
             Widget.Box({ hexpand: true }),
-            userOptions.asyncGet().desktopBackground.resources ? SystemWidget() : null,
-            userOptions.asyncGet().desktopBackground.enableWisecat ? Widget.Box({ vertical: true, children: [zaWiseCat, Widget.Box({ vexpand: true })] }) : null
+            userOptions.asyncGet().desktopBackground.resources
+              ? SystemWidget()
+              : null,
+            userOptions.asyncGet().desktopBackground.enableWisecat
+              ? Widget.Box({
+                  vertical: true,
+                  children: [zaWizeCat, Widget.Box({ vexpand: true })],
+                })
+              : null,
           ],
         }),
       ],
