@@ -34,7 +34,7 @@ $bar_ws_width_focus_active: 6.045rem;
     background-color: $layer0;
     min-width: 16.1rem;
     border-radius: 0 0 $rounding_mediumlarge $rounding_mediumlarge;
-    border-bottom: 0.6px solid $outliner
+    /* Removed bottom border */
 }
 
 .bar-resources {
