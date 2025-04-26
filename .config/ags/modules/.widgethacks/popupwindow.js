@@ -25,7 +25,6 @@ export default ({
                             self.toggleClassName(hideClassName, !visible);
                         }
                     });
-
                     if (showClassName !== "" && hideClassName !== "")
                         self.className = `${showClassName} ${hideClassName}`;
                 }
