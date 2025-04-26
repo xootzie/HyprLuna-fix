@@ -17,8 +17,7 @@ export default (monitor) =>
       overlays: [
         Widget.Box({
           children: [
-            Auva(),
-            // Normal(),
+            userOptions.asyncGet().desktopBackground.Auva ? Auva() : Normal(),
             Widget.Box({ hexpand: true }),
             userOptions.asyncGet().desktopBackground.resources
               ? SystemWidget()
