@@ -29,12 +29,13 @@
     "enabled": true
   },
   "desktopBackground": {
-    "CurrentMode": "Normal",
+    "Auva": true,
     "enabled": true,
     "enableWisecat": false,
     "zoomEffect": true,
     "resources": true,
-    "visible": false
+    "visible": true,
+    "quickLaunches": true
   },
   "ai": {
     "defaultGPTProvider": "deepseek-r1",
@@ -136,7 +137,8 @@
     "siderightTheme": "sideright_bottom",
     "ModuleCalendar": {
       "enabled": true,
-      "visible": true
+      "visible": true,
+      "default": "todo"
     },
     "showAnimeCat": true,
     "centerModules": {
