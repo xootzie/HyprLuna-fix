@@ -29,16 +29,18 @@ import VPN from "./centermodules/vpn.js";
 import taskmanager from "./centermodules/taskmanager.js";
 import Gio from "gi://Gio";
 const config = userOptions.asyncGet();
-const elevate = userOptions.asyncGet().etc.widgetCorners
-  ? "sidebar-right"
-  : "sidebar-right shadow-window elevation";
-export const calendarRevealer = Widget.Revealer({
-  revealChild: userOptions.asyncGet().sidebar.ModuleCalendar.visible
-    ? true
-    : false,
-  child: ModuleCalendar(),
-  transition: "slide_up",
-});
+const elevate = userOptions.asyncGet().etc.widgetCorners ? "sidebar-right-bg sidebar-right-rounded"  : "sidebar-right-bg elevation" ;
+
+  export const calendarRevealer = Widget.Revealer({
+    revealChild: userOptions.asyncGet().sidebar.ModuleCalendar.visible
+      ? true
+      : false,
+    child: Widget.Box({
+      vertical: true,
+      children: [Widget.Box({ css: "margin-top: 10px;" }), ModuleCalendar()],
+    }),
+    transition: "slide_up",
+  });
 const modulesList = {
   vpnGate: {
     name: "VPN Gate",
@@ -290,7 +292,7 @@ let content = Box({
       overlays: [topArea],
     }),
     Box({
-      className: "sidebar-group",
+      className: "sidebar-group spacing-v-10",
       vexpand: true,
       children: [sidebarOptionsStack],
     }),

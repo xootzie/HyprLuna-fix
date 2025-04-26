@@ -9,6 +9,8 @@ import { showColorScheme } from '../../variables.js';
 import { MaterialIcon } from '../.commonwidgets/materialicon.js';
 import { darkMode } from '../.miscutils/system.js';
 import { RoundedCorner } from '../.commonwidgets/cairo_roundedcorner.js';
+const elevate = userOptions.asyncGet().etc.widgetCorners ? "osd-round osd-bg osd-colorscheme"  : "osd-bg osd-colorscheme elevation" ;
+
 const ColorBox = ({
     name = 'Color',
     ...rest
@@ -283,17 +285,17 @@ const ColorSchemeSettings = () => Widget.Box({
         })
     ]
 });
-const topLeftCorner = RoundedCorner('topleft', {
+const topLeftCorner = userOptions.asyncGet().etc.widgetCorners ? RoundedCorner('topleft', {
     className: 'corner corner-colorscheme'
-})
-const topRightCorner = RoundedCorner('topright', {
+}) : null
+const topRightCorner = userOptions.asyncGet().etc.widgetCorners ? RoundedCorner('topright', {
     className: 'corner corner-colorscheme'
-})
+}) : null
 const ColorschemeContent = () =>
     Widget.Box({
         children: [
             Widget.Box({
-                className: 'osd-colorscheme osd-round spacing-v-5',
+                className: `${elevate}`,
                 vertical: true,
                 hpack: 'center',
                 children: [

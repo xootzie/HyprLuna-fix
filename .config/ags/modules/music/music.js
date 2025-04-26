@@ -726,7 +726,7 @@ const TrackControls = ({ player, ...rest }) => {
               self.toggleClassName("active", status !== "None");
               // Update icon color based on state
               if (status !== "None") {
-                self.child.css = "color: $onPrimary;";
+                self.child.css = "color: $primary;";
               } else {
                 self.child.css = "";
               }
@@ -1459,7 +1459,6 @@ const musicWidget = () => {
   };
   widget = Box({
     className: `normal-music ${mode} ${elevate}`,
-    css: 'min-height: 180px; margin: 0; border-radius: 12px 12px 0 0;',
     vpack: "end",
     setup: (self) => {
       const setupMprisHooks = () => {

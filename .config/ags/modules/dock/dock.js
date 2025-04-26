@@ -13,7 +13,7 @@ import { getValidIcon } from '../.miscutils/icon_handling.js';
 
 const icon_files = userOptions.asyncGet().icons.searchPaths.map(e => getAllFiles(e)).flat(1)
 let dockSize = userOptions.asyncGet().dock.dockSize
-let elevate = userOptions.asyncGet().etc.widgetCorners ? "dock-bg dock-round " : "elevation dock-bg"
+const elevate = userOptions.asyncGet().etc.widgetCorners ? "dock-bg dock-round " : "elevation dock-bg"
 let appSpacing = dockSize / 15
 let isPinned = false
 let cachePath = new Map()

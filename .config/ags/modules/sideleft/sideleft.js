@@ -13,7 +13,7 @@ import { TabContainer } from '../.commonwidgets/tabcontainer.js';
 import { checkKeybind } from '../.widgetutils/keybind.js';
 import { writable } from '../../modules/.miscutils/store.js';
 import { RoundedCorner } from '../.commonwidgets/cairo_roundedcorner.js';
-const elevate = userOptions.asyncGet().etc.widgetCorners ? "sidebar-left"  : "sidebar-left elevation shadow-window" ;
+const elevate = userOptions.asyncGet().etc.widgetCorners ? "sidebar-left-bg sidebar-left-rounded"  : "sidebar-left-bg elevation" ;
 import githubWidget from './github.js';
 const SIDEBARTABS = {
     'apis': {
@@ -94,9 +94,9 @@ export default () => {
             userOptions.asyncGet().etc.widgetCorners ? Box({
                 vertical:true,
                 children:[
-                    RoundedCorner('topleft', {className: 'corner'}),         
+                    RoundedCorner('topleft', {className: 'corner corner-colorscheme'}),         
                     Box({vexpand:true}),
-                    RoundedCorner('bottomleft', {className: 'corner'}),
+                    RoundedCorner('bottomleft', {className: 'corner corner-colorscheme'}),
                 ]
             }):null
         ],
