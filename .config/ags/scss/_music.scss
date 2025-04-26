@@ -15,10 +15,8 @@ $secondaryContainer: transparentize(mix(mix($background, $color2, 50%), $color6,
     @include menu_decel;
     background-color: $background;
     border: 0.2px solid $outliner;
-    border-radius: 0 0 0 0;
-    padding: 0.46rem 1.423rem;
+    padding: 1.423rem 1.423rem;
     min-width: 600px;
-
 }
 .normal-music {
     background-color: $layer0; // coherent theme
@@ -36,7 +34,8 @@ $secondaryContainer: transparentize(mix(mix($background, $color2, 50%), $color6,
 
 .osd-music-cover {
     @include menu_decel;
-    margin: 0.8rem;
+    margin: 1rem;
+    margin-top: 1rem;
     min-width: 150px;
     min-height: 150px;
 

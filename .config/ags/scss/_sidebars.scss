@@ -4,25 +4,35 @@ $sidebar_chat_textboxareaColor: mix($onSurfaceVariant, $surfaceVariant, 40%);
     padding: 0.341rem;
 }
 
-.sidebar-right {
+.sidebar-right-bg {
     @include menu_decel;
     background-color: $background;
     padding: 1.023rem;
-    border-radius: 0 $rounding_small $rounding_small 0;
+    // border-radius: 0 $rounding_small $rounding_small 0;
 
 }
+.sidebar-right-rounded {
+    border-radius: 0 $rounding_small $rounding_small 0;
+}
 
-.sidebar-left {
+.sidebar-left-bg {
     @include menu_decel;
     background-color: $background;
-    border-radius: $rounding_small 0 0 $rounding_small;
+    // border-radius: $rounding_small 0 0 $rounding_small;
     padding: 1.023rem;
+}
+.sidebar-left-rounded {
+    border-radius: $rounding_small 0 0 $rounding_small;
 }
 
 .sidebar-group {
     @include normal-rounding;
     @include group-padding;
     background-color: $layer1;
+}
+
+.calendarsep {
+    margin: 50px;
 }
 
 .sidebar-group-nopad {
