@@ -2,7 +2,7 @@
 // For illogical-impulse, code blocks are treated separately, in their own GtkSourceView widgets.
 // Partly inherited from https://github.com/ubunatic/md2pango
 
-const monospaceFonts = 'SF Mono, SF Mono Nerd Font, SF Mono Powerline, Monaco, Consolas, monospace';
+const monospaceFonts = 'Cascadia Mono, Cascadia Mono Nerd Font, Cascadia Mono PL, Monaco, Consolas, monospace';
 const replacements = {
     'indents': [
         { name: 'BULLET', re: /^(\s*)([\*\-]\s)(.*)(\s*)$/, sub: ' $1- $3' },
