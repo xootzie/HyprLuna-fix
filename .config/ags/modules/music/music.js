@@ -726,9 +726,9 @@ const TrackControls = ({ player, ...rest }) => {
               self.toggleClassName("active", status !== "None");
               // Update icon color based on state
               if (status !== "None") {
-                self.child.css = "color: $primary;";
+                self.child.className = "icon-material osd-music-controlbtn-txt active";
               } else {
-                self.child.css = "";
+                self.child.className = "icon-material osd-music-controlbtn-txt";
               }
             });
           },
@@ -765,9 +765,9 @@ const TrackControls = ({ player, ...rest }) => {
             this.toggleClassName("active", newStatus !== "None");
             // Update icon color based on new state
             if (newStatus !== "None") {
-              this.child.css = "color: $onPrimary;";
+              this.child.className = "icon-material osd-music-controlbtn-txt active";
             } else {
-              this.child.css = "";
+              this.child.className = "icon-material osd-music-controlbtn-txt";
             }
           },
         }),
