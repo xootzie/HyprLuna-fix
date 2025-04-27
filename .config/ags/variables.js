@@ -31,6 +31,12 @@ export const barPosition = Variable(
   settings.get_string(KEY_BAR_POSITION) || "top",
 );
 
+// Initialize bar monitor mode from user options
+import userOptions from "./modules/.configuration/user_options.js";
+export const barMonitorMode = Variable(
+  userOptions.asyncGet().bar.monitorMode || "primary",
+);
+
 // Mode switching
 export const updateMonitorShellMode = (monitorShellModes, monitor, mode) => {
   const newValue = { ...monitorShellModes.value };
@@ -60,6 +66,12 @@ globalThis["toggleBarPosition"] = () => {
   barPosition.value = newPosition;
 };
 
+// Bar monitor mode toggle - implemented in modules/bar/multimonitor.js
+// This is just a placeholder that will be replaced at runtime
+globalThis["toggleBarMonitorMode"] = () => {
+  console.log("toggleBarMonitorMode placeholder - will be replaced at runtime");
+};
+
 // Global vars for external control (through keybinds)
 export const showColorScheme = Variable(false, {});
 globalThis["openColorScheme"] = showColorScheme;
@@ -69,6 +81,7 @@ globalThis["getString"] = getString;
 globalThis["currentShellMode"] = currentShellMode;
 globalThis["updateMonitorShellMode"] = updateMonitorShellMode;
 globalThis["barPosition"] = barPosition;
+globalThis["barMonitorMode"] = barMonitorMode;
 globalThis.runMatugen = async () => {
   try {
     await Utils.execAsync([

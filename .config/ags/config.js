@@ -66,17 +66,18 @@ startBatteryWarningService().catch(print);
 startAutoDarkModeService().catch(print);
 firstRunWelcome().catch(print);
 
-// Create bars and corners
+// Create bar only for the primary monitor
 const monitors = Gdk.Display.get_default()?.get_n_monitors() || 1;
-for (let i = 0; i < monitors; i++) {
-  Bar(i)
-    .then(([mainBar, leftCorner, rightCorner]) => {
-      App.addWindow(mainBar);
-      App.addWindow(leftCorner);
-      App.addWindow(rightCorner);
-    })
-    .catch();
-}
+const primaryMonitor = Gdk.Display.get_default()?.get_primary_monitor() || 0;
+
+// Only create a bar for the primary monitor
+Bar(primaryMonitor)
+  .then(([mainBar, leftCorner, rightCorner]) => {
+    App.addWindow(mainBar);
+    App.addWindow(leftCorner);
+    App.addWindow(rightCorner);
+  })
+  .catch(print);
 let Modules = () => [
   ...(userOptions.asyncGet().indicators.enabled !== false
     ? [forMonitors(Indicator)]
