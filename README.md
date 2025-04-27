@@ -61,6 +61,46 @@
     <td align="center"><b>Quick Settings</b></td>
     <td align="center"><b>Application Launcher</b></td>
   </tr> -->
+  <tr>
+    <td width="50%" align="center"><img src="ricing/12.png" alt="HyprLuna Desktop with Notch" style="border-radius: 12px; width: 100%; height: auto;"></td>
+    <td width="50%" align="center"><img src="ricing/1.png" alt="HyprLuna Main Desktop" style="border-radius: 12px; width: 100%; height: auto;"></td>
+  </tr>
+  <!-- <tr>
+    <td align="center"><b>Notch Style Interface</b></td>
+    <td align="center"><b>Main Desktop</b></td>
+  </tr> -->
+  <tr>
+    <td width="50%" align="center"><img src="ricing/2.png" alt="Application Layout" style="border-radius: 12px; width: 100%; height: auto;"></td>
+    <td width="50%" align="center"><img src="ricing/3.png" alt="Terminal Workflow" style="border-radius: 12px; width: 100%; height: auto;"></td>
+  </tr>
+  <!-- <tr>
+    <td align="center"><b>Application Layout</b></td>
+    <td align="center"><b>Terminal Workflow</b></td>
+  </tr> -->
+  <tr>
+    <td width="50%" align="center"><img src="ricing/4.png" alt="Sidebar Widgets" style="border-radius: 12px; width: 100%; height: auto;"></td>
+    <td width="50%" align="center"><img src="ricing/5.png" alt="Notification Center" style="border-radius: 12px; width: 100%; height: auto;"></td>
+  </tr>
+  <!-- <tr>
+    <td align="center"><b>Sidebar Widgets</b></td>
+    <td align="center"><b>Notification Center</b></td>
+  </tr> -->
+  <tr>
+    <td width="50%" align="center"><img src="ricing/6.png" alt="Quick Settings" style="border-radius: 12px; width: 100%; height: auto;"></td>
+    <td width="50%" align="center"><img src="ricing/7.png" alt="Application Launcher" style="border-radius: 12px; width: 100%; height: auto;"></td>
+  </tr>
+    <tr>
+    <td width="50%" align="center"><img src="ricing/8.png" alt="Quick Settings" style="border-radius: 12px; width: 100%; height: auto;"></td>
+    <td width="50%" align="center"><img src="ricing/9.png" alt="Application Launcher" style="border-radius: 12px; width: 100%; height: auto;"></td>
+  </tr>
+    <tr>
+    <td width="50%" align="center"><img src="ricing/10.png" alt="Quick Settings" style="border-radius: 12px; width: 100%; height: auto;"></td>
+    <td width="50%" align="center"><img src="ricing/11.png" alt="Application Launcher" style="border-radius: 12px; width: 100%; height: auto;"></td>
+  </tr>
+  <!-- <tr>
+    <td align="center"><b>Quick Settings</b></td>
+    <td align="center"><b>Application Launcher</b></td>
+  </tr> -->
 </table>
 <div>
 </br>
