@@ -103,7 +103,7 @@ const createCorner = (monitor, side) => {
   return cornerWindow;
 };
 
-const getAnchor = (monitor, mode) => {
+const getAnchor = (mode) => {
   const currentPos = barPosition.value;
   const position = getValidPosition(mode, currentPos);
 
@@ -150,18 +150,18 @@ export const Bar = async (monitor = 0) => {
   const bar = Widget.Window({
     monitor,
     name: `bar${monitor}`,
-    anchor: getAnchor(monitor, mode),
+    anchor: getAnchor(mode),
     exclusivity: "exclusive",
     visible: true,
     child: stack,
     setup: (self) => {
       self.hook(currentShellMode, (w) => {
         const newMode = currentShellMode.value[monitor] || "1";
-        w.anchor = getAnchor(monitor, newMode);
+        w.anchor = getAnchor(newMode);
       });
       self.hook(barPosition, (w) => {
         const currentMode = currentShellMode.value[monitor] || "1";
-        w.anchor = getAnchor(monitor, currentMode);
+        w.anchor = getAnchor(currentMode);
       });
     },
   });

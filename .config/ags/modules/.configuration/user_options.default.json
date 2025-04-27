@@ -439,6 +439,7 @@
     "traySize": 16,
     "floatingWidth": 14,
     "floatingElevation": 1,
+    "monitorMode": "primary",
     "verticalBar": {
       "position": "left"
     },
