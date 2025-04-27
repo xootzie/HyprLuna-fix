@@ -15,6 +15,7 @@ export default (monitor) =>
     child: Widget.Overlay({
       child: WallpaperImage(monitor),
       overlays: [
+        // Main content box (horizontal)
         Widget.Box({
           children: [
             userOptions.asyncGet().desktopBackground.Auva ? Auva() : Normal(),
@@ -22,17 +23,28 @@ export default (monitor) =>
             userOptions.asyncGet().desktopBackground.resources
               ? SystemWidget()
               : null,
-            userOptions.asyncGet().desktopBackground.enableWisecat
-              ? Widget.Box({
-                  vertical: true,
-                  children: [zaWizeCat, Widget.Box({ vexpand: true })],
-                })
-              : null,
           ],
         }),
+
+        // Add zaWizeCat as a separate overlay, positioned at the top-right edge
+        userOptions.asyncGet().desktopBackground.enableWisecat
+          ? Widget.Box({
+              hpack: "end", // Position at right
+              vpack: "start", // Position at top
+              vexpand: false,
+              hexpand: false,
+              // Position at the top with no right margin to stick to the edge
+              css: "margin-top: 40px; margin-right: 0px;",
+              child: zaWizeCat,
+            })
+          : null,
       ],
       setup: (self) => {
-        self.set_overlay_pass_through(self.get_children()[1], true);
+        // Make all overlays pass-through for mouse events
+        const overlays = self.get_children();
+        for (let i = 1; i < overlays.length; i++) {
+          self.set_overlay_pass_through(overlays[i], true);
+        }
       },
     }),
   });
