@@ -33,40 +33,40 @@ $rounding_large: 1.705rem;
 // Title Font Mixin: Geometric sans-serif fonts
 @mixin titlefont {
     // Geometric sans-serif for headlines
-    font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
-}
-
-// Main Font Mixin: Clean sans-serif for body text
-@mixin mainfont {
+    font-family: "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+  }
+  
+  // Main Font Mixin: Clean sans-serif for body text
+  @mixin mainfont {
     // Clean sans-serif for primary text
-    font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
-}
-
-// Material Design Icons Mixin
-@mixin icon-material {
+    font-family: "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+  }
+  
+  // Material Design Icons Mixin
+  @mixin icon-material {
     // Material Design Icons
-    font-family: "Material Symbols Rounded", "MaterialSymbolsRounded", 
-                 "Material Symbols Outlined", "Material Symbols Sharp";
-}
-
-// Nerd Fonts Mixin for developer-specific icons
-@mixin icon-nerd {
-    // Nerd Fonts with SF-compatible monospace
-    font-family: "SF Mono Nerd Font", "SF Mono", "Menlo", monospace;
-}
-
-// Technical Monospace Font Mixin
-@mixin techfont {
+    font-family: "Material Symbols Rounded", "MaterialSymbolsRounded",
+    "Material Symbols Outlined", "Material Symbols Sharp";
+  }
+  
+  // Nerd Fonts Mixin for developer-specific icons
+  @mixin icon-nerd {
+    // Nerd Fonts with Cascadia-compatible monospace
+    font-family: "Cascadia Code NF", "Cascadia Mono NF", "Fira Code", monospace;
+  }
+  
+  // Technical Monospace Font Mixin
+  @mixin techfont {
     // Monospace for system info and code
-    font-family: "SF Mono", "Menlo", "Courier", monospace;
-}
-
-// Reading Font Mixin: Optimized for readability
-@mixin readingfont {
+    font-family: "Cascadia Mono", "Cascadia Code", "Fira Mono", monospace;
+  }
+  
+  // Reading Font Mixin: Optimized for readability
+  @mixin readingfont {
     // Most readable fonts for comfortable reading
-    font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+    font-family: "Cascadia Code", "Segoe UI", "Open Sans", sans-serif;
     font-weight: 500;
-}
+  }
 
 @mixin subtext {
     color: $subtext;
