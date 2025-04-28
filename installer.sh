@@ -67,7 +67,7 @@ fi
 if ! grep -q "ID=arch" /etc/os-release; then
     print_warning "This script is designed for Arch Linux / Arch-based distributions."
     print_warning "It may not work correctly on other systems."
-    read -p "Do you want to continue anyway? (y/n): " consent
+    read -p "Do you want to continue anyway? (y/n): " consent < /dev/tty
     if [ "$consent" != "y" ]; then
         print_info "Installation aborted by user."
         exit 1
@@ -117,6 +117,7 @@ else
     print_info "paru installed successfully."
 fi
 
+
 # --- Step 2: Install Required Packages ---
 print_step "Step 2: Installing Required Packages via paru"
 
@@ -127,14 +128,61 @@ if ! command -v paru &>/dev/null; then
     exit 1
 fi
 
-print_info "Using paru to install necessary system and AUR packages."
-print_info "You will likely be prompted for your password and asked to confirm installations."
-paru -S --needed "${REQUIRED_PACKAGES[@]}" --noconfirm || {
-    print_error "Failed to install required packages. Please check the output above for errors."
-    exit 1
-}
+# The main command for the silent installation attempt
+PARU_INSTALL_CMD="paru -S --needed ${REQUIRED_PACKAGES[@]} --noconfirm"
 
-print_info "Required packages installed successfully."
+print_info "Using paru to install necessary system and AUR packages."
+# Inform the user that paru/pacman might prompt if conflicts occur
+print_info "You will likely be prompted for your password and asked to confirm installations (by paru/pacman directly if conflict occurs)."
+
+# Attempt the installation silently first using --noconfirm
+if ! $PARU_INSTALL_CMD; then
+    # If the silent attempt fails, likely due to conflicts or other issues
+    print_warning "Package installation failed!"
+    print_warning "This often happens due to conflicting packages (like python-pywal vs python-pywal16) or dependency issues."
+
+    # Loop to present options to the user until a valid choice is made
+    while true; do
+        print_info "Please choose how to proceed:"
+        print_info "  1) Retry installation interactively (allows paru/pacman to ask about conflicts, recommended)."
+        print_info "  2) Skip package installation step (NOT recommended, may lead to issues)."
+        print_info "  3) Exit the script."
+        # Use < /dev/tty to ensure reading input from the terminal even if the script is piped
+        read -p "Enter choice [1]: " choice < /dev/tty
+
+        # Set the default choice to 1 if the user just presses Enter
+        choice=${choice:-1}
+
+        # Process the user's choice
+        case "$choice" in
+            1)
+                print_info "Retrying package installation interactively..."
+                # Rerun the command without --noconfirm to allow paru to ask the user about conflicts
+                # If this attempt also fails, the set -e at the start will stop the script
+                paru -S --needed "${REQUIRED_PACKAGES[@]}"
+                # Exit the while loop if the interactive attempt finishes (successfully or by user abort)
+                break
+                ;;
+            2)
+                print_warning "Skipping package installation step as requested."
+                # Exit the while loop
+                break
+                ;;
+            3)
+                print_info "Exiting script at package installation step as requested."
+                exit 1 # Exit the script
+                ;;
+            *)
+                # If the user entered an invalid choice
+                print_warning "Invalid choice. Please enter 1, 2, or 3."
+                ;;
+        esac
+    done
+
+fi # End of if ! $PARU_INSTALL_CMD block
+
+# The script continues here after the package installation step is completed (successfully or skipped)
+print_info "Required packages process completed (or was skipped)."
 
 # --- Step 3: Install Latest AGS v1 ---
 print_step "Step 3: Installing Latest AGS v1"
@@ -178,7 +226,7 @@ fi
 # --- Step 4: Create Backup (Optional) ---
 print_step "Step 4: Creating Backup of Existing Configuration (Optional)"
 
-read -p "Do you want to create a backup of your existing configuration directories? (y/n): " backup_consent
+read -p "Do you want to create a backup of your existing configuration directories? (y/n): " backup_consent < /dev/tty
 if [ "$backup_consent" = "y" ]; then
     print_info "Creating backup in $BACKUP_DIR..."
     mkdir -p "$BACKUP_DIR" || {
@@ -213,7 +261,7 @@ print_warning "If you have important configurations in these directories that yo
 print_warning "backed up elsewhere (beyond the optional script backup), ABORT NOW."
 print_warning "Existing directories will be renamed with a '.bak_before_install' suffix as a safety measure."
 print_warning ""
-read -p "Are you absolutely sure you want to proceed and overwrite? (y/n): " overwrite_consent
+read -p "Are you absolutely sure you want to proceed and overwrite? (y/n): " overwrite_consent < /dev/tty
 
 if [ "$overwrite_consent" != "y" ]; then
     print_info "Installation aborted by user before copying dotfiles."
