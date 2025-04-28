@@ -32,41 +32,41 @@ $rounding_large: 1.705rem;
 // Geist Typography Mixins
 // Title Font Mixin: Geometric sans-serif fonts
 @mixin titlefont {
-    // Geometric sans-serif for headlines
-    font-family: "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
-  }
-  
-  // Main Font Mixin: Clean sans-serif for body text
-  @mixin mainfont {
-    // Clean sans-serif for primary text
-    font-family: "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
-  }
-  
-  // Material Design Icons Mixin
-  @mixin icon-material {
-    // Material Design Icons
-    font-family: "Material Symbols Rounded", "MaterialSymbolsRounded",
-    "Material Symbols Outlined", "Material Symbols Sharp";
-  }
-  
-  // Nerd Fonts Mixin for developer-specific icons
-  @mixin icon-nerd {
-    // Nerd Fonts with Cascadia-compatible monospace
-    font-family: "Cascadia Code NF", "Cascadia Mono NF", "Fira Code", monospace;
-  }
-  
-  // Technical Monospace Font Mixin
-  @mixin techfont {
-    // Monospace for system info and code
-    font-family: "Cascadia Mono", "Cascadia Code", "Fira Mono", monospace;
-  }
-  
-  // Reading Font Mixin: Optimized for readability
-  @mixin readingfont {
-    // Most readable fonts for comfortable reading
-    font-family: "Cascadia Code", "Segoe UI", "Open Sans", sans-serif;
-    font-weight: 500;
-  }
+  // Geometric sans-serif for headlines
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+}
+
+// Main Font Mixin: Clean sans-serif for body text
+@mixin mainfont {
+  // Clean sans-serif for primary text
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+}
+
+// Material Design Icons Mixin
+@mixin icon-material {
+  // Material Design Icons
+  font-family: "Material Icons", "Material Symbols Rounded", "MaterialSymbolsRounded",
+  "Material Symbols Outlined", "Material Icons Outlined", "Material Symbols Sharp";
+}
+
+// Nerd Fonts Mixin for developer-specific icons
+@mixin icon-nerd {
+  // Nerd Fonts with Cascadia-compatible monospace
+  font-family: "Cascadia Code NF", "Cascadia Mono NF", "Fira Code", monospace;
+}
+
+// Technical Monospace Font Mixin
+@mixin techfont {
+  // Monospace for system info and code
+  font-family: "Geist Mono", "Geist Mono NF", "Cascadia Mono", "Fira Mono", monospace;
+}
+
+// Reading Font Mixin: Optimized for readability
+@mixin readingfont {
+  // Most readable fonts for comfortable reading
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Open Sans", sans-serif;
+  font-weight: 500;
+}
 
 @mixin subtext {
     color: $subtext;
