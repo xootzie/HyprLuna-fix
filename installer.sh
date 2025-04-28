@@ -8,7 +8,7 @@ REPO_URL="https://github.com/Lunaris-Project/HyprLuna.git"
 AGSV1_REPO_URL="https://github.com/Lunaris-Project/agsv1"
 HYPRLUNA_DIR="$HOME/HyprLuna"
 BACKUP_DIR="$HOME/HyprLuna-User-Bak"
-PARU_TEMP_DIR=$(mktemp -d) # Temporary directory for building paru
+PARU_TEMP_DIR=$(mktemp -d)  # Temporary directory for building paru
 AGSV1_TEMP_DIR=$(mktemp -d) # Temporary directory for building agsv1
 
 # List of packages to install via paru (from HTML Step 2)
@@ -20,7 +20,8 @@ REQUIRED_PACKAGES=(
     brightnessctl ddcutil pavucontrol wireplumber libdbusmenu-gtk3 kitty playerctl swww gobject-introspection glib2-devel gvfs glib2
     glibc gtk3 gtk-layer-shell libpulse pam gnome-bluetooth-3.0 gammastep libsoup3 libnotify networkmanager power-profiles-daemon
     upower adw-gtk-theme-git qt5ct qt5-wayland fontconfig ttf-readex-pro ttf-jetbrains-mono-nerd ttf-material-symbols-variable-git
-    apple-fonts ttf-space-mono-nerd ttf-rubik-vf ttf-gabarito-git fish foot starship polkit-gnome gnome-keyring gnome-control-center
+    apple-fonts ttf-space-mono-nerd ttf-rubik-vf bibata-cursor-theme-bin bibata-rainbow-cursor-theme bibata-extra-cursor-theme
+    bibata-cursor-translucent ttf-gabarito-git fish foot starship polkit-gnome gnome-keyring gnome-control-center
     blueberry webp-pixbuf-loader gtksourceview3 yad ydotool xdg-user-dirs-gtk tinyxml2 gtkmm3 gtksourceviewmm cairomm xdg-desktop-portal
     xdg-desktop-portal-gtk xdg-desktop-portal-hyprland gradience python-libsass python-pywalfox matugen-bin python-build python-pillow
     python-pywal python-setuptools-scm python-wheel swappy wf-recorder grim tesseract tesseract-data-eng slurp dart-sass python-pywayland
@@ -91,14 +92,26 @@ if command -v paru &>/dev/null; then
     print_info "paru is already installed. Skipping paru installation."
 else
     print_info "Installing base-devel package group..."
-    sudo pacman -S --needed base-devel --noconfirm || { print_error "Failed to install base-devel."; exit 1; }
+    sudo pacman -S --needed base-devel --noconfirm || {
+        print_error "Failed to install base-devel."
+        exit 1
+    }
 
     print_info "Cloning paru repository..."
-    git clone https://aur.archlinux.org/paru.git "$PARU_TEMP_DIR/paru" || { print_error "Failed to clone paru repository."; exit 1; }
+    git clone https://aur.archlinux.org/paru.git "$PARU_TEMP_DIR/paru" || {
+        print_error "Failed to clone paru repository."
+        exit 1
+    }
 
     print_info "Building and installing paru..."
-    cd "$PARU_TEMP_DIR/paru" || { print_error "Failed to change directory to paru temp dir."; exit 1; }
-    makepkg -si --noconfirm || { print_error "Failed to build and install paru. Please check the output above."; exit 1; }
+    cd "$PARU_TEMP_DIR/paru" || {
+        print_error "Failed to change directory to paru temp dir."
+        exit 1
+    }
+    makepkg -si --noconfirm || {
+        print_error "Failed to build and install paru. Please check the output above."
+        exit 1
+    }
     cd - >/dev/null # Go back to the previous directory
 
     print_info "paru installed successfully."
@@ -109,14 +122,17 @@ print_step "Step 2: Installing Required Packages via paru"
 
 # Check if paru is usable now
 if ! command -v paru &>/dev/null; then
-     print_error "paru command not found after installation attempt."
-     print_error "Please install paru manually and re-run the script."
-     exit 1
+    print_error "paru command not found after installation attempt."
+    print_error "Please install paru manually and re-run the script."
+    exit 1
 fi
 
 print_info "Using paru to install necessary system and AUR packages."
 print_info "You will likely be prompted for your password and asked to confirm installations."
-paru -S --needed "${REQUIRED_PACKAGES[@]}" --noconfirm || { print_error "Failed to install required packages. Please check the output above for errors."; exit 1; }
+paru -S --needed "${REQUIRED_PACKAGES[@]}" --noconfirm || {
+    print_error "Failed to install required packages. Please check the output above for errors."
+    exit 1
+}
 
 print_info "Required packages installed successfully."
 
@@ -134,19 +150,30 @@ else
         print_error "npm command not found. It should have been installed in Step 2. Please check package installation."
         exit 1
     fi
-    sudo npm i -g typescript || { print_error "Failed to install typescript globally."; exit 1; }
+    sudo npm i -g typescript || {
+        print_error "Failed to install typescript globally."
+        exit 1
+    }
 
     print_info "Cloning agsv1 repository..."
-    git clone --recursive "$AGSV1_REPO_URL" "$AGSV1_TEMP_DIR/agsv1" || { print_error "Failed to clone agsv1 repository."; exit 1; }
+    git clone --recursive "$AGSV1_REPO_URL" "$AGSV1_TEMP_DIR/agsv1" || {
+        print_error "Failed to clone agsv1 repository."
+        exit 1
+    }
 
     print_info "Building and installing agsv1..."
-    cd "$AGSV1_TEMP_DIR/agsv1" || { print_error "Failed to change directory to agsv1 temp dir."; exit 1; }
-    makepkg -si --noconfirm || { print_error "Failed to build and install agsv1. Please check the output above."; exit 1; }
+    cd "$AGSV1_TEMP_DIR/agsv1" || {
+        print_error "Failed to change directory to agsv1 temp dir."
+        exit 1
+    }
+    makepkg -si --noconfirm || {
+        print_error "Failed to build and install agsv1. Please check the output above."
+        exit 1
+    }
     cd - >/dev/null # Go back to the previous directory
 
     print_info "AGS v1 installed successfully."
 fi
-
 
 # --- Step 4: Create Backup (Optional) ---
 print_step "Step 4: Creating Backup of Existing Configuration (Optional)"
@@ -154,7 +181,10 @@ print_step "Step 4: Creating Backup of Existing Configuration (Optional)"
 read -p "Do you want to create a backup of your existing configuration directories? (y/n): " backup_consent
 if [ "$backup_consent" = "y" ]; then
     print_info "Creating backup in $BACKUP_DIR..."
-    mkdir -p "$BACKUP_DIR" || { print_error "Failed to create backup directory $BACKUP_DIR."; exit 1; }
+    mkdir -p "$BACKUP_DIR" || {
+        print_error "Failed to create backup directory $BACKUP_DIR."
+        exit 1
+    }
 
     for dir in "${DOTFILES_DIRS[@]}"; do
         if [ -d "$HOME/$dir" ]; then
@@ -194,28 +224,43 @@ print_info "Cloning HyprLuna repository..."
 # Remove existing clone directory if it exists, to ensure a fresh clone
 if [ -d "$HYPRLUNA_DIR" ]; then
     print_info "Removing existing HyprLuna clone directory: $HYPRLUNA_DIR"
-    rm -rf "$HYPRLUNA_DIR" || { print_error "Failed to remove existing HyprLuna clone directory."; exit 1; }
+    rm -rf "$HYPRLUNA_DIR" || {
+        print_error "Failed to remove existing HyprLuna clone directory."
+        exit 1
+    }
 fi
-git clone "$REPO_URL" "$HYPRLUNA_DIR" || { print_error "Failed to clone HyprLuna repository."; exit 1; }
+git clone "$REPO_URL" "$HYPRLUNA_DIR" || {
+    print_error "Failed to clone HyprLuna repository."
+    exit 1
+}
 
 print_info "Copying dotfiles from $HYPRLUNA_DIR to your home directory..."
-cd "$HYPRLUNA_DIR" || { print_error "Failed to change directory to HyprLuna repository."; exit 1; }
+cd "$HYPRLUNA_DIR" || {
+    print_error "Failed to change directory to HyprLuna repository."
+    exit 1
+}
 
 for dir in "${DOTFILES_DIRS[@]}"; do
     if [ -d "./$dir" ]; then # Check if the directory exists in the cloned repo
-         print_info "Processing $dir..."
-         if [ -d "$HOME/$dir" ]; then
-             print_warning "Renaming existing $HOME/$dir to $HOME/${dir}.bak_before_install..."
-             mv "$HOME/$dir" "$HOME/${dir}.bak_before_install" || { print_error "Failed to rename existing $HOME/$dir."; continue; }
-         fi
-         print_info "Copying $dir to $HOME/..."
-         # The original command is cp -r ./Pictures ~/ which copies the Pictures *directory*
-         # from the repo into the home directory. This might result in ~/Pictures/Pictures.
-         # Let's stick to the source command but ensure the old one is backed up.
-         cp -r "./$dir" "$HOME/" || { print_error "Failed to copy $dir."; continue; }
-         print_info "$dir copied."
+        print_info "Processing $dir..."
+        if [ -d "$HOME/$dir" ]; then
+            print_warning "Renaming existing $HOME/$dir to $HOME/${dir}.bak_before_install..."
+            mv "$HOME/$dir" "$HOME/${dir}.bak_before_install" || {
+                print_error "Failed to rename existing $HOME/$dir."
+                continue
+            }
+        fi
+        print_info "Copying $dir to $HOME/..."
+        # The original command is cp -r ./Pictures ~/ which copies the Pictures *directory*
+        # from the repo into the home directory. This might result in ~/Pictures/Pictures.
+        # Let's stick to the source command but ensure the old one is backed up.
+        cp -r "./$dir" "$HOME/" || {
+            print_error "Failed to copy $dir."
+            continue
+        }
+        print_info "$dir copied."
     else
-         print_warning "Directory ./$dir not found in the cloned repository, skipping copy."
+        print_warning "Directory ./$dir not found in the cloned repository, skipping copy."
     fi
 done
 
