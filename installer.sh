@@ -26,7 +26,7 @@ REQUIRED_PACKAGES=(
     xdg-desktop-portal-gtk xdg-desktop-portal-hyprland gradience python-libsass python-pywalfox matugen-bin python-build python-pillow
     python-pywal python-setuptools-scm python-wheel swappy wf-recorder grim tesseract tesseract-data-eng slurp dart-sass python-pywayland
     python-psutil hypridle hyprutils hyprlock wlogout wl-clipboard hyprpicker ghostty ttf-noto-sans-cjk-vf noto-fonts-emoji cava metar
-    ttf-material-symbols-variable-git gowall go overskride visual-studio-code-bin mpv
+    ttf-material-symbols-variable-git gowall go overskride visual-studio-code-bin mpv github-desktop-bin
 )
 
 # Directories that will be copied from the HyprLuna repo to your home directory
