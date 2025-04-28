@@ -470,23 +470,17 @@ $sidebar_chat_textboxareaColor: mix($onSurfaceVariant, $surfaceVariant, 40%);
 // Bluetooth empty state
 .bluetooth-empty-state {
     padding: 2rem;
-    /* GTK doesn't support text-align */
-    /* Use halign property on child elements instead */
 }
 
 .bluetooth-empty-title {
     font-size: 1.2rem;
     font-weight: 500;
     margin: 1rem 0 0.5rem;
-    /* GTK doesn't support halign in CSS */
-    /* This is handled in the JavaScript with hpack */
 }
 
 .bluetooth-empty-subtitle {
     color: $onSurfaceVariant;
     margin-bottom: 1rem;
-    /* GTK doesn't support halign in CSS */
-    /* This is handled in the JavaScript with hpack */
 }
 
 .bluetooth-empty-scan-button {
@@ -611,18 +605,52 @@ $sidebar_chat_textboxareaColor: mix($onSurfaceVariant, $surfaceVariant, 40%);
 
 /* Bluetooth toggle with label - spacing handled in JavaScript */
 
+// Bluetooth action button
+.sidebar-bluetooth-device-action {
+    @include full-rounding;
+}
+
 // Bluetooth device styling - Material You 3
 .sidebar-bluetooth-device {
     @include normal-rounding;
     padding: 0.8rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
     background-color: $surfaceContainerLow;
     /* GTK doesn't support all transitions */
     /* We'll use specific properties instead */
     border-left: 3px solid transparent;
     margin-left: 2px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: background-color 200ms ease, box-shadow 200ms ease;
 
+    // Device icon container styling
+    .sidebar-bluetooth-device-icon-container {
+        margin-right: 12px;
+    }
+
+    // Device icon box styling
+    .sidebar-bluetooth-icon-box {
+        @include normal-rounding;
+    }
+
+    // Device icon styling
+    .sidebar-bluetooth-icon {
+        font-family: 'Material Icons', 'Material Symbols Rounded';
+    }
+
+    // Device name styling
+    .bluetooth-device-name {
+        font-weight: 500;
+        margin-bottom: 2px;
+    }
+
+    // Device status styling
+    .bluetooth-device-status {
+        font-size: 0.8em;
+        opacity: 0.8;
+    }
+
+    // Connected device styling
     &.bluetooth-device-connected {
         background-color: $secondaryContainer;
         border-left-color: $primary;
@@ -631,15 +659,16 @@ $sidebar_chat_textboxareaColor: mix($onSurfaceVariant, $surfaceVariant, 40%);
 
         .bluetooth-device-name {
             color: $onSecondaryContainer;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .bluetooth-device-status {
             color: $onSecondaryContainer;
-            opacity: 0.8;
+            opacity: 0.9;
         }
     }
 
+    // Paired device styling
     &.bluetooth-device-paired {
         background-color: $surfaceContainerHigh;
         border-left-color: $secondaryContainer;
@@ -653,6 +682,7 @@ $sidebar_chat_textboxareaColor: mix($onSurfaceVariant, $surfaceVariant, 40%);
         }
     }
 
+    // Available device styling
     &.bluetooth-device-available {
         background-color: $surfaceContainerLowest;
 
@@ -661,19 +691,20 @@ $sidebar_chat_textboxareaColor: mix($onSurfaceVariant, $surfaceVariant, 40%);
         }
     }
 
+    // Hover state
     &:hover {
         background-color: $surfaceContainerHighest;
         /* GTK doesn't support transform or margin-top/bottom transitions */
         /* We'll use opacity changes instead */
-        opacity: 0.9;
+        opacity: 0.95;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 
         &.bluetooth-device-connected {
-            background-color: mix($secondaryContainer, $surfaceContainerHighest, 80%);
+            background-color: mix($secondaryContainer, $surfaceContainerHighest, 90%);
         }
 
         &.bluetooth-device-paired {
-            background-color: mix($surfaceContainerHigh, $surfaceContainerHighest, 80%);
+            background-color: mix($surfaceContainerHigh, $surfaceContainerHighest, 90%);
         }
     }
 

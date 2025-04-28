@@ -3,9 +3,9 @@ import Bluetooth from 'resource:///com/github/Aylur/ags/service/bluetooth.js';
 import * as Utils from 'resource:///com/github/Aylur/ags/utils.js';
 import App from 'resource:///com/github/Aylur/ags/app.js';
 import userOptions from '../../.configuration/user_options.js';
-const { Box, Button, Icon, Label, Scrollable, Stack, Overlay, Revealer } = Widget;
+const { Box, Button, Label, Scrollable, Stack, Overlay, Revealer } = Widget;
 const { execAsync, timeout } = Utils;
-const { GLib } = imports.gi;
+const { GLib, Gtk } = imports.gi;
 import { MaterialIcon } from '../../.commonwidgets/materialicon.js';
 import { setupCursorHover } from '../../.widgetutils/cursorhover.js';
 import { ConfigToggle } from '../../.commonwidgets/configwidgets.js';
@@ -31,8 +31,6 @@ const closeEverything = () => {
 };
 
 // can't connect: sync_problem
-
-const USE_SYMBOLIC_ICONS = true;
 
 const BluetoothDevice = (device) => {
     // Check if this is a custom device or an AGS device
@@ -77,149 +75,24 @@ const BluetoothDevice = (device) => {
     const deviceIcon = Box({
         vpack: 'center',
         className: 'sidebar-bluetooth-device-icon-container',
+        css: 'margin-right: 8px;',
         children: [
             Box({
-                vertical: true,
+                className: 'sidebar-bluetooth-icon-box',
+                hpack: 'center',
+                vpack: 'center',
                 children: [
-                    Icon({
-                        className: 'sidebar-bluetooth-appicon',
-                        tooltipText: deviceWrapper.name,
-                        icon: `${deviceWrapper.iconName}${USE_SYMBOLIC_ICONS ? '-symbolic' : ''}`,
+                    // Use MaterialIcon with appropriate icon based on device type and state
+                    MaterialIcon(getDeviceIcon(deviceWrapper), 'norm', {
+                        className: 'icon-material sidebar-bluetooth-icon',
+                        css: 'color: @onSecondaryContainer; font-size: 16px;'
                     }),
-                    // Show battery percentage if available
-                    deviceWrapper.batteryPercentage ? Label({
-                        className: 'txt-tiny txt-subtext sidebar-bluetooth-battery',
-                        label: `${deviceWrapper.batteryPercentage}%`,
-                    }) : null,
-                ].filter(Boolean),
+                ],
             }),
         ],
     });
 
-    // Device name and status
-    const deviceStatus = Box({
-        hexpand: true,
-        vpack: 'center',
-        vertical: true,
-        children: [
-            Label({
-                xalign: 0,
-                maxWidthChars: 1,
-                truncate: 'end',
-                label: deviceWrapper.name,
-                className: 'txt-small',
-            }),
-            Label({
-                xalign: 0,
-                maxWidthChars: 1,
-                truncate: 'end',
-                label: deviceWrapper.connected ? 'Connected' : (deviceWrapper.paired ? 'Paired' : ''),
-                className: 'txt-subtext',
-            }),
-        ]
-    });
-
-    // Device actions revealer
-    const actionsRevealer = Revealer({
-        revealChild: false,
-        transition: 'slide_down',
-        transitionDuration: 200,
-        child: Box({
-            vertical: true,
-            className: 'sidebar-bluetooth-device-actions spacing-v-5 margin-top-5',
-            children: [
-                // Only show send file button for connected devices
-                deviceWrapper.connected ? Button({
-                    className: 'sidebar-bluetooth-action-button material-button',
-                    child: Box({
-                        className: 'spacing-h-5',
-                        children: [
-                            MaterialIcon('send_to_mobile', 'norm'),
-                            Label({
-                                label: getString('Send file'),
-                                xalign: 0,
-                                hexpand: true,
-                            }),
-                        ],
-                    }),
-                    setup: setupCursorHover,
-                    onClicked: () => {
-                        execAsync(['blueman-sendto', '--device=' + device.address]).catch(print);
-                    },
-                }) : null,
-
-                // Trust/Untrust device button
-                Button({
-                    className: 'sidebar-bluetooth-action-button material-button',
-                    child: Box({
-                        className: 'spacing-h-5',
-                        children: [
-                            MaterialIcon(device.trusted ? 'cancel' : 'verified_user', 'norm'),
-                            Label({
-                                label: device.trusted ? getString('Untrust device') : getString('Trust device'),
-                                xalign: 0,
-                                hexpand: true,
-                            }),
-                        ],
-                    }),
-                    setup: setupCursorHover,
-                    onClicked: async () => {
-                        if (device.trusted) {
-                            await untrustDevice(device.address);
-                        } else {
-                            await trustDevice(device.address);
-                        }
-                    },
-                }),
-
-                // Block/Unblock device button
-                Button({
-                    className: 'sidebar-bluetooth-action-button material-button',
-                    child: Box({
-                        className: 'spacing-h-5',
-                        children: [
-                            MaterialIcon(device.blocked ? 'check_circle' : 'block', 'norm'),
-                            Label({
-                                label: device.blocked ? getString('Unblock device') : getString('Block device'),
-                                xalign: 0,
-                                hexpand: true,
-                            }),
-                        ],
-                    }),
-                    setup: setupCursorHover,
-                    onClicked: async () => {
-                        if (device.blocked) {
-                            await unblockDevice(device.address);
-                        } else {
-                            await blockDevice(device.address);
-                        }
-                    },
-                }),
-
-                // Pair device button (only show if not paired)
-                !deviceWrapper.paired ? Button({
-                    className: 'sidebar-bluetooth-action-button material-button',
-                    child: Box({
-                        className: 'spacing-h-5',
-                        children: [
-                            MaterialIcon('link', 'norm'),
-                            Label({
-                                label: getString('Pair device'),
-                                xalign: 0,
-                                hexpand: true,
-                            }),
-                        ],
-                    }),
-                    setup: setupCursorHover,
-                    onClicked: async () => {
-                        await pairDevice(device.address);
-                    },
-                }) : null,
-
-
-            ].filter(Boolean),
-        }),
-    });
+    // We'll use deviceNameLabel instead of deviceStatus
 
     // Toggle connection button - using our custom connect function
     const deviceConnectButton = ConfigToggle({
@@ -246,14 +119,110 @@ const BluetoothDevice = (device) => {
         },
     });
 
+    // Device actions revealer
+    const actionsRevealer = Revealer({
+        revealChild: false,
+        transition: 'slide_down',
+        transitionDuration: 200,
+        child: Box({
+            vertical: true,
+            className: 'sidebar-bluetooth-device-actions spacing-v-5 margin-top-5',
+            children: [
+                // Trust/Untrust device button
+                Button({
+                    className: 'sidebar-bluetooth-action-button material-button',
+                    child: Box({
+                        className: 'spacing-h-5',
+                        children: [
+                            MaterialIcon(deviceWrapper.trusted ? 'cancel' : 'verified_user', 'norm', {
+                                css: 'color: @primary;'
+                            }),
+                            Label({
+                                label: deviceWrapper.trusted ? getString('Untrust device') : getString('Trust device'),
+                                xalign: 0,
+                                hexpand: true,
+                            }),
+                        ],
+                    }),
+                    setup: setupCursorHover,
+                    onClicked: async () => {
+                        if (deviceWrapper.trusted) {
+                            await untrustDevice(deviceWrapper.address);
+                        } else {
+                            await trustDevice(deviceWrapper.address);
+                        }
+                    },
+                }),
+
+                // Block/Unblock device button
+                Button({
+                    className: 'sidebar-bluetooth-action-button material-button',
+                    child: Box({
+                        className: 'spacing-h-5',
+                        children: [
+                            MaterialIcon(deviceWrapper.blocked ? 'check_circle' : 'block', 'norm', {
+                                css: 'color: @error;'
+                            }),
+                            Label({
+                                label: deviceWrapper.blocked ? getString('Unblock device') : getString('Block device'),
+                                xalign: 0,
+                                hexpand: true,
+                            }),
+                        ],
+                    }),
+                    setup: setupCursorHover,
+                    onClicked: async () => {
+                        if (deviceWrapper.blocked) {
+                            await unblockDevice(deviceWrapper.address);
+                        } else {
+                            await blockDevice(deviceWrapper.address);
+                        }
+                    },
+                }),
+
+                // Pair device button (only show if not paired)
+                !deviceWrapper.paired ? Button({
+                    className: 'sidebar-bluetooth-action-button material-button',
+                    child: Box({
+                        className: 'spacing-h-5',
+                        children: [
+                            MaterialIcon('link', 'norm', {
+                                css: 'color: @tertiary;'
+                            }),
+                            Label({
+                                label: getString('Pair device'),
+                                xalign: 0,
+                                hexpand: true,
+                            }),
+                        ],
+                    }),
+                    setup: setupCursorHover,
+                    onClicked: async () => {
+                        await pairDevice(deviceWrapper.address);
+                    },
+                }) : null,
+            ].filter(Boolean),
+        }),
+    });
+
     // More actions button
     const moreActionsButton = Button({
         vpack: 'center',
         className: 'sidebar-bluetooth-device-action material-icon-button',
-        child: MaterialIcon('more_vert', 'norm'),
+        child: Box({
+            hpack: 'center',
+            vpack: 'center',
+            children: [
+                MaterialIcon('more_vert', 'tiny', {
+                    className: 'icon-material',
+                    css: 'font-size: 12px;'
+                })
+            ]
+        }),
         tooltipText: getString('More actions'),
         setup: setupCursorHover,
         onClicked: () => {
+            // Toggle the actions revealer
             actionsRevealer.revealChild = !actionsRevealer.revealChild;
         },
     });
@@ -262,24 +231,53 @@ const BluetoothDevice = (device) => {
     const deviceRemoveButton = Button({
         vpack: 'center',
         className: 'sidebar-bluetooth-device-remove material-icon-button',
-        child: MaterialIcon('delete', 'norm'),
+        child: Box({
+            hpack: 'center',
+            vpack: 'center',
+            children: [
+                MaterialIcon('delete', 'tiny', {
+                    className: 'icon-material',
+                    css: 'font-size: 12px;'
+                })
+            ]
+        }),
         tooltipText: getString('Remove device'),
         setup: setupCursorHover,
         onClicked: () => execAsync(['bluetoothctl', 'remove', deviceWrapper.address]).catch(print),
     });
 
+    // Create a device name label
+    const deviceNameLabel = Label({
+        xalign: 0,
+        yalign: 0.5,
+        vpack: 'center',
+        hexpand: true,
+        maxWidthChars: 20,
+        truncate: 'end',
+        label: deviceWrapper.name,
+        className: 'txt-small bluetooth-device-name',
+        css: 'font-weight: 500; padding-top: 0; padding-bottom: 0;',
+    });
+
     return Box({
         vertical: true,
         className: `sidebar-bluetooth-device material-card ${deviceWrapper.connected ? 'connected' : ''}`,
+        css: 'padding: 8px 12px; margin-bottom: 6px;',
         children: [
-            // Main device row
+            // Main device row - similar to the toggle rows
             Box({
-                className: 'spacing-h-10',
+                className: 'spacing-h-10 bluetooth-device-row',
+                vpack: 'center',
                 children: [
+                    // Icon on the left
                     deviceIcon,
-                    deviceStatus,
+                    // Device name in the center
+                    deviceNameLabel,
+                    // Controls on the right
                     Box({
-                        className: 'spacing-h-5',
+                        className: 'spacing-h-3 bluetooth-device-controls',
+                        vpack: 'center',
+                        halign: 'end',
                         children: [
                             deviceConnectButton,
                             moreActionsButton,
@@ -377,7 +375,7 @@ const pairDevice = async (address) => {
         Utils.notify({
             summary: 'Bluetooth Pairing',
             body: `Starting pairing process with "${deviceName}"...`,
-            iconName: 'bluetooth',
+            iconName: 'bluetooth_connected',
         });
 
         // Trust the device first to improve pairing success
@@ -392,7 +390,7 @@ const pairDevice = async (address) => {
         Utils.notify({
             summary: 'Bluetooth Pairing',
             body: `If prompted, please confirm the pairing on your device.`,
-            iconName: 'bluetooth',
+            iconName: 'bluetooth_connected',
             urgency: 'critical',
         });
 
@@ -433,7 +431,7 @@ const pairDevice = async (address) => {
             Utils.notify({
                 summary: 'Bluetooth Pairing Successful',
                 body: `Device "${deviceName}" paired successfully. You can now connect to it.`,
-                iconName: 'bluetooth',
+                iconName: 'bluetooth_connected',
             });
             return true;
         } else {
@@ -444,7 +442,7 @@ const pairDevice = async (address) => {
         Utils.notify({
             summary: 'Bluetooth Pairing Failed',
             body: 'Failed to pair with the device. Please try again.',
-            iconName: 'bluetooth-disabled',
+            iconName: 'bluetooth_disabled',
         });
 
         return false;
@@ -470,7 +468,7 @@ const connectDevice = async (address) => {
             Utils.notify({
                 summary: 'Bluetooth Connection',
                 body: `Device "${deviceName}" needs to be paired first. Starting pairing process...`,
-                iconName: 'bluetooth',
+                iconName: 'bluetooth_connected',
             });
 
             // Try to pair the device
@@ -490,7 +488,7 @@ const connectDevice = async (address) => {
         Utils.notify({
             summary: 'Bluetooth Connection',
             body: `Connecting to "${deviceName}"...`,
-            iconName: 'bluetooth-searching',
+            iconName: 'bluetooth_searching',
         });
 
         // Use a script to handle the connection process with timeout
@@ -548,7 +546,7 @@ const connectDevice = async (address) => {
             Utils.notify({
                 summary: 'Bluetooth Connection Successful',
                 body: `Device "${deviceName}" connected successfully.`,
-                iconName: 'bluetooth-connected',
+                iconName: 'bluetooth_connected',
             });
             return true;
         } else {
@@ -556,7 +554,7 @@ const connectDevice = async (address) => {
             Utils.notify({
                 summary: 'Bluetooth Connection Failed',
                 body: 'Failed to connect to the device. The device might be out of range or not ready to connect.',
-                iconName: 'bluetooth-disabled',
+                iconName: 'bluetooth_disabled',
             });
             return false;
         }
@@ -565,7 +563,7 @@ const connectDevice = async (address) => {
         Utils.notify({
             summary: 'Bluetooth Connection Failed',
             body: 'Failed to connect to the device. The device might be out of range or not ready to connect.',
-            iconName: 'bluetooth-disabled',
+            iconName: 'bluetooth_disabled',
         });
 
         return false;
@@ -573,48 +571,42 @@ const connectDevice = async (address) => {
 };
 
 // Create a simplified version of BluetoothDevice that follows Material You 3 design
+// NOTE: This function is currently not used, but kept for reference and potential future use.
+// We're using BluetoothDevice for all devices to ensure consistent styling.
+// eslint-disable-next-line no-unused-vars
 const createSimpleBluetoothDevice = (device) => {
     // Device icon with battery indicator if available
     const deviceIcon = Box({
         vpack: 'center',
         className: 'sidebar-bluetooth-device-icon-container',
+        css: 'margin-right: 6px;',
         children: [
             Box({
-                vertical: true,
+                className: 'sidebar-bluetooth-icon-box',
+                hpack: 'center',
+                vpack: 'center',
                 children: [
                     // Use MaterialIcon with appropriate icon based on device type and state
-                    MaterialIcon(getDeviceIcon(device), 'norm'),
-                    // Show battery percentage if available
-                    device.batteryPercentage ? Label({
-                        className: 'txt-tiny txt-subtext sidebar-bluetooth-battery',
-                        label: `${device.batteryPercentage}%`,
-                    }) : null,
-                ].filter(Boolean),
+                    MaterialIcon(getDeviceIcon(device), 'tiny', {
+                        className: 'icon-material sidebar-bluetooth-icon',
+                        css: 'color: @onSecondaryContainer; font-size: 14px;'
+                    }),
+                ],
             }),
         ],
     });
 
-    // Device name and status
-    const deviceStatus = Box({
-        hexpand: true,
+    // Device name label
+    const deviceNameLabel = Label({
+        xalign: 0,
+        yalign: 0.5,
         vpack: 'center',
-        vertical: true,
-        children: [
-            Label({
-                xalign: 0,
-                maxWidthChars: 1,
-                truncate: 'end',
-                label: device.name,
-                className: 'txt-small bluetooth-device-name',
-            }),
-            Label({
-                xalign: 0,
-                maxWidthChars: 1,
-                truncate: 'end',
-                label: device.connected ? 'Connected' : (device.paired ? 'Paired' : ''),
-                className: 'txt-subtext bluetooth-device-status',
-            }),
-        ]
+        hexpand: true,
+        maxWidthChars: 20,
+        truncate: 'end',
+        label: device.name,
+        className: 'txt-small bluetooth-device-name',
+        css: 'font-weight: 500; padding-top: 0; padding-bottom: 0;',
     });
 
     // Toggle connection button - using our custom connect function
@@ -623,6 +615,8 @@ const createSimpleBluetoothDevice = (device) => {
         expandWidget: false,
         desc: 'Toggle connection',
         initValue: device.connected,
+        css: 'margin-right: 0px;',
+
         onChange: (self, newValue) => {
             if (newValue) {
                 // Use our custom connect function
@@ -642,65 +636,187 @@ const createSimpleBluetoothDevice = (device) => {
         },
     });
 
+    // Trust/Block button
+    const trustBlockButton = Button({
+        vpack: 'center',
+        className: 'sidebar-bluetooth-device-action material-icon-button',
+        child: Box({
+            hpack: 'center',
+            vpack: 'center',
+            children: [
+                MaterialIcon(device.trusted ? 'verified_user' : 'shield', 'tiny', {
+                    className: 'icon-material',
+                    css: 'font-size: 12px;'
+                })
+            ]
+        }),
+        tooltipText: device.trusted ? getString('Trusted device') : getString('Trust device'),
+        setup: setupCursorHover,
+        onClicked: () => {
+            if (device.trusted) {
+                untrustDevice(device.address);
+            } else {
+                trustDevice(device.address);
+            }
+        },
+    });
+
     // Actions menu button
     const actionsButton = Button({
         vpack: 'center',
         className: 'sidebar-bluetooth-device-action material-icon-button',
         child: Box({
-            children: [MaterialIcon('more_vert', 'norm')]
+            hpack: 'center',
+            vpack: 'center',
+            children: [
+                MaterialIcon('more_vert', 'tiny', {
+                    className: 'icon-material',
+                    css: 'font-size: 12px;'
+                })
+            ]
         }),
         tooltipText: getString('Device actions'),
         setup: setupCursorHover,
         onClicked: () => {
-            // Show a popup menu with device actions
-            const menu = [{
-                label: getString('Pair'),
-                visible: !device.paired,
-                onActivate: () => pairDevice(device.address),
-            }, {
-                label: getString('Connect'),
-                visible: device.paired && !device.connected,
-                onActivate: () => connectDevice(device.address),
-            }, {
-                label: getString('Disconnect'),
-                visible: device.connected,
-                onActivate: () => Utils.execAsync(['bluetoothctl', 'disconnect', device.address]),
-            }, {
-                label: getString('Remove'),
-                onActivate: () => Utils.execAsync(['bluetoothctl', 'remove', device.address]),
-            }].filter(item => item.visible !== false);
+            // Create a revealer for the actions menu
+            const actionsRevealer = Revealer({
+                revealChild: true,
+                transition: 'slide_down',
+                transitionDuration: 200,
+                child: Box({
+                    vertical: true,
+                    className: 'sidebar-bluetooth-device-actions spacing-v-5 margin-top-5',
+                    children: [
+                        // Trust/Untrust device button
+                        Button({
+                            className: 'sidebar-bluetooth-action-button material-button',
+                            child: Box({
+                                className: 'spacing-h-5',
+                                children: [
+                                    MaterialIcon(device.trusted ? 'cancel' : 'verified_user', 'norm', {
+                                        css: 'color: #ffcc00;'
+                                    }),
+                                    Label({
+                                        label: device.trusted ? getString('Untrust device') : getString('Trust device'),
+                                        xalign: 0,
+                                        hexpand: true,
+                                    }),
+                                ],
+                            }),
+                            setup: setupCursorHover,
+                            onClicked: async () => {
+                                if (device.trusted) {
+                                    await untrustDevice(device.address);
+                                } else {
+                                    await trustDevice(device.address);
+                                }
+                            },
+                        }),
 
-            // Show the menu if there are visible items
-            if (menu.length > 0) {
-                Utils.execAsync(['bash', '-c', `echo "${menu.map(item => item.label).join('\n')}" | rofi -dmenu -p "${device.name}" -theme-str 'window {width: 200px;}'`])
-                    .then(result => {
-                        const selectedItem = menu.find(item => item.label === result.trim());
-                        if (selectedItem) {
-                            selectedItem.onActivate();
-                        }
-                    })
-                    .catch(() => {});
-            }
+                        // Block/Unblock device button
+                        Button({
+                            className: 'sidebar-bluetooth-action-button material-button',
+                            child: Box({
+                                className: 'spacing-h-5',
+                                children: [
+                                    MaterialIcon(device.blocked ? 'check_circle' : 'block', 'norm', {
+                                        css: 'color: #ffcc00;'
+                                    }),
+                                    Label({
+                                        label: device.blocked ? getString('Unblock device') : getString('Block device'),
+                                        xalign: 0,
+                                        hexpand: true,
+                                    }),
+                                ],
+                            }),
+                            setup: setupCursorHover,
+                            onClicked: async () => {
+                                if (device.blocked) {
+                                    await unblockDevice(device.address);
+                                } else {
+                                    await blockDevice(device.address);
+                                }
+                            },
+                        }),
+
+                        // Pair device button (only show if not paired)
+                        !device.paired ? Button({
+                            className: 'sidebar-bluetooth-action-button material-button',
+                            child: Box({
+                                className: 'spacing-h-5',
+                                children: [
+                                    MaterialIcon('link', 'norm', {
+                                        css: 'color: #ffcc00;'
+                                    }),
+                                    Label({
+                                        label: getString('Pair device'),
+                                        xalign: 0,
+                                        hexpand: true,
+                                    }),
+                                ],
+                            }),
+                            setup: setupCursorHover,
+                            onClicked: async () => {
+                                await pairDevice(device.address);
+                            },
+                        }) : null,
+                    ].filter(Boolean),
+                }),
+            });
+
+            // Show the menu as a popup
+            const popup = new Gtk.Popover({
+                child: actionsRevealer,
+                position: Gtk.PositionType.BOTTOM,
+            });
+            popup.set_parent(actionsButton);
+            popup.popup();
         },
+    });
+
+    // Remove device button
+    const deviceRemoveButton = Button({
+        vpack: 'center',
+        className: 'sidebar-bluetooth-device-remove material-icon-button',
+        child: Box({
+            hpack: 'center',
+            vpack: 'center',
+            children: [
+                MaterialIcon('delete', 'tiny', {
+                    className: 'icon-material',
+                    css: 'font-size: 12px;'
+                })
+            ]
+        }),
+        tooltipText: getString('Remove device'),
+        setup: setupCursorHover,
+        onClicked: () => execAsync(['bluetoothctl', 'remove', device.address]).catch(print),
     });
 
     return Box({
         vertical: true,
-        className: `sidebar-bluetooth-device material-card bluetooth-device-${device.connected ? 'connected' : (device.paired ? 'paired' : 'available')}`,
+        className: `sidebar-bluetooth-device material-card ${device.connected ? 'connected' : ''}`,
+        css: 'padding: 6px 10px; margin-bottom: 4px;',
         children: [
-            // Main device row
+            // Main device row - similar to the toggle rows
             Box({
-                className: 'spacing-h-10 bluetooth-device-row',
+                className: 'spacing-h-5 bluetooth-device-row',
                 vpack: 'center',
                 children: [
+                    // Icon on the left
                     deviceIcon,
-                    deviceStatus,
+                    // Device name in the center
+                    deviceNameLabel,
+                    // Controls on the right
                     Box({
-                        className: 'spacing-h-5 bluetooth-device-controls',
+                        className: 'spacing-h-3 bluetooth-device-controls',
                         vpack: 'center',
+                        halign: 'end',
                         children: [
                             deviceConnectButton,
+                            trustBlockButton,
                             actionsButton,
+                            deviceRemoveButton,
                         ]
                     })
                 ]
@@ -716,29 +832,41 @@ const getDeviceIcon = (device) => {
         return device.icon;
     }
 
+    // If device is null or undefined, return a default icon
+    if (!device) return 'bluetooth';
+
+    // Check if device name exists
+    if (!device.name) {
+        // Return default icon if name is missing
+        return device.connected ? 'bluetooth_connected' : 'bluetooth';
+    }
+
     // Determine icon based on device name or address
     const name = device.name.toLowerCase();
 
+    // Use the most reliable Material Icons that are available in all versions
     if (name.includes('phone') || name.includes('pixel') || name.includes('galaxy') || name.includes('iphone')) {
-        return device.connected ? 'smartphone' : 'smartphone_disabled';
+        // 'smartphone' might not be available in all Material Icon fonts, use 'phone_android' as it's more common
+        return device.connected ? 'phone_android' : 'phone_android_disabled';
     } else if (name.includes('headphone') || name.includes('earphone') || name.includes('airpod') || name.includes('buds')) {
-        return device.connected ? 'headphones' : 'headphones_disabled';
+        // 'headphones' might not be available, use 'headset' which is more common
+        return device.connected ? 'headset' : 'headset_off';
     } else if (name.includes('speaker') || name.includes('sound') || name.includes('audio')) {
-        return device.connected ? 'speaker' : 'speaker_disabled';
+        return device.connected ? 'speaker' : 'speaker_off';
     } else if (name.includes('keyboard')) {
-        return device.connected ? 'keyboard' : 'keyboard_disabled';
+        return device.connected ? 'keyboard' : 'keyboard_off';
     } else if (name.includes('mouse')) {
-        return device.connected ? 'mouse' : 'mouse_disabled';
+        return device.connected ? 'mouse' : 'mouse_off';
     } else if (name.includes('watch') || name.includes('band')) {
-        return device.connected ? 'watch' : 'watch_disabled';
+        return device.connected ? 'watch' : 'watch_off';
     } else if (name.includes('tv') || name.includes('television')) {
-        return device.connected ? 'tv' : 'tv_disabled';
+        return device.connected ? 'tv' : 'tv_off';
     } else if (name.includes('car') || name.includes('auto')) {
-        return device.connected ? 'directions_car' : 'directions_car_disabled';
+        return device.connected ? 'directions_car' : 'directions_car_off';
     }
 
-    // Default icon
-    return device.connected ? 'bluetooth_connected' : (device.paired ? 'bluetooth' : 'bluetooth_searching');
+    // Default icon - use standard icon names instead of Unicode
+    return device.connected ? 'bluetooth_connected' : 'bluetooth';
 };
 
 // Removed unused function getDeviceBattery
@@ -839,25 +967,12 @@ const getBluetoothctlDevices = async () => {
                     paired: isPaired,
                     trusted: false,
                     connected: isConnected,
-                    icon: isConnected ? 'bluetooth-connected' : (isPaired ? 'bluetooth' : 'bluetooth-searching'),
+                    icon: isConnected ? 'bluetooth_connected' : (isPaired ? 'bluetooth' : 'bluetooth'),
                     fromBluetooth: true
                 });
             }
         }
 
-        // If we have a controller but no devices, add the controller as a device
-        if (devices.length === 0 && controllerInfo.address) {
-            devices.push({
-                address: controllerInfo.address,
-                name: `Controller: ${controllerInfo.name}`,
-                paired: false,
-                trusted: true,
-                connected: true,
-                icon: 'bluetooth-active',
-                isController: true,
-                fromBluetooth: true
-            });
-        }
 
         if (userOptions.bluetooth?.debug) {
             console.log(`Found ${devices.length} real devices`);
@@ -950,7 +1065,7 @@ const discoverDevices = async () => {
                             name: name,
                             paired: isPaired,
                             connected: isConnected,
-                            icon: isConnected ? 'bluetooth-connected' : (isPaired ? 'bluetooth' : 'bluetooth-searching'),
+                            icon: isConnected ? 'bluetooth_connected' : (isPaired ? 'bluetooth' : 'bluetooth'),
                             fromBluetooth: true
                         };
                         devices.push(device);
@@ -960,21 +1075,22 @@ const discoverDevices = async () => {
                         const device = deviceMap.get(address);
                         if (isPaired) device.paired = true;
                         if (isConnected) device.connected = true;
-                        if (isConnected) device.icon = 'bluetooth-connected';
+                        if (isConnected) device.icon = 'bluetooth_connected';
                         else if (isPaired && !device.connected) device.icon = 'bluetooth';
                     }
                 }
             }
         };
 
-        // Process all devices first
-        processDeviceLines(devicesOutput);
-
-        // Then update paired devices
+        // Process paired devices first
         processDeviceLines(pairedOutput, true, false);
 
         // Then update connected devices
         processDeviceLines(connectedOutput, true, true);
+
+        // Process all discovered devices
+        // This will show nearby devices that are discovered during scanning
+        processDeviceLines(devicesOutput);
 
         if (userOptions.bluetooth?.debug) {
             console.log(`Found ${devices.length} devices`);
@@ -1328,7 +1444,7 @@ export default (props) => {
                             console.log(`Updating device list with ${allDevices.length} devices (${agsDevices.length} from AGS, ${customDevices.length} custom)`);
                         }
 
-                        // Separate paired (including connected) and other devices
+                        // Separate paired/connected devices from other discovered devices
                         const pairedDevices = allDevices.filter(d => d.paired || d.connected);
                         const otherDevices = allDevices.filter(d => !d.paired && !d.connected);
 
@@ -1349,18 +1465,23 @@ export default (props) => {
                                     vertical: true,
                                     className: 'bluetooth-device-section',
                                     children: [
-                                        // Paired devices separator
+                                        // Paired devices separator with title
                                         Box({
-                                            className: 'bluetooth-section-separator',
+                                            vertical: true,
+                                            children: [
+                                                Box({
+                                                    className: 'bluetooth-section-separator',
+                                                }),
+                                                Label({
+                                                    label: getString('Paired Devices'),
+                                                    className: 'txt-small bluetooth-section-title',
+                                                    xalign: 0,
+                                                    css: 'margin: 5px 0; font-weight: 500; opacity: 0.8;'
+                                                }),
+                                            ]
                                         }),
                                         // Paired devices list
-                                        ...pairedDevices.map(d => {
-                                            if (d.fromBluetooth || d.fromBlueman) {
-                                                return createSimpleBluetoothDevice(d);
-                                            } else {
-                                                return BluetoothDevice(d);
-                                            }
-                                        })
+                                        ...pairedDevices.map(d => BluetoothDevice(d))
                                     ]
                                 })
                             );
@@ -1373,18 +1494,23 @@ export default (props) => {
                                     vertical: true,
                                     className: 'bluetooth-device-section',
                                     children: [
-                                        // Available devices separator
+                                        // Available devices separator with title
                                         Box({
-                                            className: 'bluetooth-section-separator',
+                                            vertical: true,
+                                            children: [
+                                                Box({
+                                                    className: 'bluetooth-section-separator',
+                                                }),
+                                                Label({
+                                                    label: getString('Available Devices'),
+                                                    className: 'txt-small bluetooth-section-title',
+                                                    xalign: 0,
+                                                    css: 'margin: 5px 0; font-weight: 500; opacity: 0.8;'
+                                                }),
+                                            ]
                                         }),
                                         // Other devices list
-                                        ...otherDevices.map(d => {
-                                            if (d.fromBluetooth || d.fromBlueman) {
-                                                return createSimpleBluetoothDevice(d);
-                                            } else {
-                                                return BluetoothDevice(d);
-                                            }
-                                        })
+                                        ...otherDevices.map(d => BluetoothDevice(d))
                                     ]
                                 })
                             );
@@ -1501,9 +1627,15 @@ export default (props) => {
         // Check both AGS devices and our custom devices
         const allDevices = [...(Bluetooth.devices || []), ...customDevices];
 
+        // If there are no devices at all, return false
+        if (allDevices.length === 0) {
+            return false;
+        }
+
+        // Check if there are any connected devices suitable for file transfer
         return allDevices.some(device => {
-            // Check if device is connected and not an input device (like keyboard, mouse, etc.)
-            return (device.connected || device.paired) &&
+            // Check if device is connected (not just paired) and not an input device
+            return device.connected &&
                    !device.name.toLowerCase().includes('keyboard') &&
                    !device.name.toLowerCase().includes('mouse') &&
                    !device.name.toLowerCase().includes('input') &&
@@ -1522,7 +1654,7 @@ export default (props) => {
         child: Box({
             className: 'spacing-h-5',
             children: [
-                MaterialIcon('send_to_mobile', 'small'),
+                MaterialIcon('send_to_mobile', 'small', { className: 'icon-material' }),
                 Label({
                     label: getString('Send Files'),
                     className: 'txt-medium'
@@ -1536,49 +1668,42 @@ export default (props) => {
         setup: setupCursorHover,
     });
 
-    // Update send files button visibility when devices change
-    Bluetooth.connect('device-added', () => {
-        sendFilesButton.visible = hasSuitableDevices();
-    });
-
-    Bluetooth.connect('device-removed', () => {
-        sendFilesButton.visible = hasSuitableDevices();
-    });
-
-    // Update the send files button visibility with rate limiting
     // Track last update time to limit update frequency
-    let lastButtonUpdate = 0;
-    let buttonUpdateScheduled = false;
+    let lastBottomBarUpdate = 0;
+    let bottomBarUpdateScheduled = false;
 
-    const updateSendFilesButtonVisibility = () => {
+    // Function to update the bottom bar based on device availability
+    const updateBottomBar = () => {
         const now = Date.now();
-        const newVisibility = hasSuitableDevices();
+        const hasDevices = hasSuitableDevices();
 
-        // Only update if the visibility has changed
-        if (sendFilesButton.visible !== newVisibility) {
-            // If an update was performed recently, schedule a delayed update
-            if (now - lastButtonUpdate < 1000) {
-                if (!buttonUpdateScheduled) {
-                    buttonUpdateScheduled = true;
-                    Utils.timeout(1000 - (now - lastButtonUpdate), () => {
-                        sendFilesButton.visible = hasSuitableDevices();
-                        lastButtonUpdate = Date.now();
-                        buttonUpdateScheduled = false;
-                    });
-                }
-            } else {
-                // Update immediately if enough time has passed
-                sendFilesButton.visible = newVisibility;
-                lastButtonUpdate = now;
+        // Update the bottom bar with appropriate buttons
+        const updateBar = () => {
+            bottomBar.children = hasDevices
+                ? [settingsButton, sendFilesButton, receivedFilesButton]
+                : [settingsButton, receivedFilesButton];
+            lastBottomBarUpdate = Date.now();
+        };
+
+        // Rate limit updates to prevent UI flickering
+        if (now - lastBottomBarUpdate < 1000) {
+            if (!bottomBarUpdateScheduled) {
+                bottomBarUpdateScheduled = true;
+                Utils.timeout(1000 - (now - lastBottomBarUpdate), () => {
+                    updateBar();
+                    bottomBarUpdateScheduled = false;
+                });
             }
+        } else {
+            // Update immediately if enough time has passed
+            updateBar();
         }
     };
 
     // Update when Bluetooth devices change
-    Bluetooth.connect('notify::devices', updateSendFilesButtonVisibility);
-
-    // Initial update
-    updateSendFilesButtonVisibility();
+    Bluetooth.connect('device-added', updateBottomBar);
+    Bluetooth.connect('device-removed', updateBottomBar);
+    Bluetooth.connect('notify::devices', updateBottomBar);
 
     // Start scanning when Bluetooth is enabled
     Bluetooth.connect('notify::enabled', () => {
@@ -1595,61 +1720,59 @@ export default (props) => {
         timeout(1000, performInitialScan);
     }
 
+    // Create buttons for the bottom bar
+    const settingsButton = Button({
+        hpack: 'center',
+        className: 'sidebar-bluetooth-bottombar-button',
+        child: Box({
+            className: 'spacing-h-5',
+            children: [
+                MaterialIcon('settings', 'small', { className: 'icon-material' }),
+                Label({
+                    label: getString('Settings'),
+                    className: 'txt-medium'
+                }),
+            ],
+        }),
+        tooltipText: getString('Open Bluetooth settings manager'),
+        onClicked: () => {
+            // Use the app specified in user options or blueman-manager as fallback
+            const bluetoothApp = userOptions.apps?.bluetooth || 'blueman-manager';
+            execAsync(['bash', '-c', bluetoothApp]).catch(print);
+            closeEverything();
+        },
+        setup: setupCursorHover,
+    });
+
+    const receivedFilesButton = Button({
+        hpack: 'center',
+        className: 'sidebar-bluetooth-bottombar-button',
+        child: Box({
+            className: 'spacing-h-5',
+            children: [
+                MaterialIcon('folder', 'small', { className: 'icon-material' }),
+                Label({
+                    label: getString('Received Files'),
+                    className: 'txt-medium'
+                }),
+            ],
+        }),
+        tooltipText: getString('Open folder with received Bluetooth files'),
+        onClicked: () => {
+            // Open the default Bluetooth received files directory
+            execAsync(['xdg-open', `${GLib.get_home_dir()}/Downloads`]).catch(print);
+        },
+        setup: setupCursorHover,
+    });
+
     // Bottom bar with additional actions - Material You 3 design
     const bottomBar = Box({
         className: 'sidebar-bluetooth-bottombar',
         homogeneous: true,
         spacing: 15,
-        children: [
-            // Open Bluetooth settings
-            Button({
-                hpack: 'center',
-                className: 'sidebar-bluetooth-bottombar-button',
-                child: Box({
-                    className: 'spacing-h-5',
-                    children: [
-                        MaterialIcon('settings', 'small'),
-                        Label({
-                            label: getString('Settings'),
-                            className: 'txt-medium'
-                        }),
-                    ],
-                }),
-                tooltipText: getString('Open Bluetooth settings manager'),
-                onClicked: () => {
-                    // Use the app specified in user options or blueman-manager as fallback
-                    const bluetoothApp = userOptions.apps?.bluetooth || 'blueman-manager';
-                    execAsync(['bash', '-c', bluetoothApp]).catch(print);
-                    closeEverything();
-                },
-                setup: setupCursorHover,
-            }),
-
-            // Send files button (only visible when suitable devices are connected)
-            sendFilesButton,
-
-            // Open file manager to received files
-            Button({
-                hpack: 'center',
-                className: 'sidebar-bluetooth-bottombar-button',
-                child: Box({
-                    className: 'spacing-h-5',
-                    children: [
-                        MaterialIcon('folder', 'small'),
-                        Label({
-                            label: getString('Received Files'),
-                            className: 'txt-medium'
-                        }),
-                    ],
-                }),
-                tooltipText: getString('Open folder with received Bluetooth files'),
-                onClicked: () => {
-                    // Open the default Bluetooth received files directory
-                    execAsync(['xdg-open', `${GLib.get_home_dir()}/Downloads`]).catch(print);
-                },
-                setup: setupCursorHover,
-            }),
-        ],
+        children: hasSuitableDevices()
+            ? [settingsButton, sendFilesButton, receivedFilesButton] // Include Send Files button only when there are suitable devices
+            : [settingsButton, receivedFilesButton] // Otherwise only show Settings and Received Files
     })
     return Box({
         ...props,
