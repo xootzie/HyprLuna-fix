@@ -66,9 +66,11 @@ startBatteryWarningService().catch(print);
 startAutoDarkModeService().catch(print);
 firstRunWelcome().catch(print);
 
+// Import the monitor detection module
+import { monitorSetup } from "./modules/.commondata/monitordetection.js";
+
 // Create bar only for the primary monitor
-const monitors = Gdk.Display.get_default()?.get_n_monitors() || 1;
-const primaryMonitor = Gdk.Display.get_default()?.get_primary_monitor() || 0;
+const primaryMonitor = monitorSetup.value.primary;
 
 // Only create a bar for the primary monitor
 Bar(primaryMonitor)
