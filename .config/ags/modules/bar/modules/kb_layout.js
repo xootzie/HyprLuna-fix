@@ -42,7 +42,7 @@ const createKeyboardWidget = () => {
     // Also add an unknown label
     layoutLabels.unknown = Widget.Label({
         label: "?",
-        className: 'txt-small onSurfaceVariant',
+        className: 'txt-tiny onSurfaceVariant',
         hpack: 'center',
         vpack: 'center',
         justify: 'center'
@@ -85,7 +85,7 @@ const createKeyboardWidget = () => {
                 hpack: 'center',
                 child: Widget.Label({
                     label: 'keyboard',
-                    className: 'txt-norm onSurfaceVariant icon-material',
+                    className: 'txt-tiny onSurfaceVariant icon-material',
                 })
             }),
             Widget.Box({ child: labelStack })
