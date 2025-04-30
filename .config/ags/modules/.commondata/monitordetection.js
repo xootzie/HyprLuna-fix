@@ -73,7 +73,7 @@ Hyprland.connect("notify::monitors", () => {
         };
 
         // Restart AGS to apply the changes
-        restartAgs();
+      //  restartAgs();
     } else {
         // Just update the variable without restart if only the monitor list changed
         monitorSetup.value = {
@@ -100,7 +100,7 @@ Hyprland.active.connect("changed", () => {
             };
 
             // Restart AGS to apply the changes
-            restartAgs();
+          //  restartAgs();
         }
     }
 });
