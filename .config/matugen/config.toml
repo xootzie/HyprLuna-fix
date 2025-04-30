@@ -21,11 +21,11 @@ output_path = "~/.config/rofi/colors.rasi"
 # GTK
 
 # >> fallback gradiance mode but abit slower
-[templates.gradience]
-pre_hook = "rm -rf ~/.config/gtk-4.0"
-input_path = "~/.config/matugen/templates/gradience.json"
-output_path = "~/.cache/ags/user/generated/gradience/gradience.json"
-post_hook = "gradience-cli apply -p ~/.cache/ags/user/generated/gradience/gradience.json --gtk both"
+#[templates.gradience]
+#pre_hook = "rm -rf ~/.config/gtk-4.0"
+#input_path = "~/.config/matugen/templates/gradience.json"
+#output_path = "~/.cache/ags/user/generated/gradience/gradience.json"
+#post_hook = "gradience-cli apply -p ~/.cache/ags/user/generated/gradience/gradience.json --gtk both"
 
 [templates.gtk3]
 input_path = '~/.config/matugen/templates/gtk-colors.css'
@@ -65,6 +65,7 @@ output_path = "~/.config/foot/colors.ini"
 [templates.kitty]
 input_path = "~/.config/matugen/templates/kitty-colors.conf"
 output_path = "~/.cache/ags/user/generated/kitty-colors.conf"
+# post_hook = "kitty @ load-config"
 
 [templates.ghostty]
 input_path = "~/.config/matugen/templates/ghostty.conf"
