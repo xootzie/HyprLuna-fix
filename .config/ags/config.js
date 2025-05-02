@@ -66,14 +66,24 @@ startBatteryWarningService().catch(print);
 startAutoDarkModeService().catch(print);
 firstRunWelcome().catch(print);
 
-// Import the monitor detection module
-import { monitorSetup } from "./modules/.commondata/monitordetection.js";
+// Import variables for bar monitor mode
+import { barMonitorMode, findMonitorByName } from "./variables.js";
+import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
 
-// Create bar only for the primary monitor
-const primaryMonitor = monitorSetup.value.primary;
+// Get all available monitors
+const allMonitors = Hyprland.monitors;
 
-// Only create a bar for the primary monitor
-Bar(primaryMonitor)
+// Get the target monitor based on barMonitorMode
+const targetMonitorName = barMonitorMode.value;
+const targetMonitor = findMonitorByName(targetMonitorName);
+
+// Only log if there are multiple monitors
+if (allMonitors.length > 1) {
+  console.log(`Creating bar for monitor: ${targetMonitorName} (ID: ${targetMonitor})`);
+}
+
+// Create bar for the specified monitor
+Bar(targetMonitor)
   .then(([mainBar, leftCorner, rightCorner]) => {
     App.addWindow(mainBar);
     App.addWindow(leftCorner);

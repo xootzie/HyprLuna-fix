@@ -200,6 +200,7 @@ export const sidebarOptionsStack = ExpandingIconTabContainer({
     if (getEnabledModules()[id].onFocus) getEnabledModules()[id].onFocus();
   },
 });
+
 const getRandomImage = () => {
   try {
       const animeDir = `${GLib.get_home_dir()}/.config/ags/assets/anime`;
