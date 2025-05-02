@@ -13,7 +13,7 @@ import CavaService from "../../services/cava.js";
 import clickCloseRegion from "../.commonwidgets/clickcloseregion.js";
 import Audio from 'resource:///com/github/Aylur/ags/service/audio.js';
 const elevate = userOptions.asyncGet().etc.widgetCorners
-  ? "osd-round osd-music "
+  ? "osd-music-round osd-music "
   : "osd-music elevation elevate-music ";
 const mode = userOptions.asyncGet().etc.enableAmberol ? "amberoled " : "";
 
