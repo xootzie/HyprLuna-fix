@@ -32,8 +32,7 @@ const createKeyboardWidget = () => {
         
         layoutLabels[layout] = Widget.Label({
             label,
-            className: 'txt-small onSurfaceVariant',
-            hpack: 'center',
+            className: 'txt-tiny onSurfaceVariant',
             vpack: 'center',
             justify: 'center'
         });
@@ -80,12 +79,12 @@ const createKeyboardWidget = () => {
         children: [
             Widget.EventBox({
                 onPrimaryClick: () => {
-                    App.toggleWindow("osk0");
+                    App.toggleWindow("osk");
                 },
                 hpack: 'center',
                 child: Widget.Label({
                     label: 'keyboard',
-                    className: 'txt-tiny onSurfaceVariant icon-material',
+                    className: 'txt-small onSurfaceVariant icon-material',
                 })
             }),
             Widget.Box({ child: labelStack })
@@ -141,5 +140,6 @@ function getCurrentLayout(configuredLayouts, nameToLayout) {
 export default () => Widget.Box({
     vpack: 'center',
     hpack: 'center',
+    css: 'margin-right: 0.9rem;',
     children: [createKeyboardWidget()],
 });
