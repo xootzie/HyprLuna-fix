@@ -339,6 +339,7 @@
     "enabled": true,
     "hiddenThickness": 7,
     "dockSize": 36,
+    "exclusivity": "exclusive",
     "pinnedApps": [
       "zen-browser",
       "spotube",
