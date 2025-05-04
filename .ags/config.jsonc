@@ -1,6 +1,6 @@
 {
   "muslim": {
-    "enabled": true,
+    "enabled": false,
     "prayerTimes": {
       "city": "Matrouh",
       "country": "Egypt"
@@ -34,7 +34,7 @@
     "enableWisecat": true,
     "zoomEffect": true,
     "resources": true,
-    "visible": false
+    "visible": true
   },
   "ai": {
     "defaultGPTProvider": "deepseek-r1",
@@ -127,7 +127,7 @@
     "ModuleCalendar": {
       "enabled": true,
       "visible": true,
-      "default": "prayertimes"
+      "default": "calendar"
     },
     "showAnimeCat": true,
     "centerModules": {
@@ -142,7 +142,7 @@
         "prayerTimes"
       ],
       "vpnGate": {
-        "enabled": true
+        "enabled": false
       },
       "notifications": {
         "enabled": true
@@ -164,7 +164,7 @@
         "enabled": true
       },
       "prayerTimes": {
-        "enabled": true
+        "enabled": false
       }
     },
     "github": {
@@ -238,7 +238,7 @@
     "pages": {
       "order": ["apis", "tools", "github"],
       "apis": {
-        "order": ["gpt", "gemini", "quran", "wallpapers", "translater", "medicaldictionary"]
+        "order": ["gpt", "gemini", "translater"]
       }
     },
     "translater": {
@@ -319,10 +319,7 @@
     "pinnedApps": [
       "code",
       "com.mitchellh.ghostty",
-      "com.obsproject.Studio",
       "firefox",
-      "jetbrains-webstorm",
-      "nvim",
       "spotify",
       "vesktop"
     ],
@@ -431,7 +428,7 @@
     "clickCloseRegion": true,
     "sideLeftPin": true,
     "cornerRadius": "20",
-    "widgetCorners": false,
+    "widgetCorners": true,
     "todoPath": "Documents/HyprLuna/TODOS.md",
     "recordingPath": "/Videos/Records",
     "screencorners": {
