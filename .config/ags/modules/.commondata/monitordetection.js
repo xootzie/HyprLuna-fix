@@ -26,7 +26,6 @@ export const detectPrimaryMonitor = () => {
 
         // Fallback to GDK's primary monitor detection
         const gdkPrimary = Gdk.Display.get_default()?.get_primary_monitor() || 0;
-        console.log(`Falling back to GDK primary monitor: ${gdkPrimary}`);
         return gdkPrimary;
     } catch (error) {
         console.error('Error detecting primary monitor:', error);
@@ -64,9 +63,7 @@ Hyprland.connect("notify::monitors", () => {
 
     // Check if primary monitor has changed
     if (monitorSetup.value.primary !== newPrimary) {
-        console.log(`Primary monitor changed from ${monitorSetup.value.primary} to ${newPrimary}`);
-
-        // Update the variable
+        // Update the variable without logging
         monitorSetup.value = {
             primary: newPrimary,
             all: newAll,
@@ -91,9 +88,7 @@ Hyprland.active.connect("changed", () => {
 
         // Check if primary monitor has changed
         if (monitorSetup.value.primary !== newPrimary) {
-            console.log(`Active monitor changed. New primary: ${newPrimary}`);
-
-            // Update the variable
+            // Update the variable without logging
             monitorSetup.value = {
                 ...monitorSetup.value,
                 primary: newPrimary,

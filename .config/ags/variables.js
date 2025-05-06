@@ -26,46 +26,14 @@ const getInitialMode = () => {
   const modes = {};
   const savedMode = settings.get_string(KEY_BAR_MODE) || "0";
 
-  // Get the target monitor based on barMonitorMode (which will be initialized later)
-  // For now, we'll use the user option directly
-  const targetMonitorName = userOptions.asyncGet().bar.monitorMode || "primary";
+  // We'll set modes for all monitors regardless of target
 
-  // Find the target monitor ID
-  let targetMonitorId = 0; // Default to monitor 0
-
-  // Only do special monitor handling if there's more than one monitor
-  if (monitors.length > 1) {
-    if (targetMonitorName === "primary") {
-      // Try to find the primary monitor
-      const gdkPrimary = Gdk.Display.get_default()?.get_primary_monitor() || 0;
-      targetMonitorId = gdkPrimary;
-    } else {
-      // Try to find the monitor by name
-      const foundMonitor = monitors.find(monitor => monitor.name === targetMonitorName);
-      if (foundMonitor) {
-        targetMonitorId = foundMonitor.id;
-      }
-    }
-
-    // Set the mode for all monitors
-    monitors.forEach((monitor) => {
-      const monitorId = monitor.id;
-
-      // Initialize all monitors with the saved mode for consistency
-      modes[monitorId] = savedMode;
-
-      // Only log if there are multiple monitors
-      console.log(`Initializing monitor ${monitorId} with mode ${savedMode}`);
-    });
-
-    // Log the initial setup only if there are multiple monitors
-    console.log(`Initial bar mode setup: target monitor ${targetMonitorName} (ID: ${targetMonitorId}), mode: ${savedMode}`);
-  } else {
-    // If there's only one monitor, just set the mode without logging
-    monitors.forEach((monitor) => {
-      modes[monitor.id] = savedMode;
-    });
-  }
+  // Set the mode for all monitors
+  monitors.forEach((monitor) => {
+    const monitorId = monitor.id;
+    // Initialize all monitors with the saved mode for consistency
+    modes[monitorId] = savedMode;
+  });
 
   // Ensure monitor 0 has the saved mode (for compatibility)
   modes[0] = savedMode;
@@ -136,22 +104,25 @@ export const updateMonitorShellMode = (monitorShellModes, monitor, mode) => {
     newValue[monitor] = mode;
   }
 
+  // Update all monitors with the new mode when there's only one monitor
+  // This ensures mode switching works properly in single monitor setup
+  if (allMonitors.length <= 1) {
+    allMonitors.forEach((mon) => {
+      newValue[mon.id] = mode;
+    });
+  }
+
   monitorShellModes.value = newValue;
 
   // Save the mode to gsettings
   settings.set_string(KEY_BAR_MODE, mode);
 
-  // Only log if there are multiple monitors
-  if (allMonitors.length > 1) {
-    console.log(`Bar mode updated to ${mode} for monitor ${targetMonitorName} (ID: ${targetMonitor})`);
-  }
+  // Log the mode change regardless of monitor count
+  console.log(`Bar mode updated to ${mode} for monitor ${targetMonitorName} (ID: ${targetMonitor})`);
 };
 
 // Bar position toggle
 globalThis["toggleBarPosition"] = () => {
-  // Get all available monitors
-  const allMonitors = Hyprland.monitors;
-
   // Get the target monitor based on barMonitorMode
   const targetMonitorName = barMonitorMode.value;
   const targetMonitor = findMonitorByName(targetMonitorName);
@@ -175,10 +146,8 @@ globalThis["toggleBarPosition"] = () => {
   settings.set_string(KEY_BAR_POSITION, newPosition);
   barPosition.value = newPosition;
 
-  // Only log if there are multiple monitors
-  if (allMonitors.length > 1) {
-    console.log(`Toggled bar position to ${newPosition} for monitor ${targetMonitorName} (ID: ${targetMonitor})`);
-  }
+  // Log the position change regardless of monitor count
+  console.log(`Toggled bar position to ${newPosition} for monitor ${targetMonitorName} (ID: ${targetMonitor})`);
 };
 
 // Bar monitor mode toggle - implemented in modules/bar/multimonitor.js
@@ -219,7 +188,11 @@ globalThis["toggleWindowOnAllMonitors"] = (name) => {
 };
 globalThis["closeWindowOnAllMonitors"] = (name) => {
   range(Gdk.Display.get_default()?.get_n_monitors() || 1, 0).forEach((id) => {
-    App.closeWindow(`${name}${id}`);
+    const windowName = `${name}${id}`;
+    // Check if the window exists before trying to close it
+    if (App.windows[windowName]) {
+      App.closeWindow(windowName);
+    }
   });
 };
 globalThis["openWindowOnAllMonitors"] = (name) => {
@@ -231,8 +204,10 @@ globalThis["openWindowOnAllMonitors"] = (name) => {
 globalThis["closeEverything"] = async () => {
   const numMonitors = Gdk.Display.get_default()?.get_n_monitors() || 1;
   for (let i = 0; i < numMonitors; i++) {
-    App.closeWindow(`cheatsheet${i}`);
-    App.closeWindow(`session${i}`);
+    // Check if windows exist before trying to close them
+    if (App.windows[`cheatsheet${i}`]) App.closeWindow(`cheatsheet${i}`);
+    if (App.windows[`session${i}`]) App.closeWindow(`session${i}`);
+    if (App.windows[`glance${i}`]) App.closeWindow(`glance${i}`);
   }
 
   try {
@@ -245,13 +220,14 @@ globalThis["closeEverything"] = async () => {
     console.log("Error killing rofi: " + error.message);
   }
 
-  App.closeWindow("sideleft");
-  App.closeWindow("sideright");
-  App.closeWindow("overview");
-  App.closeWindow("music");
-  App.closeWindow("glance");
-  App.closeWindow("recorder");
-  App.closeWindow("wallselect");
+  // Check if windows exist before trying to close them
+  if (App.windows["sideleft"]) App.closeWindow("sideleft");
+  if (App.windows["sideright"]) App.closeWindow("sideright");
+  if (App.windows["overview"]) App.closeWindow("overview");
+  if (App.windows["music"]) App.closeWindow("music");
+  if (App.windows["glance"]) App.closeWindow("glance"); // Keep this for backward compatibility
+  if (App.windows["recorder"]) App.closeWindow("recorder");
+  if (App.windows["wallselect"]) App.closeWindow("wallselect");
 };
 
 // Watch for monitor changes and update modes
@@ -277,11 +253,6 @@ Hyprland.connect("notify::monitors", () => {
     if (monitorId === targetMonitor) {
       // Use the saved mode from gsettings for the target monitor
       newModes[monitorId] = savedMode;
-
-      // Only log if there are multiple monitors
-      if (allMonitors.length > 1) {
-        console.log(`Preserving saved mode ${savedMode} for target monitor ${targetMonitorName} (ID: ${targetMonitor})`);
-      }
     } else {
       // For other monitors, keep their existing mode if available, otherwise use the saved mode
       newModes[monitorId] = currentModes[monitorId] || savedMode;
@@ -290,20 +261,9 @@ Hyprland.connect("notify::monitors", () => {
 
   // Update the modes
   currentShellMode.value = newModes;
-
-  // Only log if there are multiple monitors
-  if (allMonitors.length > 1) {
-    console.log("Updated monitor modes after monitor change:");
-    allMonitors.forEach(monitor => {
-      console.log(`- Monitor ${monitor.id} (${monitor.name}): ${newModes[monitor.id] || "not set"}`);
-    });
-  }
 });
 
 globalThis["cycleMode"] = () => {
-  // Get all available monitors
-  const allMonitors = Hyprland.monitors;
-
   // Get the target monitor based on barMonitorMode
   const targetMonitorName = barMonitorMode.value;
   const targetMonitor = findMonitorByName(targetMonitorName);
@@ -317,10 +277,8 @@ globalThis["cycleMode"] = () => {
   // Update the mode for the target monitor
   updateMonitorShellMode(currentShellMode, targetMonitor, nextMode.toString());
 
-  // Only log if there are multiple monitors
-  if (allMonitors.length > 1) {
-    console.log(`Cycled bar mode to ${nextMode} on monitor ${targetMonitorName} (ID: ${targetMonitor})`);
-  }
+  // Log the mode change regardless of monitor count
+  console.log(`Cycled bar mode to ${nextMode} on monitor ${targetMonitorName} (ID: ${targetMonitor})`);
 };
 
 // Add a debug function to list all monitors
@@ -328,31 +286,21 @@ globalThis["listMonitors"] = () => {
   // Get all available monitors
   const allMonitors = Hyprland.monitors;
 
-  // Only log if there are multiple monitors
-  if (allMonitors.length > 1) {
-    console.log("Available monitors:");
-    allMonitors.forEach(monitor => {
-      console.log(`- ID: ${monitor.id}, Name: ${monitor.name}, Description: ${monitor.description}`);
-      console.log(`  Current mode: ${currentShellMode.value[monitor.id] || "not set"}`);
-    });
+  // Only log when explicitly called
+  console.log("Available monitors:");
+  allMonitors.forEach(monitor => {
+    console.log(`- ID: ${monitor.id}, Name: ${monitor.name}, Description: ${monitor.description}`);
+    console.log(`  Current mode: ${currentShellMode.value[monitor.id] || "not set"}`);
+  });
 
-    console.log(`\nCurrent barMonitorMode: ${barMonitorMode.value}`);
-    console.log(`Target monitor ID: ${findMonitorByName(barMonitorMode.value)}`);
-  }
+  console.log(`\nCurrent barMonitorMode: ${barMonitorMode.value}`);
+  console.log(`Target monitor ID: ${findMonitorByName(barMonitorMode.value)}`);
 };
 
 // Force immediate update to ensure mode is set
 Utils.timeout(0, () => {
   const modes = currentShellMode.value;
   currentShellMode.value = { ...modes };
-
-  // Get all available monitors
-  const allMonitors = Hyprland.monitors;
-
-  // Only log monitor information on startup if there are multiple monitors
-  if (allMonitors.length > 1) {
-    globalThis.listMonitors();
-  }
 });
 
 // Clean up timeouts and hooks properly to free memory

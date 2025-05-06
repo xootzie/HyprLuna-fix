@@ -26,10 +26,25 @@ import Glance from "./modules/overview/glance.js";
 const COMPILED_STYLE_DIR = `${GLib.get_user_cache_dir()}/ags/user/generated`;
 const opts = await userOptions.asyncGet();
 
+// Import variables for bar monitor mode
+import { barMonitorMode, findMonitorByName } from "./variables.js";
+import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
+
 const range = (length, start = 1) =>
   Array.from({ length }, (_, i) => i + start);
 
 function forMonitors(widget) {
+  // Get the target monitor based on barMonitorMode
+  const targetMonitorName = barMonitorMode.value;
+
+  // If monitorMode is set to a specific monitor name (not "primary"),
+  // and there are multiple monitors, only create widgets for the target monitor
+  if (targetMonitorName !== "primary" && Hyprland.monitors.length > 1) {
+    const targetMonitor = findMonitorByName(targetMonitorName);
+    return [widget(targetMonitor)].flat(1);
+  }
+
+  // Otherwise, create widgets for all monitors (original behavior)
   const n = Gdk.Display.get_default()?.get_n_monitors() || 1;
   return range(n, 0).map(widget).flat(1);
 }
@@ -66,9 +81,7 @@ startBatteryWarningService().catch(print);
 startAutoDarkModeService().catch(print);
 firstRunWelcome().catch(print);
 
-// Import variables for bar monitor mode
-import { barMonitorMode, findMonitorByName } from "./variables.js";
-import Hyprland from "resource:///com/github/Aylur/ags/service/hyprland.js";
+// Import variables for bar monitor mode and Hyprland service
 
 // Get all available monitors
 const allMonitors = Hyprland.monitors;
