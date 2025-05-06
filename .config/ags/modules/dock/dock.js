@@ -10,12 +10,50 @@ import { setupCursorHover } from '../.widgetutils/cursorhover.js';
 import { getAllFiles } from './icons.js'
 import { getValidIcon } from '../.miscutils/icon_handling.js';
 
+// Simple file to store dock pin state
+const DOCK_PIN_FILE = GLib.build_filenamev([GLib.get_user_cache_dir(), 'ags', 'dock_pinned']);
+
+// Function to load pin state from file
+const loadPinState = () => {
+    try {
+        if (GLib.file_test(DOCK_PIN_FILE, GLib.FileTest.EXISTS)) {
+            const [success, contents] = GLib.file_get_contents(DOCK_PIN_FILE);
+            if (success) {
+                const text = new TextDecoder().decode(contents).trim();
+                return text === 'true';
+            }
+        }
+    } catch (error) {
+        console.error('Error loading dock pin state:', error);
+    }
+    return false;
+};
+
+// Function to save pin state to file
+const savePinState = (pinned) => {
+    try {
+        // Ensure directory exists
+        const dir = GLib.path_get_dirname(DOCK_PIN_FILE);
+        if (!GLib.file_test(dir, GLib.FileTest.EXISTS)) {
+            GLib.mkdir_with_parents(dir, 0o755);
+        }
+
+        // Write state to file
+        const data = new TextEncoder().encode(pinned ? 'true' : 'false');
+        GLib.file_set_contents(DOCK_PIN_FILE, data);
+    } catch (error) {
+        console.error('Error saving dock pin state:', error);
+    }
+};
+
 const icon_files = userOptions.asyncGet().icons.searchPaths.map(e => getAllFiles(e)).flat(1)
 let dockSize = userOptions.asyncGet().dock.dockSize
 const elevate = userOptions.asyncGet().etc.widgetCorners ? "dock-bg dock-round " : "elevation dock-bg"
 let appSpacing = dockSize / 15
+
 // Export isPinned as a variable that can be accessed from outside
-export let isPinned = false
+// Initialize from saved state
+export let isPinned = loadPinState();
 let cachePath = new Map()
 
 // Create a list of callbacks to be called when isPinned changes
@@ -102,12 +140,20 @@ export const PinButton = () => Widget.Button({
         // Update the button appearance
         self.className = `${isPinned ? "pinned-dock-app-btn dock-app-btn-animate" : " dock-app-btn-animate"}`
 
+        // Save the pin state to file to persist across reboots
+        savePinState(isPinned);
+
         // Notify all registered callbacks about the pin state change
         pinStateCallbacks.forEach(callback => {
             if (callback) callback(isPinned)
         })
     },
-    setup: setupCursorHover,
+    setup: (self) => {
+        setupCursorHover(self);
+
+        // Set initial button state based on loaded pin state
+        self.className = `${isPinned ? "pinned-dock-app-btn dock-app-btn-animate" : " dock-app-btn-animate"}`;
+    },
 })
 
 const AppButton = ({ icon, ...rest }) => Widget.Revealer({
@@ -333,7 +379,8 @@ export default (monitor = 0) => {
                 return self.revealChild
             }
         },
-        revealChild: false,
+        // Set initial reveal state based on pin status
+        revealChild: isPinned,
         transition: 'slide_up',
         transitionDuration: userOptions.asyncGet().animations.durationSmall,
         child: dockContent,
