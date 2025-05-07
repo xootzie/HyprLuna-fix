@@ -56,6 +56,10 @@ post_hook = "hyprctl reload"
 input_path = "~/.config/matugen/templates/hyprland-colors.conf"
 output_path = "~/.cache/ags/user/generated/colors.conf"
 
+[templates.hyprplugins]
+input_path = "~/.config/matugen/templates/hyprplugins.conf"
+output_path = "~/.config/hypr/hyprland/plugins/default.conf"
+
 # Terminals
 
 [templates.foot]
@@ -99,6 +103,10 @@ output_path = "~/.config/spicetify/Themes/Comfy/colors.ini"
 input_path = "~/.config/matugen/templates/discord.css"
 output_path = "~/.config/vesktop/themes/HyprLuna.css"
 
+[templates.vencord]
+input_path = "~/.config/matugen/templates/discord.css"
+output_path = "~/.config/Vencord/themes/HyprLuna.css"
+
 [templates.obsidian]
 input_path = "~/.config/matugen/templates/obsidian.css"
 output_path = "~/Documents/HyprLuna/.obsidian/themes/Border/theme.css"
@@ -107,9 +115,9 @@ output_path = "~/Documents/HyprLuna/.obsidian/themes/Border/theme.css"
 input_path = "~/.config/matugen/templates/hyprlunavsc.json"
 output_path = "~/.vscode/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprluna.json"
 
-[templates.cursor]
+[templates.vscode-insiders]
 input_path = "~/.config/matugen/templates/hyprlunavsc.json"
-output_path = "~/.cursor/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprluna.json"
+output_path = "~/.vscode-insiders/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprluna.json"
 
 [templates.windsurf]
 input_path = "~/.config/matugen/templates/hyprlunavsc.json"
@@ -119,3 +127,16 @@ output_path = "~/.windsurf/extensions/hyprluna.hyprluna-theme-1.0.2/themes/hyprl
 input_path = '~/.config/matugen/templates/pywalfox-colors.json'
 output_path = '~/.cache/wal/colors.json'
 post_hook = 'pywalfox update'
+
+
+[templates.zen]
+input_path = "~/.config/matugen/templates/zenbrowser.css"
+output_path = "~/.zen/gh7g62uo.nixevluna/chrome/userChrome.css"
+
+[templates.kvantum]
+input_path = "~/.config/matugen/templates/kvantum.kvconfig"
+output_path = "~/.config/Kvantum/MaterialAdw/MaterialAdw.kvconfig"
+
+[templates.kvantum_svg]
+input_path = "~/.config/matugen/templates/kvantum.svg"
+output_path = "~/.config/Kvantum/MaterialAdw/MaterialAdw.svg"
