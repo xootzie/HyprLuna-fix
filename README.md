@@ -33,59 +33,31 @@
     <td width="50%" align="center"><img src="previews/notch2.png" alt="HyprLuna Desktop with Notch" style="border-radius: 12px; width: 100%; height: auto;"></td>
     <td width="50%" align="center"><img src="previews/1.png" alt="HyprLuna Main Desktop" style="border-radius: 12px; width: 100%; height: auto;"></td>
   </tr>
-  <!-- <tr>
-    <td align="center"><b>Notch Style Interface</b></td>
-    <td align="center"><b>Main Desktop</b></td>
-  </tr> -->
-  <tr>
+   <tr>
     <td width="50%" align="center"><img src="previews/2.png" alt="Application Layout" style="border-radius: 12px; width: 100%; height: auto;"></td>
     <td width="50%" align="center"><img src="previews/3.png" alt="Terminal Workflow" style="border-radius: 12px; width: 100%; height: auto;"></td>
   </tr>
-  <!-- <tr>
-    <td align="center"><b>Application Layout</b></td>
-    <td align="center"><b>Terminal Workflow</b></td>
-  </tr> -->
-  <tr>
+    <tr>
     <td width="50%" align="center"><img src="previews/4.png" alt="Sidebar Widgets" style="border-radius: 12px; width: 100%; height: auto;"></td>
     <td width="50%" align="center"><img src="previews/5.png" alt="Notification Center" style="border-radius: 12px; width: 100%; height: auto;"></td>
   </tr>
-  <!-- <tr>
-    <td align="center"><b>Sidebar Widgets</b></td>
-    <td align="center"><b>Notification Center</b></td>
-  </tr> -->
-  <tr>
+    <tr>
     <td width="50%" align="center"><img src="previews/6.png" alt="Quick Settings" style="border-radius: 12px; width: 100%; height: auto;"></td>
     <td width="50%" align="center"><img src="previews/7.png" alt="Application Launcher" style="border-radius: 12px; width: 100%; height: auto;"></td>
   </tr>
-  <!-- <tr>
-    <td align="center"><b>Quick Settings</b></td>
-    <td align="center"><b>Application Launcher</b></td>
-  </tr> -->
-  <tr>
+    <tr>
     <td width="50%" align="center"><img src="ricing/12.png" alt="HyprLuna Desktop with Notch" style="border-radius: 12px; width: 100%; height: auto;"></td>
     <td width="50%" align="center"><img src="ricing/1.png" alt="HyprLuna Main Desktop" style="border-radius: 12px; width: 100%; height: auto;"></td>
   </tr>
-  <!-- <tr>
-    <td align="center"><b>Notch Style Interface</b></td>
-    <td align="center"><b>Main Desktop</b></td>
-  </tr> -->
-  <tr>
+    <tr>
     <td width="50%" align="center"><img src="ricing/2.png" alt="Application Layout" style="border-radius: 12px; width: 100%; height: auto;"></td>
     <td width="50%" align="center"><img src="ricing/3.png" alt="Terminal Workflow" style="border-radius: 12px; width: 100%; height: auto;"></td>
   </tr>
-  <!-- <tr>
-    <td align="center"><b>Application Layout</b></td>
-    <td align="center"><b>Terminal Workflow</b></td>
-  </tr> -->
-  <tr>
+   <tr>
     <td width="50%" align="center"><img src="ricing/4.png" alt="Sidebar Widgets" style="border-radius: 12px; width: 100%; height: auto;"></td>
     <td width="50%" align="center"><img src="ricing/5.png" alt="Notification Center" style="border-radius: 12px; width: 100%; height: auto;"></td>
   </tr>
-  <!-- <tr>
-    <td align="center"><b>Sidebar Widgets</b></td>
-    <td align="center"><b>Notification Center</b></td>
-  </tr> -->
-  <tr>
+   <tr>
     <td width="50%" align="center"><img src="ricing/6.png" alt="Quick Settings" style="border-radius: 12px; width: 100%; height: auto;"></td>
     <td width="50%" align="center"><img src="ricing/7.png" alt="Application Launcher" style="border-radius: 12px; width: 100%; height: auto;"></td>
   </tr>
@@ -97,17 +69,14 @@
     <td width="50%" align="center"><img src="ricing/10.png" alt="Quick Settings" style="border-radius: 12px; width: 100%; height: auto;"></td>
     <td width="50%" align="center"><img src="ricing/11.png" alt="Application Launcher" style="border-radius: 12px; width: 100%; height: auto;"></td>
   </tr>
-  <!-- <tr>
-    <td align="center"><b>Quick Settings</b></td>
-    <td align="center"><b>Application Launcher</b></td>
-  </tr> -->
-</table>
+  </table>
 <div>
 </br>
-<h1>Do you need help or join us? <a href="https://discord.gg/qnAHD9keWr">Join Here</a><h1>
+<h1>Do you need help or join us? <a href="https://discord.gg/qnAHD9keWr">Join Here</a></h1>
 </div>
 <h1>To install please read our official website: <a href="https://hyprluna.vercel.app">Hyprluna wiki</a></h1>
 </div>
+
 <div align="center" style="background-color: #11111b; border-radius: 8px; padding: 15px;">
 
 ## 📝 License & Copyright
