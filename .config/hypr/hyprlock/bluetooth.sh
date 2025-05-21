@@ -11,7 +11,7 @@ bluetooth_status=$(bluetoothctl show | grep "Powered:" | awk '{print $2}')
 
 # Check if Bluetooth is powered on
 if [ "$bluetooth_status" != "yes" ]; then
-    echo "󰂯 Bluetooth Off"
+    echo "󰂯 Off"
     exit 0
 fi
 
