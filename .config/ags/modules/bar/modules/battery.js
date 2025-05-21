@@ -245,7 +245,7 @@ const BatteryContent = () => {
     };
 
     // Don't update initially, only when opened
-    // updateBatteryDetails();
+    updateBatteryDetails();
 
     // Periodic updates with longer interval
     const startPeriodicUpdates = () => {
@@ -302,11 +302,11 @@ export default () => {
             });
         },
         child: Widget.EventBox({
-        onSecondaryClick: () => {
-            execAsync(["bash", "-c", userOptions.asyncGet().apps.taskManager]);
-        },
-        child: BatteryContent(),
-    }),
+            onSecondaryClick: () => {
+                execAsync(["bash", "-c", userOptions.asyncGet().apps.taskManager]);
+            },
+            child: BatteryContent(),
+        }),
     });
 
     return batteryContainer;

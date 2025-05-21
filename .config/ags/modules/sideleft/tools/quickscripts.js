@@ -20,7 +20,7 @@ const scripts = [
     {
         icon: 'screen-resolution-symbolic',
         name: getString('Change screen resolution'),
-        command: `bash ${App.configDir}/modules/sideleft/tools/changeres.sh`,
+        command: `ghostty -e ${App.configDir}/modules/sideleft/tools/changeres.sh`,
         enabled: true,
     },
     {
