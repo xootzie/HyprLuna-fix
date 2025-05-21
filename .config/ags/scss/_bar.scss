@@ -1,7 +1,7 @@
 // 1rem = 11pt = 14.6666666667px
 $bar_ws_width: 1.774rem;
 $bar_ws_width_focus: 1rem;
-$bar_ws_width_focus_active: 6.045rem;
+$bar_ws_width_focus_active: 4.045rem;
 
 @mixin bar-group-rounding {
     @include small-rounding;
@@ -78,11 +78,12 @@ $bar_ws_width_focus_active: 6.045rem;
 
 .bar-knocks {
     @include menu_accel_fast;
-    border-radius: $rounding_mediumlarge;
+    @include full-rounding;
     margin: 0.6rem 0;
     border: 0.4px solid $outliner;
     background-color: $layer0;
     padding: 0rem 1rem;
+    min-height: 0.5rem;
     box-shadow:
         0 4px 2px rgba($shadow, 0.15),
         /* Lighter, broader blur for depth */
@@ -99,9 +100,8 @@ $bar_ws_width_focus_active: 6.045rem;
 .bar-floating {
     background-color: $layer0;
     @include elevation2;
-    border: 0.4px solid rgba($outliner, 0.6);
     @include anim-enter;
-    @include normal-rounding;
+    @include large-rounding;
     box-shadow:
         0 5px 3px rgba($shadow, 0.15),
         /* Lighter, broader blur for depth */
@@ -112,11 +112,7 @@ $bar_ws_width_focus_active: 6.045rem;
 }
 
 .bar-floating-outline {
-    background-color: $layer0;
-    @include elevation2;
-    // border: 0.5px solid rgba($onSurfaceVariant, 0.5);
-    @include anim-enter;
-    @include small-rounding;
+    border: 0.5px solid rgba($onSurfaceVariant, 0.5);
 }
 
 .bar-height {
@@ -659,8 +655,7 @@ $bar_ws_width_focus_active: 6.045rem;
 .battery-scale-container {
     @include element_decel;
     @include small-rounding;
-    padding: 0 6px;
-    background: $layer1;
+    padding: 0 0 0 12px;
 }
 
 .battery-scale-box {
@@ -668,7 +663,6 @@ $bar_ws_width_focus_active: 6.045rem;
 }
 
 .battery-icon-box {
-    padding: 0 2px;
 
     &.bar-batt-charging {
         color: $primary;
@@ -680,20 +674,19 @@ $bar_ws_width_focus_active: 6.045rem;
 }
 
 .battery-scale-bar {
+    background-color: $primary;
     min-width: 50px;
-    background-color: $onSurfaceVariant;
     border-radius: 99px;
 
     trough progress {
-        // background-color: $primary;
-        background: linear-gradient(90deg, $secondary 1%, $primaryContainer);
+        background: linear-gradient(90deg, $surfaceContainerHigh 1%, $secondaryContainer);
         animation: chargeAnimation 10s linear infinite;
         border-radius: 99px;
         min-height: 15.5px;
     }
 
     &.bar-batt-charging trough progress {
-        background: linear-gradient(90deg, $black, $primary);
+        background: linear-gradient(90deg, $surfaceContainerHigh, $primary);
         border-radius: 99px;
         min-height: 15.5px;
         animation: chargeAnimation 2s linear infinite;
@@ -739,28 +732,32 @@ $bar_ws_width_focus_active: 6.045rem;
         background-color: $activecolor;
     }
 }
+.battery-module {
+    background-color: $background;
+    @include large-rounding;
+
+}
 
 // // Module switcher styles
-// .module-switcher {
-//     min-width: 2.5rem;
-//     min-height: 2.5rem;
+//  .module-switcher {
+//      min-width: 2.5rem;
+//      min-height: 2.5rem;
 
-//     stack {
-//         min-height: 2.5rem;
-//         padding: 0;
-//         margin: 0;
-//     }
+//      stack {
+//          min-height: 2.5rem;
+//          padding: 0;
+//          margin: 0;
+//      }
 
-//     .module-box {
-//         min-height: 2.5rem;
-//         padding: 0.25rem;
-//         margin: 0;
-//         border-radius: $rounding-small;
-//         background-color: $layer2;
-//         transition: $transition;
+//      .module-box {
+//          min-height: 2.5rem;
+//          padding: 0.25rem;
+//          margin: 0;
+//          border-radius: $rounding-small;
+//          background-color: $layer2;
 
-//         &:hover {
-//             background-color: $hovercolor;
-//         }
-//     }
-// }
+//          &:hover {
+//              background-color: $hovercolor;
+//          }
+//      }
+//  }
