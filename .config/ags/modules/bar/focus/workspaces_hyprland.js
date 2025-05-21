@@ -8,12 +8,13 @@ import * as Utils from 'resource:///com/github/Aylur/ags/utils.js'
 import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 const { Box, DrawingArea, EventBox } = Widget;
 import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
+import userOptions from '../../../modules/.configuration/user_options.js';
 
 const dummyWs = Box({ className: 'bar-ws-focus' }); // Not shown. Only for getting size props
 const dummyActiveWs = Box({ className: 'bar-ws-focus bar-ws-focus-active' }); // Not shown. Only for getting size props
 const dummyOccupiedWs = Box({ className: 'bar-ws-focus bar-ws-focus-occupied' }); // Not shown. Only for getting size props
 
-const WS_TAKEN_WIDTH_MULTIPLIER = 1.34;
+const WS_TAKEN_WIDTH_MULTIPLIER = 1.4;
 const floor = Math.floor;
 const ceil = Math.ceil;
 
@@ -170,8 +171,8 @@ const WorkspaceContents = (count = 10) => {
 }
 
 export default () => EventBox({
-    // onScrollUp: () => Hyprland.messageAsync(`dispatch workspace -1`).catch(print),
-    // onScrollDown: () => Hyprland.messageAsync(`dispatch workspace +1`).catch(print),
+    // onScrollUp: () => Hyprland.messageAsync(`dispatch workspace r-1`).catch(print),
+    // onScrollDown: () => Hyprland.messageAsync(`dispatch workspace r+1`).catch(print),
     onMiddleClick: () => toggleWindowOnAllMonitors('osk'),
     onSecondaryClick: () => App.toggleWindow('overview'),
     attribute: {
@@ -182,7 +183,7 @@ export default () => EventBox({
         homogeneous: true,
         // className: 'bar-group-margin',
         children: [Box({
-            // className: 'bar-group bar-group-standalone bar-group-pad',
+            // className: `bar-group${userOptions.appearance.borderless ? '-borderless' : ''} bar-group-standalone bar-group-pad`,
             css: 'min-width: 2px;',
             children: [WorkspaceContents(userOptions.asyncGet().workspaces.shown)],
         })]
@@ -191,20 +192,89 @@ export default () => EventBox({
         self.add_events(Gdk.EventMask.POINTER_MOTION_MASK);
         self.on('motion-notify-event', (self, event) => {
             if (!self.attribute.clicked) return;
+            
             const [_, cursorX, cursorY] = event.get_coords();
             const widgetWidth = self.get_allocation().width;
-            const wsId = Math.ceil(cursorX * userOptions.asyncGet().workspaces.shown / widgetWidth);
+            
+            // Get the active workspace to calculate the mapping correctly
+            const activeWs = (Hyprland.active.workspace.id - 1) % userOptions.asyncGet().workspaces.shown + 1;
+            const count = userOptions.asyncGet().workspaces.shown;
+            
+            // Get dimensions for calculations
+            const workspaceStyleContext = dummyWs.get_style_context();
+            const workspaceDiameter = workspaceStyleContext.get_property('min-width', Gtk.StateFlags.NORMAL);
+            
+            const activeWorkspaceStyleContext = dummyActiveWs.get_style_context();
+            const activeWorkspaceWidth = activeWorkspaceStyleContext.get_property('min-width', Gtk.StateFlags.NORMAL);
+            
+            // Adjust cursor position based on the active workspace width difference
+            let wsId;
+            const totalNormalWsWidth = workspaceDiameter * WS_TAKEN_WIDTH_MULTIPLIER * (count - 1);
+            const totalWidth = totalNormalWsWidth + activeWorkspaceWidth;
+            const activeWsPosition = workspaceDiameter * WS_TAKEN_WIDTH_MULTIPLIER * activeWs - workspaceDiameter * WS_TAKEN_WIDTH_MULTIPLIER; 
+            
+            // If cursor is before active workspace
+            if (cursorX / widgetWidth * totalWidth < activeWsPosition) {
+                wsId = Math.floor(cursorX / widgetWidth * totalWidth / (workspaceDiameter * WS_TAKEN_WIDTH_MULTIPLIER)) + 1;
+            } 
+            // If cursor is on the active workspace
+            else if (cursorX / widgetWidth * totalWidth < activeWsPosition + activeWorkspaceWidth) {
+                wsId = activeWs;
+            } 
+            // If cursor is after active workspace
+            else {
+                const posAfterActive = (cursorX / widgetWidth * totalWidth - (activeWsPosition + activeWorkspaceWidth));
+                wsId = activeWs + 1 + Math.floor(posAfterActive / (workspaceDiameter * WS_TAKEN_WIDTH_MULTIPLIER));
+            }
+            
+            // Ensure wsId is within bounds
+            wsId = Math.max(1, Math.min(wsId, count));
+            
             Utils.execAsync([`${App.configDir}/scripts/hyprland/workspace_action.sh`, 'workspace', `${wsId}`])
                 .catch(print);
         })
+        
         self.on('button-press-event', (self, event) => {
             if (!(event.get_button()[1] === 1)) return; // We're only interested in left-click here
             self.attribute.clicked = true;
+            
             const [_, cursorX, cursorY] = event.get_coords();
             const widgetWidth = self.get_allocation().width;
-            // const wsId = Math.ceil(cursorX * NUM_OF_WORKSPACES_PER_GROUP / widgetWidth) + self.attribute.ws_group * NUM_OF_WORKSPACES_PER_GROUP;
-            // Hyprland.messageAsync(`dispatch workspace ${wsId}`).catch(print);
-            const wsId = Math.ceil(cursorX * userOptions.asyncGet().workspaces.shown / widgetWidth);
+            
+            // Get the active workspace to calculate the mapping correctly
+            const activeWs = (Hyprland.active.workspace.id - 1) % userOptions.asyncGet().workspaces.shown + 1;
+            const count = userOptions.asyncGet().workspaces.shown;
+            
+            // Get dimensions for calculations
+            const workspaceStyleContext = dummyWs.get_style_context();
+            const workspaceDiameter = workspaceStyleContext.get_property('min-width', Gtk.StateFlags.NORMAL);
+            
+            const activeWorkspaceStyleContext = dummyActiveWs.get_style_context();
+            const activeWorkspaceWidth = activeWorkspaceStyleContext.get_property('min-width', Gtk.StateFlags.NORMAL);
+            
+            // Adjust cursor position based on the active workspace width difference
+            let wsId;
+            const totalNormalWsWidth = workspaceDiameter * WS_TAKEN_WIDTH_MULTIPLIER * (count - 1);
+            const totalWidth = totalNormalWsWidth + activeWorkspaceWidth;
+            const activeWsPosition = workspaceDiameter * WS_TAKEN_WIDTH_MULTIPLIER * activeWs - workspaceDiameter * WS_TAKEN_WIDTH_MULTIPLIER; 
+            
+            // If cursor is before active workspace
+            if (cursorX / widgetWidth * totalWidth < activeWsPosition) {
+                wsId = Math.floor(cursorX / widgetWidth * totalWidth / (workspaceDiameter * WS_TAKEN_WIDTH_MULTIPLIER)) + 1;
+            } 
+            // If cursor is on the active workspace
+            else if (cursorX / widgetWidth * totalWidth < activeWsPosition + activeWorkspaceWidth) {
+                wsId = activeWs;
+            } 
+            // If cursor is after active workspace
+            else {
+                const posAfterActive = (cursorX / widgetWidth * totalWidth - (activeWsPosition + activeWorkspaceWidth));
+                wsId = activeWs + 1 + Math.floor(posAfterActive / (workspaceDiameter * WS_TAKEN_WIDTH_MULTIPLIER));
+            }
+            
+            // Ensure wsId is within bounds
+            wsId = Math.max(1, Math.min(wsId, count));
+            
             Utils.execAsync([`${App.configDir}/scripts/hyprland/workspace_action.sh`, 'workspace', `${wsId}`])
                 .catch(print);
         })

@@ -38,15 +38,21 @@ const getFontWeightName = (weight) => {
 
 // Number style conversion functions
 const numberStyles = {
-    'arabic': (n) => n.toString().replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d]),
-    'english': (n) => n.toString(),
-    'thai': (n) => n.toString().replace(/[0-9]/g, d => '๐๑๒๓๔๕๖๗๘๙'[d]),
-    'japanese': (n) => n.toString().replace(/[0-9]/g, d => '〇一二三四五六七八九'[d]),
-    'chinese': (n) => n.toString().replace(/[0-9]/g, d => '零一二三四五六七八九'[d]),
-    'korean': (n) => n.toString().replace(/[0-9]/g, d => '영일이삼사오육칠팔구'[d]),
-    'devanagari': (n) => n.toString().replace(/[0-9]/g, d => '०१२३४५६७८९'[d]),
-    'bengali': (n) => n.toString().replace(/[0-9]/g, d => '০১২৩৪৫৬৭৮৯'[d])
+  'english': (n) => n.toString(),
+  'arabic': (n) => n.toString().replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d]),
+  'persian': (n) => n.toString().replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]),
+  'devanagari': (n) => n.toString().replace(/[0-9]/g, d => '०१२३४५६७८९'[d]),
+  'bengali': (n) => n.toString().replace(/[0-9]/g, d => '০১২৩৪৫৬৭৮৯'[d]),
+  'thai': (n) => n.toString().replace(/[0-9]/g, d => '๐๑๒๓๔๕๖๗๘๙'[d]),
+  'japanese': (n) => n.toString().replace(/[0-9]/g, d => '〇一二三四五六七八九'[d]),  // الدائري
+  'chinese': (n) => n.toString().replace(/[0-9]/g, d => '零一二三四五六七八九'[d]),   // الرسمي
+  'korean': (n) => n.toString().replace(/[0-9]/g, d => '영일이삼사오육칠팔구'[d]),
+  'tamil': (n) => n.toString().replace(/[0-9]/g, d => '௦௧௨௩௪௫௬௭௮௯'[d]),
+  'telugu': (n) => n.toString().replace(/[0-9]/g, d => '౦౧౨౩౪౫౬౭౮౯'[d]),
+  'myanmar': (n) => n.toString().replace(/[0-9]/g, d => '၀၁၂၃၄၅၆၇၈၉'[d]),
+  'khmer': (n) => n.toString().replace(/[0-9]/g, d => '០១២៣៤៥៦៧៨៩'[d])
 };
+
 
 const convertNumber = (number, style = 'arabic') => {
     const converter = numberStyles[style] || numberStyles.arabic;
