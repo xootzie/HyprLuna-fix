@@ -5,6 +5,7 @@ const { EventBox} = Widget;
 import { RoundedCorner } from './../.commonwidgets/cairo_roundedcorner.js';
 import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 import Applications from 'resource:///com/github/Aylur/ags/service/applications.js';
+import Notifications from 'resource:///com/github/Aylur/ags/service/notifications.js';
 const { Box, Revealer } = Widget;
 import { setupCursorHover } from '../.widgetutils/cursorhover.js';
 import { getAllFiles } from './icons.js'
@@ -156,9 +157,168 @@ export const PinButton = () => Widget.Button({
     },
 })
 
-const AppButton = ({ icon, ...rest }) => Widget.Revealer({
+const AppButton = ({ icon, appClass, windowCount = 0, isPinned = false, ...rest }) => Widget.Revealer({
     attribute: {
-        'workspace': 0
+        'workspace': 0,
+        'windowCount': windowCount,
+        'appClass': appClass,
+        'isPinned': isPinned,
+        'updateNotificationBadge': (self) => {
+            try {
+                // Get the app class from the attribute
+                const appClass = self.attribute.appClass;
+                if (!appClass) return;
+
+                // Get notification count for this app
+                let notifCount = 0;
+
+                // Simplified notification detection
+                try {
+                    // Get app name in lowercase for easier matching
+                    const appNameLower = appClass.toLowerCase();
+
+                    // Find windows for this app
+                    const appWindows = Hyprland.clients.filter(client => {
+                        const clientClass = client.class?.toLowerCase() || '';
+                        return clientClass.includes(appNameLower);
+                    });
+
+                    // Check window titles for notification counts
+                    for (const window of appWindows) {
+                        const title = window.title || '';
+
+                        // Common patterns for notification counts
+                        // Look for patterns like (3) or [5] in the window title
+                        const bracketMatch = title.match(/[\(\[](\d+)[\)\]]/);
+                        if (bracketMatch && bracketMatch[1]) {
+                            const count = parseInt(bracketMatch[1]);
+                            if (!isNaN(count) && count > notifCount) {
+                                notifCount = count;
+                            }
+                        }
+
+                        // Look for "X unread" or "X new" patterns
+                        const textMatch = title.match(/(\d+)\s*(unread|new|message)/i);
+                        if (textMatch && textMatch[1]) {
+                            const count = parseInt(textMatch[1]);
+                            if (!isNaN(count) && count > notifCount) {
+                                notifCount = count;
+                            }
+                        }
+
+                        // Check for keywords indicating notifications
+                        if (notifCount === 0 && (
+                            title.includes('New Message') ||
+                            title.includes('Unread') ||
+                            title.includes('notification')
+                        )) {
+                            notifCount = 1;
+                        }
+                    }
+                } catch (e) {
+                    // Ignore errors in window title parsing
+                }
+
+                // If no count from window titles, check regular notifications
+                if (notifCount === 0) {
+                    // Get all notifications for this app
+                    const appNotifications = Notifications.notifications.filter(n => {
+                        if (!n.appName) return false;
+
+                        const notifAppName = n.appName.toLowerCase();
+                        const thisAppName = appClass.toLowerCase();
+
+                        // Try exact match first
+                        if (notifAppName === thisAppName) return true;
+
+                        // Try partial matches
+                        if (notifAppName.includes(thisAppName) || thisAppName.includes(notifAppName)) return true;
+
+                        // Try matching desktop entry name
+                        if (thisAppName.includes('.') && notifAppName === thisAppName.split('.')[0]) return true;
+
+                        return false;
+                    });
+
+                    notifCount = appNotifications.length;
+                }
+
+                // Update the notification badge
+                if (self.child?.child?.child?.overlays?.[1]) {
+                    const badge = self.child.child.child.overlays[1];
+
+                    // Show badge only if there are notifications
+                    badge.visible = notifCount > 0;
+
+                    // Update the label if there are notifications
+                    if (notifCount > 0 && badge.child?.child) {
+                        badge.child.child.label = `${notifCount}`;
+                        badge.show_all();
+                    }
+                }
+            } catch (e) {
+                console.log(`Error updating notification badge: ${e.message}`);
+            }
+        },
+        'updateWindowIndicators': (self) => {
+            try {
+                // Update window indicators based on window count
+                if (self.child?.child?.child?.overlays?.[0]) {
+                    const indicator = self.child.child.child.overlays[0];
+
+                    // Clear existing indicators
+                    indicator.children = [];
+
+                    // Get all windows for this app
+                    const appClass = self.attribute.appClass;
+                    if (!appClass) {
+                        indicator.visible = false;
+                        return;
+                    }
+
+                    // Find all windows for this app - use includes for better matching
+                    const clients = Hyprland.clients.filter(client => {
+                        const clientClass = client.class?.toLowerCase() || '';
+                        return clientClass.includes(appClass.toLowerCase());
+                    });
+
+                    // Find the active client index (if any)
+                    const activeClientIndex = clients.findIndex(client =>
+                        client.address === Hyprland.active.client.address
+                    );
+
+                    // Update window count
+                    const actualWindowCount = clients.length;
+                    self.attribute.windowCount = actualWindowCount;
+
+                    // Show indicators only if there are windows
+                    indicator.visible = actualWindowCount > 0;
+
+                    if (actualWindowCount > 0) {
+                        // Add indicators for each window (up to 5)
+                        const maxIndicators = Math.min(actualWindowCount, 5);
+                        for (let i = 0; i < maxIndicators; i++) {
+                            indicator.add(Widget.Box({
+                                className: 'window-indicator' + (i === activeClientIndex ? ' active-window' : ''),
+                            }));
+                        }
+
+                        // Add count for additional windows
+                        if (actualWindowCount > 5) {
+                            indicator.add(Widget.Label({
+                                className: 'window-count',
+                                label: `+${actualWindowCount - 5}`,
+                            }));
+                        }
+
+                        // Force a redraw
+                        indicator.show_all();
+                    }
+                }
+            } catch (e) {
+                // Suppress error logging
+            }
+        }
     },
     revealChild: false,
     transition: 'slide_right',
@@ -174,18 +334,127 @@ const AppButton = ({ icon, ...rest }) => Widget.Revealer({
                     className: 'dock-app-icon',
                     child: Widget.Icon({
                         icon: icon,
-                        size:dockSize
+                        size: dockSize
                     }),
                 }),
-                overlays: [Widget.Box({
-                    class_name: 'indicator',
-                    vpack: 'end',
-                    hpack: 'center',
-                })],
+                overlays: [
+                    // Window indicators at the bottom
+                    Widget.Box({
+                        className: 'window-indicators',
+                        vpack: 'end',
+                        hpack: 'center',
+                        spacing: 4,
+                    }),
+                    // Notification badge at top right
+                    Widget.Box({
+                        className: 'notification-badge',
+                        visible: false,
+                        vpack: 'start',  // Position at the top
+                        hpack: 'end',    // Position at the right
+                        halign: Gtk.Align.END,    // Align to the right
+                        valign: Gtk.Align.START,  // Align to the top
+                        hexpand: false,
+                        vexpand: false,
+                        css: 'margin: 0.1rem; padding: 0.1rem;',
+                        child: Widget.Box({
+                            // Center box to center the label
+                            homogeneous: true,  // This helps center the content
+                            hexpand: true,
+                            vexpand: true,
+                            child: Widget.Label({
+                                className: 'notification-count',
+                                label: '0',
+                                hexpand: true,
+                                vexpand: true,
+                                xalign: 0.5,  // Center horizontally (0-1 range)
+                                yalign: 0.5,  // Center vertically (0-1 range)
+                                css: 'margin: 0; padding: 0;',
+                            }),
+                        }),
+                    }),
+                ],
             }),
         }),
         setup: (button) => {
             setupCursorHover(button);
+
+            // Use a safer approach to access the parent widget
+            const safelySetupButton = () => {
+                // Store a reference to the parent to avoid repeated access
+                const parentWidget = button.get_parent();
+                if (!parentWidget || !parentWidget.attribute) return;
+
+                // Use the stored reference for all operations
+                const parent = parentWidget;
+
+                // Check if this is a pinned app or a taskbar app
+                const isPinnedApp = parent.attribute.isPinned === true;
+
+                // For pinned apps, we don't show notification badges or window indicators
+                if (!isPinnedApp) {
+                    // Initial update of notification badge
+                    if (parent.attribute.updateNotificationBadge) {
+                        parent.attribute.updateNotificationBadge(parent);
+                    }
+
+                    // Initial update of window indicators
+                    if (parent.attribute.updateWindowIndicators) {
+                        parent.attribute.updateWindowIndicators(parent);
+                    }
+                } else {
+                    // For pinned apps, hide notification badge and window indicators
+                    if (button.child?.child?.child?.overlays?.[0]) {
+                        button.child.child.child.overlays[0].visible = false;
+                    }
+                    if (button.child?.child?.child?.overlays?.[1]) {
+                        button.child.child.child.overlays[1].visible = false;
+                    }
+                }
+
+                // Hook into notifications to update badge
+                if (parent.hook) {
+                    parent.hook(Notifications, (self) => {
+                        if (self && self.attribute && self.attribute.updateNotificationBadge) {
+                            self.attribute.updateNotificationBadge(self);
+                        }
+                    }, 'notified');
+
+                    parent.hook(Notifications, (self) => {
+                        if (self && self.attribute && self.attribute.updateNotificationBadge) {
+                            self.attribute.updateNotificationBadge(self);
+                        }
+                    }, 'dismissed');
+
+                    parent.hook(Notifications, (self) => {
+                        if (self && self.attribute && self.attribute.updateNotificationBadge) {
+                            self.attribute.updateNotificationBadge(self);
+                        }
+                    }, 'closed');
+                }
+
+                // Set up a timer to periodically check for notification updates
+                const timerId = Utils.interval(1500, () => {
+                    // Get the current parent (might have changed)
+                    const currentParent = button.get_parent();
+                    if (currentParent && currentParent.attribute &&
+                        currentParent.attribute.updateNotificationBadge) {
+                        currentParent.attribute.updateNotificationBadge(currentParent);
+                    }
+                    return true; // Keep the interval running
+                });
+
+                // Clean up the timer when the button is destroyed
+                button.connect('destroy', () => {
+                    Utils.timeout.clearInterval(timerId);
+                });
+            };
+
+            // Wait for the button to be fully initialized
+            if (button.realized) {
+                safelySetupButton();
+            } else {
+                button.connect('realize', safelySetupButton);
+            }
         }
     })
 });
@@ -199,21 +468,138 @@ const Taskbar = (monitor) => Widget.Box({
             return a.attribute.workspace > b.attribute.workspace;
         },
         'update': (box) => {
+            // Group clients by app class
+            const appGroups = {};
+            const activeClients = {};
+
+            // First, group all clients by app class
             for (let i = 0; i < Hyprland.clients.length; i++) {
                 const client = Hyprland.clients[i];
-                if (client["pid"] == -1) return;
+                if (client["pid"] == -1) continue;
+
                 const appClass = client.class;
-                // Try to get icon from icon pack, if not found it will fall back to the app's original icon
-                const path = getIconPath(appClass);
-                const newButton = AppButton({
-                    icon: path,
-                    tooltipText: `${client.title} (${appClass})`,
-                    onClicked: () => focus(client),
-                });
-                newButton.attribute.workspace = client.workspace.id;
-                newButton.revealChild = true;
-                box.attribute.map.set(client.address, newButton);
+                if (!appGroups[appClass]) {
+                    appGroups[appClass] = [];
+                }
+
+                appGroups[appClass].push(client);
+                activeClients[client.address] = true;
             }
+
+            // Clear buttons for apps that no longer have windows
+            for (const [address, button] of box.attribute.map.entries()) {
+                // Check if this is a group entry and if the app has no windows
+                if (address.includes('group:')) {
+                    const appClass = address.replace('group:', '');
+                    const hasWindows = Object.keys(appGroups).some(groupAppClass =>
+                        groupAppClass.toLowerCase() === appClass.toLowerCase() ||
+                        groupAppClass.toLowerCase().includes(appClass.toLowerCase()) ||
+                        appClass.toLowerCase().includes(groupAppClass.toLowerCase())
+                    );
+
+                    if (!hasWindows) {
+                        // No windows for this app, remove it
+                        button.revealChild = false;
+
+                        // Store the timeout ID so we can clean it up if needed
+                        const timeoutId = Utils.timeout(userOptions.asyncGet().animations.durationLarge, () => {
+                            // Check if the widget still exists before trying to destroy it
+                            if (button && !button.is_destroyed) {
+                                try {
+                                    button.destroy();
+                                } catch (error) {
+                                    // Suppress error logging
+                                }
+                            }
+
+                            // Update the map
+                            if (box && !box.is_destroyed) {
+                                box.attribute.map.delete(address);
+                            }
+                        });
+
+                        // Register the timeout for cleanup
+                        if (globalThis.cleanupRegistry) {
+                            globalThis.cleanupRegistry.registerTimeout(timeoutId);
+                        }
+                    }
+                }
+                // Handle individual client entries
+                else if (!activeClients[address]) {
+                    button.revealChild = false;
+
+                    // Store the timeout ID so we can clean it up if needed
+                    const timeoutId = Utils.timeout(userOptions.asyncGet().animations.durationLarge, () => {
+                        // Check if the widget still exists before trying to destroy it
+                        if (button && !button.is_destroyed) {
+                            try {
+                                button.destroy();
+                            } catch (error) {
+                                // Suppress error logging
+                            }
+                        }
+
+                        // Update the map
+                        if (box && !box.is_destroyed) {
+                            box.attribute.map.delete(address);
+                        }
+                    });
+
+                    // Register the timeout for cleanup
+                    if (globalThis.cleanupRegistry) {
+                        globalThis.cleanupRegistry.registerTimeout(timeoutId);
+                    }
+                }
+            }
+
+            // Create or update buttons for each app group
+            for (const appClass in appGroups) {
+                const clients = appGroups[appClass];
+                const groupKey = `group:${appClass}`;
+                const path = getIconPath(appClass);
+
+                // Find the active client (if any)
+                const activeClient = clients.find(client =>
+                    client.address === Hyprland.active.client.address
+                ) || clients[0];
+
+                // Create or update the button
+                if (box.attribute.map.has(groupKey)) {
+                    // Update existing button
+                    const button = box.attribute.map.get(groupKey);
+                    button.attribute.windowCount = clients.length;
+                    button.attribute.updateWindowIndicators(button);
+                    button.set_tooltip_text(`${activeClient.title} (${appClass})`);
+                } else {
+                    // Create new button
+                    const newButton = AppButton({
+                        icon: path,
+                        appClass: appClass,
+                        windowCount: clients.length,
+                        tooltipText: `${activeClient.title} (${appClass})`,
+                        onClicked: () => {
+                            // If there's only one window, focus it
+                            if (clients.length === 1) {
+                                focus(clients[0]);
+                            } else {
+                                // Otherwise, cycle through windows of this app
+                                const activeIndex = clients.findIndex(c =>
+                                    c.address === Hyprland.active.client.address
+                                );
+                                const nextIndex = (activeIndex + 1) % clients.length;
+                                focus(clients[nextIndex]);
+                            }
+                        },
+                    });
+
+                    newButton.attribute.workspace = activeClient.workspace.id;
+                    newButton.attribute.isPinned = false; // Mark as not pinned (taskbar app)
+                    newButton.revealChild = true;
+                    box.attribute.map.set(groupKey, newButton);
+                }
+            }
+
+            // Update the children
             box.children = Array.from(box.attribute.map.values());
         },
         'add': (box, address) => {
@@ -221,61 +607,48 @@ const Taskbar = (monitor) => Widget.Box({
                 box.attribute.update(box);
                 return;
             }
+
             const newClient = Hyprland.clients.find(client => {
                 return client.address == address;
             });
+
             if (ExclusiveWindow(newClient)) { return }
-            const appClass = newClient.class;
-            // Try to get icon from icon pack, if not found it will fall back to the app's original icon
-            const path = getIconPath(appClass);
-            const newButton = AppButton({
-                icon: path,
-                tooltipText: `${newClient.title} (${appClass})`,
-                onClicked: () => focus(newClient),
-            })
-            newButton.attribute.workspace = newClient.workspace.id;
-            box.attribute.map.set(address, newButton);
-            box.children = Array.from(box.attribute.map.values());
-            newButton.revealChild = true;
+
+            // Just update the whole taskbar when a client is added
+            box.attribute.update(box);
         },
         'remove': (box, address) => {
             if (!address) return;
 
-            const removedButton = box.attribute.map.get(address);
-            if (!removedButton) return;
-            removedButton.revealChild = false;
-
-            // Store the timeout ID so we can clean it up if needed
-            const timeoutId = Utils.timeout(userOptions.asyncGet().animations.durationLarge, () => {
-                // Check if the widget still exists before trying to destroy it
-                if (removedButton && !removedButton.is_destroyed) {
-                    try {
-                        removedButton.destroy();
-                    } catch (error) {
-                        console.log(`Error destroying button: ${error.message}`);
-                    }
-                }
-
-                // Update the map and children only if the box still exists
-                if (box && !box.is_destroyed) {
-                    box.attribute.map.delete(address);
-                    try {
-                        box.children = Array.from(box.attribute.map.values());
-                    } catch (error) {
-                        console.log(`Error updating box children: ${error.message}`);
-                    }
-                }
-            })
-
-            // Register the timeout for cleanup
-            if (globalThis.cleanupRegistry) {
-                globalThis.cleanupRegistry.registerTimeout(timeoutId);
-            }
+            // Just update the whole taskbar when a client is removed
+            box.attribute.update(box);
         },
     },
     setup: (self) => {
         self.hook(Hyprland, (box, address) => box.attribute.add(box, address), 'client-added')
             .hook(Hyprland, (box, address) => box.attribute.remove(box, address), 'client-removed')
+            .hook(Hyprland.active.client, () => {
+                // Update all buttons when active client changes
+                try {
+                    // Make a copy of the values to avoid potential modification during iteration
+                    const buttons = Array.from(self.attribute.map.values());
+
+                    for (const button of buttons) {
+                        if (!button) continue;
+
+                        // Use a safer approach to access attributes
+                        if (button.attribute && typeof button.attribute.updateWindowIndicators === 'function') {
+                            try {
+                                button.attribute.updateWindowIndicators(button);
+                            } catch (e) {
+                                // Suppress error logging to reduce console noise
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Suppress error logging to reduce console noise
+                }
+            })
         Utils.timeout(100, () => self.attribute.update(self));
     },
 });
@@ -325,27 +698,96 @@ const PinnedApps = () => Widget.Box({
             // Our improved getIconPath will try app.icon_name first, then fall back to icon theme
             const icon = app.icon_name || getIconPath(app.name, false);
 
+            // Get app class for notification matching
+            const appClass = app.desktop?.split('.')[0] || app.name;
+
             const newButton = AppButton({
                 icon: icon,
+                appClass: appClass,
+                isPinned: true, // Mark as pinned app
                 onClicked: () => {
-                    for (const client of Hyprland.clients) {
-                        if (client.class.toLowerCase().includes(term))
-                            return focus(client);
+                    // Find all windows for this app
+                    const appWindows = Hyprland.clients.filter(client =>
+                        client.class.toLowerCase().includes(term)
+                    );
+
+                    if (appWindows.length === 0) {
+                        // No windows, launch the app
+                        app.launch();
+                    } else if (appWindows.length === 1) {
+                        // One window, focus it
+                        focus(appWindows[0]);
+                    } else {
+                        // Multiple windows, cycle through them
+                        const activeIndex = appWindows.findIndex(c =>
+                            c.address === Hyprland.active.client.address
+                        );
+                        const nextIndex = (activeIndex + 1) % appWindows.length;
+                        focus(appWindows[nextIndex]);
                     }
-                    app.launch();
                 },
                 onMiddleClick: () => app.launch(),
                 tooltipText: app.name,
                 setup: (self) => {
                     self.revealChild = true;
-                    self.hook(Hyprland, button => {
-                        const running = Hyprland.clients
-                            .find(client => client.class.toLowerCase().includes(term)) || false;
 
-                        button.toggleClassName('notrunning', !running);
-                        button.toggleClassName('focused', Hyprland.active.client.address == running?.address);
-                        button.set_tooltip_text(running ? running.title : app.name);
-                    }, 'notify::clients')
+                    // Use a safer approach to access the parent widget
+                    const safelySetupButton = () => {
+                        // Store a reference to the parent to avoid repeated access
+                        const parentWidget = self.get_parent();
+                        if (!parentWidget || !parentWidget.attribute) return;
+
+                        // Update initial state
+                        const updateState = (button) => {
+                            if (!button) return;
+
+                            // Find all windows for this app
+                            const appWindows = Hyprland.clients.filter(client => {
+                                const clientClass = client.class?.toLowerCase() || '';
+                                return clientClass.includes(term.toLowerCase());
+                            });
+
+                            // For pinned apps, we don't want to show window indicators or notification badges
+                            // We only update the running state and focused state
+
+                            // Update running state
+                            const running = appWindows.length > 0;
+                            button.toggleClassName('notrunning', !running);
+
+                            // Update focused state
+                            const focused = appWindows.some(client =>
+                                client.address === Hyprland.active.client.address
+                            );
+                            button.toggleClassName('focused', focused);
+
+                            // Update tooltip
+                            if (running) {
+                                const activeWindow = appWindows.find(client =>
+                                    client.address === Hyprland.active.client.address
+                                ) || appWindows[0];
+                                button.set_tooltip_text(activeWindow.title);
+                            } else {
+                                button.set_tooltip_text(app.name);
+                            }
+                        };
+
+                        // Initial update
+                        updateState(self);
+
+                        // Hook for updates
+                        if (self.hook) {
+                            self.hook(Hyprland, button => {
+                                if (button) updateState(button);
+                            }, 'notify::clients');
+                        }
+                    };
+
+                    // Wait for the button to be fully initialized
+                    if (self.realized) {
+                        safelySetupButton();
+                    } else {
+                        self.connect('realize', safelySetupButton);
+                    }
                 },
             });
             newButton.revealChild = true;
