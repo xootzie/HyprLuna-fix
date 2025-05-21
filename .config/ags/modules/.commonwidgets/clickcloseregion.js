@@ -3,7 +3,6 @@ import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import { monitors } from "../.commondata/hyprlanddata.js";
 const { Box, EventBox } = Widget;
 
-// Кэшируем часто используемые значения
 const getMonitorDimensions = (monitor, fillMonitor) => ({
   width: fillMonitor.includes("h") ? monitors[monitor].width : 0,
   height: fillMonitor.includes("v") ? monitors[monitor].height : 0,
