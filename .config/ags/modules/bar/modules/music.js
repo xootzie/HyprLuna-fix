@@ -11,9 +11,9 @@ import Gdk from 'gi://Gdk';
 const { Box, Label, EventBox, Button, Revealer } = Widget;
 
 // Desired dimensions and rounded corner settings.
-const COVER_WIDTH = 50;
+const COVER_WIDTH = 40;
 const COVER_HEIGHT = 20;
-const CORNER_RADIUS = 20;
+const CORNER_RADIUS = 100;
 
 const findPlayer = () => {
   const players = Mpris.players;
@@ -199,11 +199,12 @@ export default () =>
             vexpand: true,
             children: [
               Label({
-                className: "onSurfaceVariant txt-large",
                 truncate: "end",
                 xalign: 0,
                 maxWidthChars: 12,
                 justification: "left",
+                className: "onSurfaceVariant",
+                css: `font-size: 15px;`,
                 hexpand: true,
                 setup: (self) => {
                   let lastTitle = '';

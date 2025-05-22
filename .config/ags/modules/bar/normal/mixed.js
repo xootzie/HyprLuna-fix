@@ -84,7 +84,7 @@ const TrackProgress = () => {
     }
     return AnimatedCircProg({
         className: 'bar-music-circprog',
-        vpack: 'center', 
+        vpack: 'center',
         hpack: 'center',
         setup: (self) => {
             self.hook(Mpris, () => _updateProgress(self), 'player-changed');
@@ -142,17 +142,17 @@ export default () => {
                if (mpris) {
                    const trackTitle = mpris.trackTitle;
                    const trackArtists = mpris.trackArtists || [];
-                   
+
                    // Ensure we handle empty or undefined track titles and artists gracefully
                    const title = trimTrackTitle(trackTitle) || getString('');
                    const artists = trackArtists.length ? trackArtists.join(', ') : getString('Unknown artist');
-   
+
                    self.label = `${title}`;
                } else {
                    self.label = getString('No media');
                }
            };
-   
+
            // Hook into MPRIS signals to update the track title when necessary
            self.hook(Mpris, update, 'player-changed');
            self.hook(Mpris, update, 'changed');
@@ -169,7 +169,7 @@ export default () => {
         if (GLib.file_test(CUSTOM_MODULE_CONTENT_SCRIPT, GLib.FileTest.EXISTS)) {
             const interval = Number(Utils.readFile(CUSTOM_MODULE_CONTENT_INTERVAL_FILE)) || 5000;
             let cachedLabel = '';
-            
+
             const updateLabel = async (label) => {
                 const newContent = await Utils.execAsync([CUSTOM_MODULE_CONTENT_SCRIPT]);
                 if (newContent !== cachedLabel) {
@@ -204,11 +204,11 @@ export default () => {
                 css:`padding:0 0.8rem`,
                 // hexpand: true,
                 children: [
-                    BarResource(getString('RAM Usage'), 'memory', 
+                    BarResource(getString('RAM Usage'), 'memory',
                         `LANG=C free | awk '/^Mem/ {printf("%.2f\\n", ($3/$2) * 100)}'`,
                         'bar-ram-circprog', 'bar-ram-txt', 'bar-ram-icon'),
                         BarResource('GPU Temperature', 'thermostat',
-                            `(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader 2>/dev/null || rocm-smi --showtemp 2>/dev/null | grep -i "GPU Temperature" | awk '{print $4}' || echo "N/A") | tr -d '\n'`,
+                            `(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader 2>/dev/null || rocm-smi --showtemp 2>/dev/null | grep -i "GPU Temperature" | awk '{print $4}' || sensors 2>/dev/null | grep -i "edge:" | head -n 1 | awk '{print $2}' | tr -d '+°C' || echo "N/A") | tr -d '\n'`,
                             'bar-cpu-circprog', 'bar-cpu-txt', 'bar-cpu-icon'),
                     BarResource(getString('CPU Usage'), 'settings_motion_mode',
                         `LANG=C top -bn1 | grep Cpu | sed 's/\\,/\\./g' | awk '{print $2}'`,
@@ -230,7 +230,7 @@ export default () => {
                         Widget.Box({hexpand:true, hpack:'end',children:[SystemResourcesOrCustomModule(),]}),
                     ]
                 })]:[]),
-                ...(userOptions.asyncGet().bar.elements.showMusic? [BarGroup({ 
+                ...(userOptions.asyncGet().bar.elements.showMusic? [BarGroup({
                     child: EventBox({
                     child: BarGroup({ child: musicStuff }),
                     onPrimaryClick: () => App.toggleWindow('music'),
