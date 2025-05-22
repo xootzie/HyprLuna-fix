@@ -89,7 +89,7 @@ post_hook = "starship init zsh > ~/.zshrc"
 
 [templates.heroic]
 input_path = "~/.config/matugen/templates/heroic-theme.css"
-output_path = "~/.cache/ags/user/generated/heroic-colors.css"
+output_path = "~/.config//heroic-colors.css"
 
 [templates.Telegram]
 input_path = "~/.config/matugen/templates/telegram-colors.tdesktop-theme"
@@ -140,3 +140,8 @@ output_path = "~/.config/Kvantum/MaterialAdw/MaterialAdw.kvconfig"
 [templates.kvantum_svg]
 input_path = "~/.config/matugen/templates/kvantum.svg"
 output_path = "~/.config/Kvantum/MaterialAdw/MaterialAdw.svg"
+
+[templates.nvchad]
+input_path = "~/.config/matugen/templates/nvluna.lua"
+output_path = "~/.config/nvim/lua/themes/nvluna.lua"
+post_hook = "touch ~/.config/nvim/lua/themes/nvluna.lua"
