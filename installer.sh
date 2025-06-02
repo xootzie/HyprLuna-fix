@@ -45,6 +45,55 @@ C_ANSI_UNDERLINE="\033[4m"
 C_ANSI_BOLD="\033[1m"
 C_ANSI_RESET="\033[0m"
 
+# --- Argument Parsing ---
+BRANCH=""
+REPO_URL="https://github.com/Lunaris-Project/HyprLuna.git"
+
+show_help() {
+    echo "HYPRLUNA Installer for Arch Linux"
+    echo ""
+    echo "Usage: $0 [OPTIONS]"
+    echo ""
+    echo "Options:"
+    echo "  -t    Install from testers branch (development/testing version)"
+    echo "  -m    Install from main branch (stable version)"
+    echo "  -h    Show this help message"
+    echo ""
+    echo "Examples:"
+    echo "  $0 -m    # Install stable version from main branch"
+    echo "  $0 -t    # Install testing version from testers branch"
+    echo ""
+    echo "Note: You must specify either -t or -m flag to proceed with installation."
+    exit 0
+}
+
+# Parse command line arguments
+while getopts "tmh" opt; do
+    case $opt in
+        t)
+            BRANCH="testers"
+            ;;
+        m)
+            BRANCH="main"
+            ;;
+        h)
+            show_help
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            echo "Use -h for help."
+            exit 1
+            ;;
+    esac
+done
+
+# Check if branch was specified
+if [ -z "$BRANCH" ]; then
+    echo "Error: You must specify a branch to install from."
+    echo ""
+    show_help
+fi
+
 # --- Configuration and Variables ---
 HYPRLUNA_INSTALL_DIR="$HOME/HyprLuna"
 PARU_CLONE_DIR="/tmp/paru_install_$$"
@@ -238,6 +287,8 @@ gum style --padding "1 2" --margin "1 0" --align center --width 80 --border norm
     "" \
     "$(gum style --foreground "$C_TEXT_MUTED" 'This script follows the steps from the official HyprLuna documentation.')" \
     "$(gum style --foreground "$C_TEXT_MUTED" "Source: $(gum style --underline --foreground "$C_ACCENT_SECONDARY" 'https://hyprluna.org/docs/main-dots/installation')")" \
+    "" \
+    "$(gum style --bold --foreground "$C_ACCENT_SECONDARY" "Installing from branch: $(gum style --foreground "$C_ACCENT_PRIMARY" "$BRANCH")")" \
     "" \
     "$(gum style --bold --foreground "$C_ACCENT_SECONDARY" 'The following steps will be performed:')" \
     "$(gum style --foreground "$C_TEXT_MUTED" --margin "0 0 0 2" \
@@ -641,13 +692,20 @@ if [ -d "$HYPRLUNA_INSTALL_DIR" ]; then
                     exit 1;
                 }
 
-                if ! run_with_spinner "Updating HyprLuna..." "git pull"; then
-                    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not update HyprLuna. Aborting."
+                # Switch to the specified branch and pull latest changes
+                if ! run_with_spinner "Switching to $BRANCH branch..." "git checkout $BRANCH"; then
+                    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not switch to $BRANCH branch. Aborting."
                     cd "$original_dir_update" || true
                     exit 1
                 fi
 
-                gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "HyprLuna updated successfully."
+                if ! run_with_spinner "Updating HyprLuna from $BRANCH branch..." "git pull origin $BRANCH"; then
+                    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not update HyprLuna from $BRANCH branch. Aborting."
+                    cd "$original_dir_update" || true
+                    exit 1
+                fi
+
+                gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "HyprLuna updated successfully from $BRANCH branch."
                 cd "$original_dir_update" || true
                 ;;
             "Reinstall (remove and clone again)")
@@ -659,8 +717,8 @@ if [ -d "$HYPRLUNA_INSTALL_DIR" ]; then
                 gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "Directory $HYPRLUNA_INSTALL_DIR deleted."
 
                 # Clone fresh repository
-                if ! run_with_spinner "Cloning HyprLuna..." "git clone https://github.com/Lunaris-Project/HyprLuna.git $HYPRLUNA_INSTALL_DIR"; then
-                    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not clone HyprLuna. Aborting."
+                if ! run_with_spinner "Cloning HyprLuna ($BRANCH branch)..." "git clone -b $BRANCH $REPO_URL $HYPRLUNA_INSTALL_DIR"; then
+                    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not clone HyprLuna from $BRANCH branch. Aborting."
                     exit 1
                 fi
                 ;;
@@ -676,8 +734,8 @@ if [ -d "$HYPRLUNA_INSTALL_DIR" ]; then
             gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "Directory $HYPRLUNA_INSTALL_DIR deleted."
 
             # Clone fresh repository
-            if ! run_with_spinner "Cloning HyprLuna..." "git clone https://github.com/Lunaris-Project/HyprLuna.git $HYPRLUNA_INSTALL_DIR"; then
-                gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not clone HyprLuna. Aborting."
+            if ! run_with_spinner "Cloning HyprLuna ($BRANCH branch)..." "git clone -b $BRANCH $REPO_URL $HYPRLUNA_INSTALL_DIR"; then
+                gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not clone HyprLuna from $BRANCH branch. Aborting."
                 exit 1
             fi
         else
@@ -687,8 +745,8 @@ if [ -d "$HYPRLUNA_INSTALL_DIR" ]; then
     fi
 else
     # Directory doesn't exist, clone fresh
-    if ! run_with_spinner "Cloning HyprLuna..." "git clone https://github.com/Lunaris-Project/HyprLuna.git $HYPRLUNA_INSTALL_DIR"; then
-        gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not clone HyprLuna. Aborting."
+    if ! run_with_spinner "Cloning HyprLuna ($BRANCH branch)..." "git clone -b $BRANCH $REPO_URL $HYPRLUNA_INSTALL_DIR"; then
+        gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not clone HyprLuna from $BRANCH branch. Aborting."
         exit 1
     fi
 fi
@@ -698,12 +756,12 @@ if [ -n "${repo_action:-}" ]; then
     if [ "$repo_action" = "Skip (keep existing installation)" ]; then
         gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "Using existing HyprLuna installation at $(gum style --underline --foreground "$C_INFO_TEXT" "$HYPRLUNA_INSTALL_DIR")."
     elif [ "$repo_action" = "Update (pull latest changes)" ]; then
-        gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "HyprLuna updated at $(gum style --underline --foreground "$C_INFO_TEXT" "$HYPRLUNA_INSTALL_DIR")."
+        gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "HyprLuna updated from $BRANCH branch at $(gum style --underline --foreground "$C_INFO_TEXT" "$HYPRLUNA_INSTALL_DIR")."
     else
-        gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "HyprLuna cloned to $(gum style --underline --foreground "$C_INFO_TEXT" "$HYPRLUNA_INSTALL_DIR")."
+        gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "HyprLuna ($BRANCH branch) cloned to $(gum style --underline --foreground "$C_INFO_TEXT" "$HYPRLUNA_INSTALL_DIR")."
     fi
 else
-    gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "HyprLuna cloned to $(gum style --underline --foreground "$C_INFO_TEXT" "$HYPRLUNA_INSTALL_DIR")."
+    gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "HyprLuna ($BRANCH branch) cloned to $(gum style --underline --foreground "$C_INFO_TEXT" "$HYPRLUNA_INSTALL_DIR")."
 fi
 
 original_dir_step5=$(pwd)
