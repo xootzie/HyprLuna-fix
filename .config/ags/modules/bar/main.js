@@ -28,7 +28,7 @@ const barComponentCache = new Map();
 
 // Define bar modes as factory functions to avoid widget reuse issues
 const horizontalModes = new Map([
-  ["0", [NormalBar, true, "Normal"]],
+  ["0", [SaadiBar, true, "Saadi"]],
   ["1", [FocusBar, true, "Focus"]],
   ["2", [FloatingBar, false, "Floating"]],
   ["3", [MinimalBar, true, "Minimal"]],
@@ -36,7 +36,7 @@ const horizontalModes = new Map([
   ["5", [WindowsTaskbar, false, "Windows Taskbar"]],
   ["6", [IslandBar, false, "Dynamic"]],
   ["7", [NotchBar, false, "Notch"]],
-  ["8", [SaadiBar, true, "Saadi"]],
+  ["8", [NormalBar, true, "Normal"]],
 ]);
 
 const verticalModes = new Map([

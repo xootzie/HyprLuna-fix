@@ -232,8 +232,6 @@ export default () => {
 
     // Get all keybinds for searching
     const allKeybinds = getAllKeybinds(keybindList.children);
-    console.log(`Total keybinds loaded: ${allKeybinds.length}`);
-
     // Add search functionality
     searchEntry.on('changed', () => {
         const query = searchEntry.text.toLowerCase();
@@ -254,8 +252,6 @@ export default () => {
         const matchingKeybinds = allKeybinds.filter(item =>
             keybindMatchesSearch(item.keybind, query)
         );
-
-        console.log(`Found ${matchingKeybinds.length} matching keybinds`);
 
         // Clear previous search results
         searchResultsBox.children = [];

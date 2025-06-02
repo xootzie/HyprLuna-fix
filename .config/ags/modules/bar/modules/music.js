@@ -13,7 +13,7 @@ const { Box, Label, EventBox, Button, Revealer } = Widget;
 // Desired dimensions and rounded corner settings.
 const COVER_WIDTH = 40;
 const COVER_HEIGHT = 20;
-const CORNER_RADIUS = 100;
+const CORNER_RADIUS = 50;
 
 const findPlayer = () => {
   const players = Mpris.players;
