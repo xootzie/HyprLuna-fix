@@ -44,9 +44,18 @@ function forMonitors(widget) {
     return [widget(targetMonitor)].flat(1);
   }
 
-  // Otherwise, create widgets for all monitors (original behavior)
-  const n = Gdk.Display.get_default()?.get_n_monitors() || 1;
-  return range(n, 0).map(widget).flat(1);
+  // Create widgets for all available monitors using sequential IDs
+  // This ensures compatibility with monitor arrays that expect sequential indexing
+  const allMonitors = Hyprland.monitors || [];
+  if (allMonitors.length === 0) {
+    // Fallback to GDK if Hyprland monitors not available
+    const n = Gdk.Display.get_default()?.get_n_monitors() || 1;
+    return range(n, 0).map(widget).flat(1);
+  }
+
+  // Use sequential monitor indices (0, 1, 2...) instead of Hyprland IDs
+  // This ensures compatibility with monitor data arrays
+  return allMonitors.map((monitor, index) => widget(index)).flat(1);
 }
 
 globalThis["handleStyles"] = () => {

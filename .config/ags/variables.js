@@ -330,7 +330,11 @@ globalThis.cleanupRegistry = {
   // Cleanup a specific timeout
   clearTimeout: (id) => {
     if (id && globalThis.cleanupRegistry.timeouts.has(id)) {
-      GLib.source_remove(id);
+      try {
+        GLib.source_remove(id);
+      } catch (e) {
+        // Silent fail - source may already be removed
+      }
       globalThis.cleanupRegistry.timeouts.delete(id);
     }
   },
@@ -338,7 +342,11 @@ globalThis.cleanupRegistry = {
   // Cleanup a specific interval
   clearInterval: (id) => {
     if (id && globalThis.cleanupRegistry.intervals.has(id)) {
-      GLib.source_remove(id);
+      try {
+        GLib.source_remove(id);
+      } catch (e) {
+        // Silent fail - source may already be removed
+      }
       globalThis.cleanupRegistry.intervals.delete(id);
     }
   },
@@ -346,10 +354,18 @@ globalThis.cleanupRegistry = {
   // Cleanup all registered timeouts and intervals
   cleanupAll: () => {
     for (const id of globalThis.cleanupRegistry.timeouts) {
-      GLib.source_remove(id);
+      try {
+        GLib.source_remove(id);
+      } catch (e) {
+        // Silent fail - source may already be removed
+      }
     }
     for (const id of globalThis.cleanupRegistry.intervals) {
-      GLib.source_remove(id);
+      try {
+        GLib.source_remove(id);
+      } catch (e) {
+        // Silent fail - source may already be removed
+      }
     }
     globalThis.cleanupRegistry.timeouts.clear();
     globalThis.cleanupRegistry.intervals.clear();
