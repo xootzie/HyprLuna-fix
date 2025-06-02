@@ -84,34 +84,6 @@ export const HyprToggleIcon = async (icon, name, hyprlandConfigValue, props = {}
     }
 }
 
-export const ModuleNightLight = async (props = {}) => {
-    if (!exec(`bash -c 'command -v hyprsunset'`)) return null;
-    
-    const button = Widget.Button({
-        attribute: { enabled: false },
-        className: 'txt-small sidebar-iconbutton',
-        tooltipText: getString('Night Light'),
-        onClicked: async (self) => {
-            self.attribute.enabled = !self.attribute.enabled;
-            self.toggleClassName('sidebar-button-active', self.attribute.enabled);
-            
-            if (self.attribute.enabled) {
-                await execAsync([`'bash',' -c','hyprsunset -t ${userOptions.asyncGet().etc.nightLightTemp}'`]).catch(print);
-            } else {
-                await execAsync('killall hyprsunset').catch(print);
-            }
-        },
-        child: MaterialIcon('nightlight', 'norm'),
-        setup: (self) => {
-            setupCursorHover(self);
-            self.attribute.enabled = !!exec('pidof hyprsunset');
-            self.toggleClassName('sidebar-button-active', self.attribute.enabled);
-        },
-        ...props,
-    });
-    return button;
-}
-
 export const ModuleCloudflareWarp = async (props = {}) => {
     if (!exec(`bash -c 'command -v warp-cli'`)) return null;
     

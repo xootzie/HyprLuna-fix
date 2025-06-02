@@ -39,7 +39,7 @@ export const ToggleIconWifi = (props = {}) => {
 
 export const ToggleIconBluetooth = (props = {}) => {
     const button = Widget.Button({
-        className: 'txt-small sidebar-iconbutton', 
+        className: 'txt-small sidebar-iconbutton',
         tooltipText: getString('Bluetooth | Right-click to configure'),
         onClicked: () => {
             exec(Bluetooth?.enabled ? 'rfkill block bluetooth' : 'rfkill unblock bluetooth');
@@ -88,8 +88,8 @@ export const HyprToggleIcon = async (icon, name, hyprlandConfigValue, props = {}
 }
 
 export const ModuleNightLight = async (props = {}) => {
-    if (!exec(`bash -c 'command -v gammastep'`)) return null;
-    
+    if (!exec(`bash -c 'command -v hyprsunset'`)) return null;
+
     const button = Widget.Button({
         attribute: { enabled: false },
         className: 'txt-small sidebar-iconbutton',
@@ -97,24 +97,17 @@ export const ModuleNightLight = async (props = {}) => {
         onClicked: async (self) => {
             self.attribute.enabled = !self.attribute.enabled;
             self.toggleClassName('sidebar-button-active', self.attribute.enabled);
-            
+
             if (self.attribute.enabled) {
-                await execAsync('gammastep').catch(print);
+                await execAsync(['bash', '-c', `hyprsunset -t ${userOptions.asyncGet().etc.nightLightTemp}`]).catch(print);
             } else {
-                self.sensitive = false;
-                await execAsync('pkill gammastep').catch(print);
-                const checkInterval = setInterval(() => {
-                    execAsync('pkill -0 gammastep').catch(() => {
-                        self.sensitive = true;
-                        clearInterval(checkInterval);
-                    });
-                }, 500);
+                await execAsync(['killall', 'hyprsunset']).catch(print);
             }
         },
         child: MaterialIcon('nightlight', 'norm'),
         setup: (self) => {
             setupCursorHover(self);
-            self.attribute.enabled = !!exec('pidof gammastep');
+            self.attribute.enabled = !!exec('pidof hyprsunset');
             self.toggleClassName('sidebar-button-active', self.attribute.enabled);
         },
         ...props,
@@ -124,7 +117,7 @@ export const ModuleNightLight = async (props = {}) => {
 
 export const ModuleCloudflareWarp = async (props = {}) => {
     if (!exec(`bash -c 'command -v warp-cli'`)) return null;
-    
+
     const button = Widget.Button({
         attribute: { enabled: false },
         className: 'txt-small sidebar-iconbutton',
@@ -152,7 +145,7 @@ export const ModuleCloudflareWarp = async (props = {}) => {
 export const ModuleRawInput = async (props = {}) => {
     try {
         const Hyprland = (await import('resource:///com/github/Aylur/ags/service/hyprland.js')).default;
-        
+
         return Widget.Button({
             className: 'txt-small sidebar-iconbutton',
             tooltipText: 'Raw input',
@@ -160,7 +153,7 @@ export const ModuleRawInput = async (props = {}) => {
                 const output = await Hyprland.messageAsync('j/getoption input:accel_profile');
                 const value = JSON.parse(output)["str"].trim();
                 const newValue = (value != "[[EMPTY]]" && value != "") ? '[[EMPTY]]' : 'flat';
-                
+
                 await Hyprland.messageAsync(`j/keyword input:accel_profile ${newValue}`).catch(print);
                 button.toggleClassName('sidebar-button-active', newValue !== '[[EMPTY]]');
             },
@@ -182,10 +175,10 @@ export const ToggleIconCalendar = (props = {}) => Widget.Button({
     child: MaterialIcon('calendar_month', 'norm'),
     setup: (self) => {
         setupCursorHover(self);
-        
+
         // Set initial state from revealer's current status
         self.toggleClassName(
-            'sidebar-button-active', 
+            'sidebar-button-active',
             calendarRevealer.revealChild
         );
 
@@ -200,7 +193,7 @@ export const ToggleIconCalendar = (props = {}) => Widget.Button({
 });
 export const ModuleIdleInhibitor = (props = {}) => {
     const scriptPath = `${configDir}/scripts/wayland-idle-inhibitor.py`;
-    
+
     return Widget.Button({
         attribute: { enabled: false },
         className: 'txt-small sidebar-iconbutton',
@@ -208,7 +201,7 @@ export const ModuleIdleInhibitor = (props = {}) => {
         onClicked: async (self) => {
             self.attribute.enabled = !self.attribute.enabled;
             self.toggleClassName('sidebar-button-active', self.attribute.enabled);
-            
+
             if (self.attribute.enabled) {
                 await execAsync(['bash', '-c', `pidof wayland-idle-inhibitor.py || ${scriptPath}`]).catch(print);
             } else {

@@ -1107,7 +1107,11 @@ const MediaControls = () => {
 
             // Clean up when destroyed
             self.connect('destroy', () => {
-                Utils.timeout.clearInterval(timerId);
+                try {
+                    GLib.source_remove(timerId);
+                } catch (e) {
+                    // Silent fail
+                }
 
                 // Stop playback
                 if (player.getCurrentFile()) {
