@@ -55,9 +55,9 @@ export default (overviewMonitor = 0) => {
         const revealInfoCondition = (Math.min(w, h) * scale > 70);
         if (w <= 0 || h <= 0 || (c === '' && title === '')) return null;
 
-        // Screen coordinate adjustments
-        if (screenCoords.x != 0) x -= screenCoords.x;
-        if (screenCoords.y != 0) y -= screenCoords.y;
+        // Screen coordinate adjustments - add safety check for screenCoords
+        if (screenCoords && screenCoords.x != 0) x -= screenCoords.x;
+        if (screenCoords && screenCoords.y != 0) y -= screenCoords.y;
         if (x + w <= 0) x += (Math.floor(x / monitors[monitor].width) * monitors[monitor].width);
         else if (x < 0) { w = x + w; x = 0; }
         else if (y + h <= 0) x += (Math.floor(y / monitors[monitor].height) * monitors[monitor].height);

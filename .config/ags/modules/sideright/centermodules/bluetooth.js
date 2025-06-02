@@ -1577,7 +1577,13 @@ export default (props) => {
                     });
 
                     // Clean up interval when widget is destroyed
-                    self.connect('destroy', () => Utils.timeout.clearInterval(interval));
+                    self.connect('destroy', () => {
+                        try {
+                            GLib.source_remove(interval);
+                        } catch (e) {
+                            // Silent fail
+                        }
+                    });
                 },
             })
         }),
@@ -1619,7 +1625,13 @@ export default (props) => {
             });
 
             // Clean up interval when widget is destroyed
-            self.connect('destroy', () => Utils.timeout.clearInterval(interval));
+            self.connect('destroy', () => {
+                try {
+                    GLib.source_remove(interval);
+                } catch (e) {
+                    // Silent fail
+                }
+            });
         },
     })
     // Function to check if there are suitable devices for file transfer

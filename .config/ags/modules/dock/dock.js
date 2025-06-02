@@ -434,18 +434,44 @@ const AppButton = ({ icon, appClass, windowCount = 0, isPinned = false, ...rest 
 
                 // Set up a timer to periodically check for notification updates
                 const timerId = Utils.interval(1500, () => {
-                    // Get the current parent (might have changed)
-                    const currentParent = button.get_parent();
-                    if (currentParent && currentParent.attribute &&
-                        currentParent.attribute.updateNotificationBadge) {
-                        currentParent.attribute.updateNotificationBadge(currentParent);
+                    // Check if button still exists and is not destroyed
+                    if (!button || button.is_destroyed) {
+                        try {
+                            GLib.source_remove(timerId);
+                        } catch (e) {
+                            // Silent fail
+                        }
+                        return false; // Stop the interval
+                    }
+
+                    try {
+                        // Get the current parent (might have changed)
+                        const currentParent = button.get_parent();
+                        if (currentParent && currentParent.attribute &&
+                            currentParent.attribute.updateNotificationBadge) {
+                            currentParent.attribute.updateNotificationBadge(currentParent);
+                        }
+                    } catch (error) {
+                        // If there's an error accessing the button, stop the interval
+                        try {
+                            GLib.source_remove(timerId);
+                        } catch (e) {
+                            // Silent fail
+                        }
+                        return false;
                     }
                     return true; // Keep the interval running
                 });
 
                 // Clean up the timer when the button is destroyed
                 button.connect('destroy', () => {
-                    Utils.timeout.clearInterval(timerId);
+                    if (timerId) {
+                        try {
+                            GLib.source_remove(timerId);
+                        } catch (e) {
+                            // Silent fail
+                        }
+                    }
                 });
             };
 
