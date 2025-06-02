@@ -241,8 +241,8 @@ export default ({ id = 0 }) => {
     return Widget.Box({
         className: 'session-bg',
         css: `
-        min-width: ${monitors[id].width}px;
-        min-height: ${monitors[id].height}px;
+        min-width: ${monitors[id] ? monitors[id].width : 1920}px;
+        min-height: ${monitors[id] ? monitors[id].height : 1080}px;
         `, // idk why but height = screen height doesn't fill
         vertical: true,
         children: [
