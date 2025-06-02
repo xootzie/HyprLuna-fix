@@ -8,7 +8,8 @@ export default (monitor = 0) => {
     return Box({
         className: 'desktop-background',
         setup: (self) => {
-            self.set_size_request(monitors[monitor].width, monitors[monitor].height);
+            const monitorData = monitors[monitor] || { width: 1920, height: 1080 };
+            self.set_size_request(monitorData.width, monitorData.height);
         },
     });
 }
