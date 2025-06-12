@@ -26,6 +26,14 @@ GLib.mkdir_with_parents(DISK_CACHE_DIR, 0o755);
 const IMAGES_PER_PAGE = 30;
 // مؤشر الصفحة الحالية
 let currentPage = 0;
+// State for search
+let searchQuery = '';
+// Debounce timer
+let searchDebounceTimeout = null;
+
+// State variables 
+let isSearchVisible = false;
+let wallpaperContentBox = null;
 
 // إضافة متغير عام للتحديث
 let contentUpdateCallback = null;
@@ -37,7 +45,7 @@ const getCacheInfo = (path) => {
     return { cachedFileName: basename, format: ext === "jpg" ? "jpeg" : ext };
 };
 const loadPreviewAsync = async (path) => {
-    const { cachedFileName } = getCacheInfo(path);
+    const { cachedFileName, format } = getCacheInfo(path);
     const diskCachePath = DISK_CACHE_DIR + '/' + cachedFileName;
     const diskCacheFile = Gio.File.new_for_path(diskCachePath);
     if (diskCacheFile.query_exists(null)) {
@@ -66,13 +74,34 @@ const loadPreviewAsync = async (path) => {
         const fullPixbuf = GdkPixbuf.Pixbuf.new_from_file(path);
         pixbuf = fullPixbuf.scale_simple(PREVIEW_WIDTH, PREVIEW_HEIGHT, GdkPixbuf.InterpType.NEAREST);
     }
-    const { format } = getCacheInfo(path);
     try {
+        // Skip caching GIF files since gdk-pixbuf doesn't support saving them
+        if (!path.toLowerCase().endsWith('.gif')) {
         pixbuf.savev(diskCachePath, format, [], []);
+        }
     } catch (e) {
         log(`Error saving disk cached image ${diskCachePath}: ${e}`);
     }
     return pixbuf;
+};
+
+const cacheWallpapersInBackground = (paths) => {
+    if (!paths || paths.length === 0) return;
+
+    let i = 0;
+    const cacheNext = () => {
+        if (i >= paths.length) return;
+
+        loadPreviewAsync(paths[i])
+            .catch(e => console.error(`Failed to cache ${paths[i]} in background: ${e}`))
+            .finally(() => {
+                i++;
+                if (i < paths.length) {
+                    Utils.timeout(50, cacheNext);
+                }
+            });
+    };
+    Utils.timeout(500, cacheNext);
 };
 
 let wallpaperPathsCache = null;
@@ -144,9 +173,23 @@ const getWallpaperPaths = async () => {
     }
 };
 
-const WallpaperPreview = (path) =>
-    Button({
-        child: EventBox({
+const WallpaperPreview = (path) => {
+    const basename = GLib.path_get_basename(path);
+    return Button({
+        className: 'wallpaper-preview-button',
+        child: Box({
+            vertical: true,
+            spacing: 5,
+            className: 'wallpaper-container',
+            children: [
+                // Wrap the wallpaper and its name in a content box
+                Box({
+                    vertical: true,
+                    spacing: 8,
+                    className: 'wallpaper-content-box',
+                    children: [
+                        // Wallpaper image
+                        EventBox({
             setup: (self) => {
                 const drawingArea = new Gtk.DrawingArea();
                 drawingArea.set_size_request(PREVIEW_WIDTH, PREVIEW_HEIGHT);
@@ -154,35 +197,86 @@ const WallpaperPreview = (path) =>
                 let pixbuf = null;
                 let imageLoaded = false;
                 let loadPromise = null;
+                                let mapHandlerId = null;
+                                let isDestroyed = false;
+                                // Use a variable to reference the drawing area 
+                                let drawingAreaRef = drawingArea;
 
-                // تأخير تحميل الصورة حتى تكون مرئية
                 const loadImage = () => {
-                    if (imageLoaded || loadPromise) return;
-
-                    // تحميل الصورة بعد تأخير صغير لتحسين الأداء
+                                    if (imageLoaded || loadPromise || isDestroyed) return;
                     loadPromise = Utils.timeout(50, () => {
+                                        // Check if widget is still valid before proceeding
+                                        if (isDestroyed) return false;
+
                         loadPreviewAsync(path)
                             .then((p) => {
+                                                // Check again if widget is still valid
+                                                if (isDestroyed) return;
+                                                
                                 pixbuf = p;
                                 imageLoaded = true;
-                                drawingArea.queue_draw();
+                                                if (drawingAreaRef && drawingAreaRef.get_mapped()) {
+                                                    drawingAreaRef.queue_draw();
+                                                }
                             })
                             .catch((e) => {
+                                                if (!isDestroyed) {
                                 console.error(`Error loading image ${path}: ${e}`);
-                                drawingArea.queue_draw();
+                                                    if (drawingAreaRef && drawingAreaRef.get_mapped()) {
+                                                        drawingAreaRef.queue_draw();
+                                                    }
+                                                }
                             });
-                        return false; // لا يتكرر
+                                        loadPromise = null;
+                                        return false;
                     });
                 };
 
-                // تحميل الصورة عند ظهورها فقط
-                if (drawingArea.get_mapped()) {
+                                // Handle widget mapping and unmapping
+                                if (drawingAreaRef.get_mapped()) {
                     loadImage();
                 } else {
-                    drawingArea.connect("map", loadImage);
+                                    mapHandlerId = drawingAreaRef.connect("map", loadImage);
                 }
-                drawingArea.connect("draw", (widget, cr) => {
-                    if (pixbuf) {
+                                
+                                // Clean up when the widget is destroyed
+                                const destroyHandlerId = drawingAreaRef.connect("destroy", () => {
+                                    isDestroyed = true;
+                                    
+                                    // Disconnect signals to prevent memory leaks
+                                    if (mapHandlerId) {
+                                        if (drawingAreaRef) {
+                                            drawingAreaRef.disconnect(mapHandlerId);
+                                        }
+                                        mapHandlerId = null;
+                                    }
+                                    
+                                    if (drawingAreaRef) {
+                                        drawingAreaRef.disconnect(destroyHandlerId);
+                                    }
+                                    
+                                    // Cancel any pending operations
+                                    if (loadPromise) {
+                                        GLib.source_remove(loadPromise);
+                                        loadPromise = null;
+                                    }
+                                    
+                                    // Clear references
+                                    pixbuf = null;
+                                    drawingAreaRef = null;
+                                });
+                                
+                                // Disconnect when unmapped to prevent errors
+                                drawingAreaRef.connect("unmap", () => {
+                                    if (mapHandlerId && drawingAreaRef) {
+                                        drawingAreaRef.disconnect(mapHandlerId);
+                                        mapHandlerId = null;
+                                    }
+                                });
+
+                                drawingAreaRef.connect("draw", (widget, cr) => {
+                                    if (pixbuf && !isDestroyed) {
+                                        try {
                         const areaWidth = widget.get_allocated_width();
                         const areaHeight = widget.get_allocated_height();
                         cr.save();
@@ -199,10 +293,27 @@ const WallpaperPreview = (path) =>
                         Gdk.cairo_set_source_pixbuf(cr, pixbuf, 0, 0);
                         cr.paint();
                         cr.restore();
+                                        } catch (e) {
+                                            // Silently handle any errors during drawing
+                                            console.error(`Error drawing preview: ${e}`);
+                                        }
                     }
                     return false;
                 });
             }
+                        }),
+                        
+                        // Wallpaper name
+                        Label({
+                            className: 'wallpaper-name txt-small',
+                            truncate: 'end',
+                            maxWidthChars: 20,
+                            label: basename,
+                            hpack: 'center',
+                        }),
+                    ]
+                })
+            ]
         }),
         onClicked: async () => {
             try {
@@ -213,6 +324,8 @@ const WallpaperPreview = (path) =>
             }
         }
     });
+};
+
 const createPlaceholder = () =>
     Box({
         className: 'wallpaper-placeholder',
@@ -234,139 +347,101 @@ const createPlaceholder = () =>
         ],
     });
 
-// Create pagination controls following Material You design
-const createPaginationControls = (totalPages) => {
-    // Create a label for page counter
-    const pageInfoLabel = Label({
-        className: 'wallpaper-pagination-counter',
-        xalign: 0.5, // Center align text
-        label: `${currentPage + 1}/${totalPages}`,
-        css: 'font-size: 1rem;', // Set font size directly
-    });
-
-    // Update the page display
-    const updatePageDisplay = () => {
-        pageInfoLabel.label = `${currentPage + 1}/${totalPages}`;
-    };
-
-    return Box({
-        className: 'material-pagination-container',
-        hpack: 'center',
-        spacing: 4,
+const createNoResultsPlaceholder = () =>
+    Box({
+        className: 'wallpaper-placeholder',
+        vertical: true,
+        vexpand: true,
+        hexpand: true,
+        spacing: 10,
         children: [
-            // First page button
-            Button({
-                className: 'wallpaper-pagination-btn',
-                child: MaterialIcon('first_page', 'norm'),
-                setup: (self) => {
-                    if (self.child) {
-                        self.child.css = 'font-size: 18px;';
-                    }
-                },
-                tooltipText: 'First page',
-                onClicked: () => {
-                    if (currentPage !== 0) {
-                        currentPage = 0;
-                        updatePageDisplay();
-                        if (contentUpdateCallback) contentUpdateCallback();
-                    }
-                },
-            }),
-            // Previous page button
-            Button({
-                className: 'wallpaper-pagination-btn',
-                child: MaterialIcon('navigate_before', 'norm'),
-                setup: (self) => {
-                    if (self.child) {
-                        self.child.css = 'font-size: 18px;';
-                    }
-                },
-                tooltipText: 'Previous page',
-                onClicked: () => {
-                    if (currentPage > 0) {
-                        currentPage--;
-                        updatePageDisplay();
-                        if (contentUpdateCallback) contentUpdateCallback();
-                    }
-                },
-            }),
-            // Page counter
-            pageInfoLabel,
-            // Next page button
-            Button({
-                className: 'wallpaper-pagination-btn',
-                child: MaterialIcon('navigate_next', 'norm'),
-                setup: (self) => {
-                    if (self.child) {
-                        self.child.css = 'font-size: 18px;';
-                    }
-                },
-                tooltipText: 'Next page',
-                onClicked: () => {
-                    if (currentPage < totalPages - 1) {
-                        currentPage++;
-                        updatePageDisplay();
-                        if (contentUpdateCallback) contentUpdateCallback();
-                    }
-                },
-            }),
-            // Last page button
-            Button({
-                className: 'wallpaper-pagination-btn',
-                child: MaterialIcon('last_page', 'norm'),
-                setup: (self) => {
-                    if (self.child) {
-                        self.child.css = 'font-size: 18px;';
-                    }
-                },
-                tooltipText: 'Last page',
-                onClicked: () => {
-                    if (currentPage !== totalPages - 1) {
-                        currentPage = totalPages - 1;
-                        updatePageDisplay();
-                        if (contentUpdateCallback) contentUpdateCallback();
-                    }
-                },
+            Box({
+                vertical: true,
+                vpack: 'center',
+                hpack: 'center',
+                vexpand: true,
+                children: [
+                    Label({ 
+                        label: 'No matching wallpapers found.', 
+                        className: 'txt-norm onSurfaceVariant' 
+                    }),
+                    Label({ 
+                        label: 'Try a different search term.', 
+                        opacity: 0.8, 
+                        className: 'txt-small onSurfaceVariant' 
+                    }),
+                ],
             }),
         ],
     });
+
+// Simple debounce function to prevent excessive updates
+const debounce = (func, delay) => {
+    return (...args) => {
+        if (searchDebounceTimeout) {
+            GLib.source_remove(searchDebounceTimeout);
+        }
+        searchDebounceTimeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, delay, () => {
+            func(...args);
+            searchDebounceTimeout = null;
+            return GLib.SOURCE_REMOVE;
+        });
+    };
 };
 
-const createContent = async () => {
+// Function to handle keyboard navigation - corrected for AGSv1
+const handleKeyNavigation = (_, event) => {
     try {
-        // console.log("Loading wallpapers from:", WALLPAPER_DIR);
+        // In AGSv1, the keyval is directly available on the event
+        const keyval = event.keyval;
+        
+        // Left arrow key (65361 is KEY_Left in Gdk)
+        if (keyval === 65361) {
+            return true;
+        } 
+        // Right arrow key (65363 is KEY_Right in Gdk)
+        else if (keyval === 65363) {
+            return true;
+        }
+    } catch (e) {
+        console.error("Error in key navigation:", e);
+    }
+    return false;
+};
+
+// Create wallpaper content for the current search query and page
+const createWallpaperContent = async () => {
+    try {
         const wallpaperPaths = await getWallpaperPaths();
 
-        // console.log(`Found ${wallpaperPaths.length} wallpapers.`);
+        const filteredPaths = searchQuery
+            ? wallpaperPaths.filter(path =>
+                GLib.path_get_basename(path).toLowerCase().includes(searchQuery.toLowerCase())
+            )
+            : wallpaperPaths;
 
-        if (!wallpaperPaths.length) {
-            console.log("No wallpapers found.");
-            return createPlaceholder();
+        if (!filteredPaths.length) {
+            return {
+                content: searchQuery ? createNoResultsPlaceholder() : createPlaceholder(),
+                totalPages: 1
+            };
         }
 
-        // حساب عدد الصفحات الإجمالي
-        const totalPages = Math.ceil(wallpaperPaths.length / IMAGES_PER_PAGE);
+        const totalPages = Math.ceil(filteredPaths.length / IMAGES_PER_PAGE);
 
-        // التأكد من أن مؤشر الصفحة الحالية ضمن النطاق المسموح
         if (currentPage >= totalPages) {
-            currentPage = totalPages - 1;
+            currentPage = Math.max(0, totalPages - 1);
         }
         if (currentPage < 0) {
             currentPage = 0;
         }
 
-        // تحديد مجموعة الصور التي سيتم عرضها في الصفحة الحالية
         const startIndex = currentPage * IMAGES_PER_PAGE;
-        const endIndex = Math.min(startIndex + IMAGES_PER_PAGE, wallpaperPaths.length);
-        const currentPageWallpapers = wallpaperPaths.slice(startIndex, endIndex);
+        const endIndex = Math.min(startIndex + IMAGES_PER_PAGE, filteredPaths.length);
+        const currentPageWallpapers = filteredPaths.slice(startIndex, endIndex);
 
-        // console.log(`Displaying page ${currentPage + 1}/${totalPages} (images ${startIndex + 1}-${endIndex} of ${wallpaperPaths.length})`);
-
+        // Create a container with keyboard navigation
         const contentBox = Box({
-            vertical: true,
-            spacing: 10,
-            children: [
-                Box({
                     setup: (self) => {
                         // Create a scrollable container
                         const scrollable = Scrollable({
@@ -400,47 +475,262 @@ const createContent = async () => {
                             child: scrollable,
                         });
 
+                // Add keyboard navigation at widget level
+                self.connect('key-press-event', (_, event) => {
+                    try {
+                        // In AGSv1, the keyval is directly available on the event
+                        const keyval = event.keyval;
+                        
+                        // Left arrow key (65361 is KEY_Left in Gdk)
+                        if (keyval === 65361) {
+                            const adj = scrollable.get_hadjustment();
+                            const scrollAmount = 160;
+                            adj.set_value(Math.max(adj.get_value() - scrollAmount, adj.get_lower()));
+                            return true;
+                        } 
+                        // Right arrow key (65363 is KEY_Right in Gdk)
+                        else if (keyval === 65363) {
+                            const adj = scrollable.get_hadjustment();
+                            const scrollAmount = 160;
+                            adj.set_value(Math.min(adj.get_value() + scrollAmount, adj.get_upper() - adj.get_page_size()));
+                            return true;
+                        }
+                    } catch (e) {
+                        console.error("Error in key navigation:", e);
+                    }
+                    return false;
+                });
+
+                // Make the widget focusable to receive key events
+                self.can_focus = true;
+
                         // Add the event box to the container
                         self.add(eventBox);
                     },
-                }),
-                // إضافة أزرار التنقل بين الصفحات
-                createPaginationControls(totalPages)
-            ]
         });
 
-        return contentBox;
+        return {
+            content: contentBox,
+            totalPages: totalPages
+        };
     } catch (error) {
         console.error("Error loading wallpapers:", error);
-        return Box({
+        return {
+            content: Box({
             className: "wallpaper-error",
             vexpand: true,
             hexpand: true,
             children: [Label({ label: "Error loading wallpapers.", className: "txt-large txt-error" })],
-        });
+            }),
+            totalPages: 1
+        };
     }
 };
 
-// Note: This function is kept for reference but not currently used
-// It can be used to update the content without recreating the entire widget
-/*
-const updateContent = async (contentBox) => {
+// Update just the wallpaper content without recreating the entire widget
+const updateWallpaperContent = async () => {
+    if (!wallpaperContentBox) return;
+    
     try {
-        const content = await createContent();
-        if (contentBox && content) {
-            contentBox.children = [content];
+        const { content, totalPages } = await createWallpaperContent();
+        
+        // Update page counter
+        if (paginationControls) {
+            paginationControls.updatePageDisplay(totalPages);
         }
+        
+        // Update content
+        wallpaperContentBox.children = [content];
     } catch (error) {
-        console.error('Error updating content:', error);
+        console.error('Error updating wallpaper content:', error);
     }
 };
-*/
 
-export default () =>
-    Box({
+// Persistent pagination controls that don't get recreated
+let paginationControls = null;
+
+// Create pagination controls following Material You design
+const createPaginationControls = () => {
+    // Create a label for page counter
+    const pageInfoLabel = Label({
+        className: 'wallpaper-pagination-counter',
+        xalign: 0.5, // Center align text
+        label: '1/1',
+    });
+
+    // Debounced search handler
+    const performSearch = debounce((text) => {
+        searchQuery = text || '';
+        currentPage = 0;
+        updateWallpaperContent();
+    }, 300); // 300ms debounce
+
+    // Create a persistent search entry that doesn't collapse
+    const searchEntry = Widget.Entry({
+        className: 'wallpaper-search-entry',
+        placeholderText: 'Search...',
+        hexpand: true,
+        onChange: ({ text }) => {
+            performSearch(text);
+        },
+        setup: (self) => {
+            // Handle escape key press
+            self.connect('key-press-event', (_, event) => {
+                if (event.get_keyval()[1] === Gdk.KEY_Escape) {
+                    self.text = '';
+                    searchQuery = '';
+                    updateWallpaperContent();
+                    return true;
+                }
+                return false;
+            });
+        },
+    });
+
+    // Create a revealer for the search entry
+    const searchRevealer = Widget.Revealer({
+        revealChild: isSearchVisible,
+        transition: 'slide_left',
+        transitionDuration: 300,
+        child: Box({
+            child: searchEntry,
+            className: 'wallpaper-search-entry-container',
+        }),
+    });
+
+    // Search button that toggles the revealer
+    const searchButton = Button({
+        className: 'wallpaper-pagination-btn',
+        child: MaterialIcon('search', 'norm', { className: 'wallpaper-icon-size' }),
+        tooltipText: 'Search wallpapers',
+        onClicked: () => {
+            isSearchVisible = !isSearchVisible;
+            searchRevealer.revealChild = isSearchVisible;
+            if (isSearchVisible) {
+                Utils.timeout(50, () => {
+                    searchEntry.grab_focus();
+                });
+            }
+        },
+    });
+
+    const controls = Box({
+        className: 'material-pagination-container',
+        hpack: 'center',
+        spacing: 4,
+        children: [
+            Button({
+                className: 'wallpaper-pagination-btn',
+                child: MaterialIcon('first_page', 'norm', { className: 'wallpaper-icon-size' }),
+                tooltipText: 'First page',
+                onClicked: () => {
+                    if (currentPage !== 0) {
+                        currentPage = 0;
+                        updateWallpaperContent();
+                    }
+                },
+            }),
+            Button({
+                className: 'wallpaper-pagination-btn',
+                child: MaterialIcon('navigate_before', 'norm', { className: 'wallpaper-icon-size' }),
+                tooltipText: 'Previous page',
+                onClicked: () => {
+                    if (currentPage > 0) {
+                        currentPage--;
+                        updateWallpaperContent();
+                    }
+                },
+            }),
+            pageInfoLabel,
+            Button({
+                className: 'wallpaper-pagination-btn',
+                child: MaterialIcon('navigate_next', 'norm', { className: 'wallpaper-icon-size' }),
+                tooltipText: 'Next page',
+                onClicked: () => {
+                    updateWallpaperContent().then(({ totalPages }) => {
+                        if (currentPage < totalPages - 1) {
+                            currentPage++;
+                            updateWallpaperContent();
+                        }
+                    });
+                },
+            }),
+            Button({
+                className: 'wallpaper-pagination-btn',
+                child: MaterialIcon('last_page', 'norm', { className: 'wallpaper-icon-size' }),
+                tooltipText: 'Last page',
+                onClicked: () => {
+                    updateWallpaperContent().then(({ totalPages }) => {
+                        if (currentPage !== totalPages - 1) {
+                            currentPage = totalPages - 1;
+                            updateWallpaperContent();
+                        }
+                    });
+                },
+            }),
+            Box({ hexpand: true }),
+            searchButton,
+            searchRevealer,
+        ],
+    });
+
+    // Add method to update page display
+    controls.updatePageDisplay = (totalPages) => {
+        pageInfoLabel.label = `${currentPage + 1}/${totalPages}`;
+    };
+
+    return controls;
+};
+
+export default () => {
+    // Create the main widget only once
+    const mainWidget = Box({
         vertical: true,
         className: `wallselect-bg ${elevate}`,
-
+        setup: (self) => {
+            // Add keyboard navigation at the top level
+            self.connect('key-press-event', (_, event) => {
+                try {
+                    // In AGSv1, the keyval is directly available on the event
+                    const keyval = event.keyval;
+                    
+                    // Handle left/right arrow keys
+                    if (keyval === 65361 || keyval === 65363) { // Left: 65361, Right: 65363
+                        // Find the scrollable and adjust its position
+                        const contentBox = self.get_children()[1];
+                        if (contentBox) {
+                            const scrollAmount = 160;
+                            const possibleScrollables = contentBox.get_children();
+                            for (let i = 0; i < possibleScrollables.length; i++) {
+                                const child = possibleScrollables[i];
+                                if (child instanceof Gtk.ScrolledWindow) {
+                                    const adj = child.get_hadjustment();
+                                    if (keyval === 65361) { // Left arrow
+                                        adj.set_value(Math.max(adj.get_value() - scrollAmount, adj.get_lower()));
+                                    } else { // Right arrow
+                                        adj.set_value(Math.min(adj.get_value() + scrollAmount, adj.get_upper() - adj.get_page_size()));
+                                    }
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.error("Error in key navigation:", e);
+                }
+                return false;
+            });
+            
+            // Make sure the widget can receive focus
+            self.can_focus = true;
+            
+            // Focus the widget after it's shown
+            self.connect('map', () => {
+                Utils.timeout(100, () => {
+                    self.grab_focus();
+                });
+            });
+        },
         children: [
             Box({
                 className: "wallselect-header",
@@ -450,24 +740,48 @@ export default () =>
                 vertical: true,
                 vpack: "center",
                 className: "wallselect-content",
-                setup: (self) => {
-                    // تحديث وظيفة التحديث للاستخدام مع أزرار التنقل
-                    contentUpdateCallback = async () => {
-                        try {
-                            self.children = [await createContent()];
-                        } catch (error) {
-                            console.error('Error in contentUpdateCallback:', error);
+                spacing: 10,
+                children: [
+                    // Wallpaper content box that will be updated
+                    Box({
+                        setup: self => {
+                            wallpaperContentBox = self;
                         }
-                    };
-
+                    }),
+                    // Create pagination controls only once
+                    Box({
+                        setup: self => {
+                            if (!paginationControls) {
+                                paginationControls = createPaginationControls();
+                            }
+                            self.child = paginationControls;
+                        }
+                    })
+                ],
+                setup: (self) => {
                     self.hook(App, async (_, name, visible) => {
                         if (name === "wallselect" && visible) {
-                            // إعادة تعيين الصفحة الحالية في كل مرة يتم فيها فتح النافذة
                             currentPage = 0;
-                            self.children = [await createContent()];
+                            if (searchDebounceTimeout) {
+                                GLib.source_remove(searchDebounceTimeout);
+                                searchDebounceTimeout = null;
+                            }
+                            
+                            // Initial content update
+                            updateWallpaperContent();
+                            
+                            // Start background caching
+                            const wallpaperPaths = await getWallpaperPaths();
+                            cacheWallpapersInBackground(wallpaperPaths);
                         }
                     }, "window-toggled");
                 },
             }),
         ],
     });
+
+    // Initial content update
+    Utils.timeout(100, updateWallpaperContent);
+
+    return mainWidget;
+};
