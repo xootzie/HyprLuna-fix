@@ -116,7 +116,38 @@ export const SearchAndWindows = () => {
         child: Widget.Label({
             className: 'overview-search-prompt txt-small',
             css: `margin-top:1rem`,
-            label: options.overview.useNameInPrompt ?  getString(`hi ${GLib.get_real_name()} ! Wanna Dive!`) : getString(`Start The Journey`) || null,
+            label: (() => {
+                try {
+                    if (!options.overview.useNameInPrompt) {
+                        return getString('Start The Journey') || null;
+                    }
+                    
+                    let name = '';
+                    try {
+                        name = GLib.get_real_name() || '';
+                    } catch (e) {
+                        console.error('Error getting real name:', e);
+                    }
+                    
+                    if (!name || name === 'Unknown' || name === 'unknown') {
+                        try {
+                            name = GLib.get_user_name() || '';
+                        } catch (e) {
+                            console.error('Error getting username:', e);
+                        }
+                    }
+                    
+                    name = name.trim().split(' ')[0] || 'User';
+                    
+                    name = name.replace(/[^\p{L}\s-]/gu, '').trim();
+                    if (!name) name = 'User';
+                    
+                    return getString(`hi ${name}! Wanna Dive!`);
+                } catch (error) {
+                    console.error('Error generating greeting:', error);
+                    return getString('Start The Journey') || null;
+                }
+            })(),
         }),
     });
 
