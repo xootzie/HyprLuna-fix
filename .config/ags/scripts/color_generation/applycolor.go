@@ -50,7 +50,7 @@ func main() {
 
 	if strings.Contains(lines[1], "transparent") {
 		agsTransparency = "True"
-		hyprOpacity = "0.78"
+		hyprOpacity = "0.9"
 		rofiAlpha = "#00000090"
 		rofiAlphaElement = "#00000025"
 		termAlpha = "0.9"
