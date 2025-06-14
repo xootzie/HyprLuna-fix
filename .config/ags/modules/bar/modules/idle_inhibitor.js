@@ -3,14 +3,14 @@ import Utils from 'resource:///com/github/Aylur/ags/utils.js';
 import { MaterialIcon } from '../../.commonwidgets/materialicon.js';
 const { exec, execAsync } = Utils;
 
-const SCRIPT_PATH = '~/.config/ags/scripts/wayland-idle-inhibitor.py';
+const LUNACTL_CMD = `lunactl idle-inhibitor`;
 
 const configDir = Utils.CACHE_DIR.replace('cache/ags', 'config/ags');
 
 const checkIdleStatus = () => {
     try {
         // Check if the idle inhibitor script is running
-        const isScriptRunning = !!exec('pidof wayland-idle-inhibitor.py');
+        const isScriptRunning = !!exec('pidof -x lunactl');
         // Check if DPMS is enabled
         const dpmsStatus = exec('hyprctl getoption dpms').includes('int: 1');
         return isScriptRunning || !dpmsStatus;
@@ -41,14 +41,14 @@ const IdleInhibitor = ({ className = '', ...props } = {}) => {
                 
                 if (newState) {
                     console.log('Starting idle inhibitor...');
-                    const result = await execAsync([SCRIPT_PATH]).catch(error => {
+                    await execAsync(['bash', '-c', LUNACTL_CMD]).catch(error => {
                         console.error('Failed to start idle inhibitor:', error);
                         throw error;
                     });
-                    console.log('Idle inhibitor started:', result);
+                    console.log('Idle inhibitor started');
                 } else {
                     console.log('Stopping idle inhibitor...');
-                    await execAsync(['pkill', '-f', 'wayland-idle-inhibitor.py']).catch(error => {
+                    await execAsync(['pkill', '-f', `lunactl idle-inhibitor`]).catch(error => {
                         console.error('Failed to stop idle inhibitor:', error);
                         throw error;
                     });

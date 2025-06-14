@@ -230,7 +230,7 @@ export default () => EventBox({
             // Ensure wsId is within bounds
             wsId = Math.max(1, Math.min(wsId, count));
             
-            Utils.execAsync([`${App.configDir}/scripts/hyprland/workspace_action.sh`, 'workspace', `${wsId}`])
+            Utils.execAsync([`lunactl`, 'hyprland', 'workspace', `${wsId}`])
                 .catch(print);
         })
         
@@ -275,7 +275,7 @@ export default () => EventBox({
             // Ensure wsId is within bounds
             wsId = Math.max(1, Math.min(wsId, count));
             
-            Utils.execAsync([`${App.configDir}/scripts/hyprland/workspace_action.sh`, 'workspace', `${wsId}`])
+            Utils.execAsync([`lunactl`, 'hyprland', 'workspace', `${wsId}`])
                 .catch(print);
         })
         self.on('button-release-event', (self) => self.attribute.clicked = false);

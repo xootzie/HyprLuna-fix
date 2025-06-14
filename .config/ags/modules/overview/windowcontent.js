@@ -122,6 +122,7 @@ export const SearchAndWindows = () => {
                         return getString('Start The Journey') || null;
                     }
                     
+                    // Try to get the real name first
                     let name = '';
                     try {
                         name = GLib.get_real_name() || '';
@@ -129,6 +130,7 @@ export const SearchAndWindows = () => {
                         console.error('Error getting real name:', e);
                     }
                     
+                    // If no real name, try to get username
                     if (!name || name === 'Unknown' || name === 'unknown') {
                         try {
                             name = GLib.get_user_name() || '';
@@ -137,8 +139,10 @@ export const SearchAndWindows = () => {
                         }
                     }
                     
+                    // Clean up the name and get first part
                     name = name.trim().split(' ')[0] || 'User';
                     
+                    // Make sure we don't have any invalid characters
                     name = name.replace(/[^\p{L}\s-]/gu, '').trim();
                     if (!name) name = 'User';
                     

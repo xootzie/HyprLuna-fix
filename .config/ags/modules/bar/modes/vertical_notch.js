@@ -9,7 +9,7 @@ import KbLayout from "../modules/kb_layout.js";
 import VerticalOptionalWorkspace from "../vertical_modules/workspaces_hyprland.js"
 import ScrolledModule from "../../.commonwidgets/scrolledmodule.js";
 import { MediaControls } from "../vertical_modules/bar_toggles.js";
-export const VerticalBarPinned = Widget.CenterBox({
+export const VerticalBarNotch = Widget.CenterBox({
   className: "bar-bg",
   css:`min-width:3rem`,
   vertical:true,

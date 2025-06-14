@@ -192,7 +192,7 @@ export const ToggleIconCalendar = (props = {}) => Widget.Button({
     },
 });
 export const ModuleIdleInhibitor = (props = {}) => {
-    const scriptPath = `${configDir}/scripts/wayland-idle-inhibitor.py`;
+    const scriptPath = `lunactl idle-inhibitor`;
 
     return Widget.Button({
         attribute: { enabled: false },
@@ -203,15 +203,15 @@ export const ModuleIdleInhibitor = (props = {}) => {
             self.toggleClassName('sidebar-button-active', self.attribute.enabled);
 
             if (self.attribute.enabled) {
-                await execAsync(['bash', '-c', `pidof wayland-idle-inhibitor.py || ${scriptPath}`]).catch(print);
+                await execAsync(['bash', '-c', `pidof -x lunactl || ${scriptPath}`]).catch(print);
             } else {
-                await execAsync('pkill -f wayland-idle-inhibitor.py').catch(print);
+                await execAsync(`pkill -f "${scriptPath}"`).catch(print);
             }
         },
         child: MaterialIcon('coffee', 'norm'),
         setup: (self) => {
             setupCursorHover(self);
-            self.attribute.enabled = !!exec('pidof wayland-idle-inhibitor.py');
+            self.attribute.enabled = !!exec('pidof -x lunactl');
             self.toggleClassName('sidebar-button-active', self.attribute.enabled);
         },
         ...props,

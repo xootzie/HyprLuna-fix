@@ -236,7 +236,7 @@ export default () => EventBox({
             const [_, cursorX, cursorY] = event.get_coords();
             const widgetHeight = self.get_allocation().height;
             const wsId = Math.ceil(cursorY * userOptions.asyncGet().workspaces.shown / widgetHeight);
-            Utils.execAsync([`${App.configDir}/scripts/hyprland/workspace_action.sh`, 'workspace', `${wsId}`])
+            Utils.execAsync(['lunactl', 'hyprland', 'workspace', `${wsId}`])
                 .catch(print);
         })
         self.on('button-press-event', (self, event) => {
@@ -245,7 +245,7 @@ export default () => EventBox({
                 const [_, cursorX, cursorY] = event.get_coords();
                 const widgetHeight = self.get_allocation().height;
                 const wsId = Math.ceil(cursorY * userOptions.asyncGet().workspaces.shown / widgetHeight);
-                Utils.execAsync([`${App.configDir}/scripts/hyprland/workspace_action.sh`, 'workspace', `${wsId}`])
+                Utils.execAsync(['lunactl', 'hyprland', 'workspace', `${wsId}`])
                     .catch(print);
             }
             else if (event.get_button()[1] === 8) {

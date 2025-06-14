@@ -4,18 +4,11 @@ import WeatherService  from '../../../services/weather.js';
 
 const WeatherOnly = () => {
     const weatherIcon = MaterialIcon('device_thermostat', 'large weather-icon txt-norm txt-onLayer1');
-    
+
     const tempLabel = Widget.Label({
         className: "txt-norm txt-onLayer1",
         setup: self => self.hook(WeatherService, () => {
             self.label = WeatherService.temperature;
-        })
-    });
-
-    const feelsLikeLabel = Widget.Label({
-        className: "txt-norm txt-onLayer1",
-        setup: self => self.hook(WeatherService, () => {
-            self.label = `Feels ${WeatherService.feelsLike}`;
         })
     });
 
@@ -25,19 +18,11 @@ const WeatherOnly = () => {
         vpack: 'center',
         children: [
             weatherIcon,
-            Widget.Box({
-                className: 'spacing-h-2',
-                hpack: 'center',
-                vpack: 'center',
-                children: [
-                    tempLabel,
-                    feelsLikeLabel
-                ]
-            })
+            tempLabel
         ],
         setup: self => self.hook(WeatherService, () => {
             weatherIcon.label = WeatherService.icon;
-            self.tooltipText = `${WeatherService.description}\nFeels like ${WeatherService.feelsLike}`;
+            self.tooltipText = `${WeatherService.description}\nFeels like: ${WeatherService.feelsLike}`;
         })
     });
 };
