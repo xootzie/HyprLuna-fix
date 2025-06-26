@@ -1,6 +1,5 @@
 use anyhow::{Context, Result, anyhow};
 use clap::{Args, Subcommand};
-use serde::Deserialize;
 use std::{env, fs};
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
@@ -62,18 +61,6 @@ pub enum ScreenshotTarget {
 }
 
 
-// --- Structs for JSON parsing ---
-#[derive(Deserialize, Debug)]
-struct HyprlandWindow {
-    at: [i32; 2],
-    size: [i32; 2],
-}
-
-#[derive(Deserialize, Debug)]
-struct HyprlandMonitor {
-    name: String,
-    focused: bool,
-}
 
 // --- Helper Functions ---
 fn check_command(command: &str, debug: bool) -> Result<()> {
