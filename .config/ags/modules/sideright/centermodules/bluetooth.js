@@ -1143,28 +1143,32 @@ const scanForDevices = (scanButton) => {
 
 // Function to perform an initial scan for devices
 const performInitialScan = async () => {
-    // Only perform initial scan if Bluetooth is enabled
-    if (Bluetooth.enabled) {
-        // Try to power on Bluetooth if it's not already on
-        await Utils.execAsync(['rfkill', 'unblock', 'bluetooth']).catch(() => {});
-        await Utils.execAsync(['bluetoothctl', 'power', 'on']).catch(() => {});
+    try {
+        // Only perform initial scan if Bluetooth is enabled
+        if (Bluetooth.enabled) {
+            // Try to power on Bluetooth if it's not already on
+            await Utils.execAsync(['rfkill', 'unblock', 'bluetooth']).catch(e => console.error("Error unblocking bluetooth:", e));
+            await Utils.execAsync(['bluetoothctl', 'power', 'on']).catch(e => console.error("Error powering on bluetooth:", e));
 
-        // Get devices without scanning first to reduce warnings
-        customDevices = await getBluetoothctlDevices();
+            // Get devices without scanning first to reduce warnings
+            customDevices = await getBluetoothctlDevices();
 
-        if (userOptions.bluetooth?.debug) {
-            console.log(`Initial scan found ${customDevices.length} devices`);
+            if (userOptions.bluetooth?.debug) {
+                console.log(`Initial scan found ${customDevices.length} devices`);
+            }
+
+            // Only start a scan if we're actually showing the Bluetooth panel
+            // and if we didn't find any devices initially
+            if (customDevices.length === 0 && App.windows.some(w => w.name.includes('sideright') && w.visible)) {
+                lastScanTime = Date.now();
+                // Use a slight delay to reduce warnings during startup
+                Utils.timeout(2000, () => {
+                    discoverDevices();
+                });
+            }
         }
-
-        // Only start a scan if we're actually showing the Bluetooth panel
-        // and if we didn't find any devices initially
-        if (customDevices.length === 0 && App.windows.some(w => w.name.includes('sideright') && w.visible)) {
-            lastScanTime = Date.now();
-            // Use a slight delay to reduce warnings during startup
-            Utils.timeout(2000, () => {
-                discoverDevices();
-            });
-        }
+    } catch (error) {
+        console.error("Error during initial Bluetooth scan:", error);
     }
 };
 
