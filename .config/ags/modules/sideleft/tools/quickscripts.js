@@ -56,7 +56,7 @@ const scripts = [
     {
         icon: 'arch-symbolic',
         name: getString('Remove orphan packages'),
-        command: `sudo pacman -R $(pacman -Qdtq)`,
+        command: `ghostty -e "sudo pacman -R $(pacman -Qdtq)"`,
         enabled: isArchDistro,
     },
     {
