@@ -5,6 +5,7 @@ import { MaterialIcon } from '../../.commonwidgets/materialicon.js';
 import { setupCursorHover } from '../../.widgetutils/cursorhover.js';
 import WallpaperService from '../../../services/wallpaper.js';
 import { chatEntry } from '../apiwidgets.js';
+import { jsoncParser } from '../../.commonutils/jsonc.js';
 
 const { Box, Button, Label, Scrollable, Revealer } = Widget;
 
@@ -25,7 +26,7 @@ const getCustomPrompts = () => {
                    jsoncExists ? jsoncFile :
                    configBasePath + '.json';
         })();
-        const config = JSON.parse(Utils.readFile(configPath));
+        const config = jsoncParser(Utils.readFile(configPath));
         return config.wallpapers?.customPrompts || [
             { icon: 'landscape', style: 'realistic landscape photography', tooltip: 'Realistic' },
             { icon: 'brush', style: 'oil painting', tooltip: 'Oil Painting' },
