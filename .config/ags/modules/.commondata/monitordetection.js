@@ -53,7 +53,7 @@ export const monitorSetup = Variable({
 // Function to restart AGS to apply monitor changes
 const restartAgs = () => {
     console.log("Restarting AGS to apply monitor changes...");
-    Utils.execAsync(['bash', '-c', `${App.configDir}/scripts/restart_ags.sh`]).catch(print);
+    Utils.execAsync(["lunactl","core", "restart-ags"]).catch(print);
 };
 
 // Update monitor information when Hyprland monitors change

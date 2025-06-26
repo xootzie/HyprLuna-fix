@@ -1,4 +1,5 @@
-const { Gio, GLib } = imports.gi;
+const { Gdk, Gtk, GLib } = imports.gi;
+import { jsoncParser } from '../.commonutils/jsonc.js';
 import App from 'resource:///com/github/Aylur/ags/app.js';
 import * as Utils from 'resource:///com/github/Aylur/ags/utils.js';
 const { execAsync, exec } = Utils;
@@ -34,7 +35,7 @@ export function launchCustomCommand(command) {
         '>raw': () => {
             Utils.execAsync('hyprctl -j getoption input:accel_profile')
                 .then(output => {
-                    const value = JSON.parse(output).str.trim();
+                    const value = jsoncParser(output).str.trim();
                     execAsync(['bash', '-c',
                         `hyprctl keyword input:accel_profile '${value != "[[EMPTY]]" && value != "" ? "[[EMPTY]]" : "flat"}'`
                     ]).catch(print);
@@ -82,10 +83,10 @@ export function launchCustomCommand(command) {
             };
 
             try {
-                // Update user_options.default.json
+                // Update user_options.default.jsonc
                 // Use the same configBasePath defined above
                 const defaultConfigPath = jsonPath;
-                let defaultConfig = JSON.parse(Utils.readFile(defaultConfigPath));
+                let defaultConfig = jsoncParser(Utils.readFile(defaultConfigPath));
 
                 // Ensure the path exists
                 if (!defaultConfig.sidebar) defaultConfig.sidebar = {};
@@ -304,7 +305,7 @@ if results:
             if (!args[0]) return;
             const appName = args.join(' ').toLowerCase();
             try {
-                const config = JSON.parse(Utils.readFile(jsonPath));
+                const config = jsoncParser(Utils.readFile(jsonPath));
                 if (!config.dock) config.dock = {};
                 if (!config.dock.pinnedApps) config.dock.pinnedApps = [];
 
@@ -325,10 +326,10 @@ if results:
         '>unpin': () => {
             if (!args[0]) return;
             const appName = args.join(' ').toLowerCase();
-            const configPath = `${App.configDir}/modules/.configuration/user_options.default.json`;
+            const configPath = `${App.configDir}/modules/.configuration/user_options.default.jsonc`;
 
             try {
-                const config = JSON.parse(Utils.readFile(configPath));
+                const config = jsoncParser(Utils.readFile(configPath));
                 if (config.dock?.pinnedApps) {
                     const index = config.dock.pinnedApps.indexOf(appName);
                     if (index > -1) {

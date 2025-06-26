@@ -99,7 +99,7 @@ const Utilities = () => {
             }),
             UtilButton({
                 name: getString('Screen snip'), icon: 'screenshot_region', onClicked: () => {
-                    Utils.execAsync(['lunactl', 'grimblast', 'copy', 'area'])
+                    Utils.execAsync(['lunactl', 'screenshot', 'copy', 'area'])
                         .catch(print)
                 }
             }),

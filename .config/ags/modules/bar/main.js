@@ -13,6 +13,7 @@ import { VerticalBarPinned } from "./modes/verticalPinned.js";
 import { IslandBar } from "./modes/macLike.js";
 import { NotchBar } from "./modes/notch.js";
 import { SaadiBar } from "./modes/saadi.js";
+import { PadBar } from "./modes/pad.js";
 import Gio from "gi://Gio";
 import GLib from "gi://GLib";
 import * as Utils from "resource:///com/github/Aylur/ags/utils.js";
@@ -37,11 +38,12 @@ const horizontalModes = new Map([
   ["6", [IslandBar, false, "Dynamic"]],
   ["7", [NotchBar, false, "Notch"]],
   ["8", [NormalBar, true, "Normal"]],
+  ["9", [PadBar, false, "Pad"]],
 ]);
 
 const verticalModes = new Map([
-  ["9", [VerticalBar, false, "Vertical Bar"]],
-  ["10", [VerticalBarPinned, true, "Vertical Bar Pinned"]],
+  ["10", [VerticalBar, false, "Vertical Bar"]],
+  ["11", [VerticalBarPinned, true, "Vertical Bar Pinned"]],
 ]);
 
 const modes = new Map([...horizontalModes, ...verticalModes]);
@@ -308,8 +310,12 @@ export const Bar = async (monitor = 0) => {
   const children = {};
   for (const [key, [component]] of modes) {
     try {
-      // Use the component directly, it's already a widget
-      children[key] = component;
+      // Handle both widget objects and widget-creating functions to be resilient to caching issues
+      if (typeof component === 'function') {
+        children[key] = component();
+      } else {
+        children[key] = component;
+      }
     } catch (error) {
       // Log errors in component creation
       console.log(`Error creating component for mode ${key}: ${error}`);
