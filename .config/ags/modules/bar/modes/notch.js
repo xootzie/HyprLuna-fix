@@ -68,33 +68,33 @@ export const NotchBar = Widget.CenterBox({
       Widget.Box({child:await FocusOptionalWorkspaces(),css:`padding:6px 20px;`,hpack:"center",className: "bar-util-btn2 ",vpack:'center',}),
     ],
   }),
-  centerWidget:
-  Widget.Box({
-    children: [
-      scrolledmodule({children:[
+  centerWidget: Widget.CenterBox({
+    startWidget: scrolledmodule({
+      children: [
         ChatGPT(),
         GH(),
-      ]}),
-      Widget.Box({
-        children:[
-          RoundedCorner('topright', {className: 'corner'}),
-          Widget.Box({
-            className: "bar-notch shadow-window-light",
-            css:`min-height: 3.364rem;`,
-            hpack:"center",
-            children: [
-              Complex(),
-            ],
-          }),
-          RoundedCorner('topleft', {className: 'corner'}),
-        ]
-      }),
-      scrolledmodule({children:[
-        Widget.Box({child:changeWallpaperButton(),css:`padding:6px 8px`,className: "bar-util-btn2 ",hpack:'center',vpack:'center',}),
-        Widget.Box({child:Edit(),css:`padding:6px 8px`,className: "bar-util-btn2 ",hpack:'center',vpack:'center',}),
-
-      ]}),
-    ]
+      ]
+    }),
+    centerWidget: Widget.Box({
+      children: [
+        RoundedCorner('topright', { className: 'corner' }),
+        Widget.Box({
+          className: "bar-notch ",
+          css: `min-height: 3.364rem;`,
+          hpack: "center",
+          children: [
+            Complex(),
+          ],
+        }),
+        RoundedCorner('topleft', { className: 'corner' }),
+      ]
+    }),
+    endWidget: scrolledmodule({
+      children: [
+        Widget.Box({ child: changeWallpaperButton(), css: `padding:6px 8px`, className: "bar-util-btn2 ", hpack: 'center', vpack: 'center', }),
+        Widget.Box({ child: Edit(), css: `padding:6px 8px`, className: "bar-util-btn2 ", hpack: 'center', vpack: 'center', }),
+      ]
+    }),
   }),
   endWidget:
   Widget.Box({
