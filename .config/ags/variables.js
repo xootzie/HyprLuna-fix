@@ -263,22 +263,48 @@ Hyprland.connect("notify::monitors", () => {
   currentShellMode.value = newModes;
 });
 
-globalThis["cycleMode"] = () => {
-  // Get the target monitor based on barMonitorMode
-  const targetMonitorName = barMonitorMode.value;
-  const targetMonitor = findMonitorByName(targetMonitorName);
+// You can bind these to different keys to cycle through horizontal and vertical modes separately.
+const HORIZONTAL_MODES = Array.from({ length: 10 }, (_, i) => i.toString()); // "0" to "9"
+const VERTICAL_MODES = ["10", "11"];
 
-  // Get the current mode from the target monitor
-  const currentNum = parseInt(currentShellMode.value[targetMonitor]) || 0;
+globalThis["cycleHorizontalBar"] = () => {
+    const targetMonitorName = barMonitorMode.value;
+    const targetMonitor = findMonitorByName(targetMonitorName);
+    const currentMode = currentShellMode.value[targetMonitor] || "0";
 
-  // Calculate the next mode (cycle through all 11 modes, 0-10)
-  const nextMode = (currentNum + 1) % 11;
+    let nextMode;
+    const currentIndex = HORIZONTAL_MODES.indexOf(currentMode);
 
-  // Update the mode for the target monitor
-  updateMonitorShellMode(currentShellMode, targetMonitor, nextMode.toString());
+    if (currentIndex === -1) {
+        // Current mode is not horizontal, switch to the first horizontal one
+        nextMode = HORIZONTAL_MODES[0];
+    } else {
+        // Cycle to the next horizontal mode
+        nextMode = HORIZONTAL_MODES[(currentIndex + 1) % HORIZONTAL_MODES.length];
+    }
 
-  // Log the mode change regardless of monitor count
-  console.log(`Cycled bar mode to ${nextMode} on monitor ${targetMonitorName} (ID: ${targetMonitor})`);
+    updateMonitorShellMode(currentShellMode, targetMonitor, nextMode);
+    console.log(`Cycled horizontal bar mode to ${nextMode} on monitor ${targetMonitorName} (ID: ${targetMonitor})`);
+};
+
+globalThis["cycleVerticalBar"] = () => {
+    const targetMonitorName = barMonitorMode.value;
+    const targetMonitor = findMonitorByName(targetMonitorName);
+    const currentMode = currentShellMode.value[targetMonitor] || "0";
+
+    let nextMode;
+    const currentIndex = VERTICAL_MODES.indexOf(currentMode);
+
+    if (currentIndex === -1) {
+        // Current mode is not vertical, switch to the first vertical one
+        nextMode = VERTICAL_MODES[0];
+    } else {
+        // Cycle to the next vertical mode
+        nextMode = VERTICAL_MODES[(currentIndex + 1) % VERTICAL_MODES.length];
+    }
+
+    updateMonitorShellMode(currentShellMode, targetMonitor, nextMode);
+    console.log(`Cycled vertical bar mode to ${nextMode} on monitor ${targetMonitorName} (ID: ${targetMonitor})`);
 };
 
 // Add a debug function to list all monitors
