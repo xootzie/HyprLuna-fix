@@ -108,7 +108,7 @@ PACMAN_PREREQ_PACKAGES=(
 
 # Packages to install with paru
 PARU_PACKAGES=(
-    "hyprland" "axel" "bc" "coreutils" "cliphist" "cmake" "curl" "rofi-wayland" "rofi-emoji" "rofi-calc" "rofi-dmenu" "rofi-todo" "rsync" "wget" "ripgrep" "jq" "npm" "meson"
+    "hyprland" "axel" "bc" "coreutils" "cliphist" "cmake" "curl" "rofi-wayland" "rofi-emoji" "rofi-calc" "rofi-dmenu" "rsync" "cpio" "wget" "ripgrep" "jq" "npm" "meson"
     "typescript" "gjs" "xdg-user-dirs" "brightnessctl" "ddcutil" "pavucontrol" "wireplumber" "libdbusmenu-gtk3" "kitty"
     "playerctl" "swww" "gobject-introspection" "glib2-devel" "gvfs" "glib2" "glibc" "gtk3" "gtk-layer-shell" "libpulse"
     "pam" "gnome-bluetooth-3.0" "gammastep" "libsoup3" "libnotify" "networkmanager" "power-profiles-daemon" "upower"
@@ -789,6 +789,14 @@ setup_actions=(
     "[ -d $HOME/.config/ags/scripts/hyprland ] && chmod -R +x $HOME/.config/ags/scripts/hyprland/ || echo 'AGS/Hyprland scripts directory not found for chmod.'"
     "[ -d $HOME/.config/ags/modules/sideleft/tools ] && chmod -R +x $HOME/.config/ags/modules/sideleft/tools/changeres.sh || echo 'AGS/modules/sideleft/tools scripts directory not found for chmod.'"
     "sudo systemctl enable sddm.service"
+    "hyprpm update"
+    "hyprpm add https://github.com/hyprwm/hyprland-plugins"
+    "hyprpm enable hyprexpo"
+    "hyprpm reload"
+    "hyprctl reload"
+    "chmod +x ~/.config/ags/lunactl"
+    "sudo cp ~/.config/ags/lunactl /usr/bin/"
+    "chmod +x /usr/bin/lunactl"
 )
 
 total_actions=${#setup_actions[@]}
