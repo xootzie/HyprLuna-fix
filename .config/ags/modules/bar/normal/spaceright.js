@@ -86,7 +86,7 @@ export default (monitor = 0) => {
     child: Widget.Box({
       children: [
         Widget.Box({
-          hexpand: false,
+          hexpand: true,
           className: "spacing-h-5 bar-spaceright",
           children: [
             emptyArea,

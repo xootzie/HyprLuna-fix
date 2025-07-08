@@ -21,7 +21,15 @@ export const TabContainer = ({ icons, names, children, className = '', setup = (
                 vpack: 'center',
                 className: 'spacing-h-5 txt-small',
                 children: [
-                    MaterialIcon(icons[i], 'norm'),
+                    (() => {
+                        // Type validation to prevent crashes from data contract violations
+                        if (typeof icons[i] !== 'string') {
+                            console.warn('TabContainer: Expected string icon name, got:', typeof icons[i], icons[i]);
+                            // Use fallback icon to prevent crash
+                            return MaterialIcon('error', 'norm');
+                        }
+                        return MaterialIcon(icons[i], 'norm');
+                    })(),
                     Label({
                         label: names[i],
                     })
@@ -185,6 +193,12 @@ export const ExpandingIconTabContainer = ({
         hpack: tabsHpack,
         className: `spacing-h-5 ${tabSwitcherClassName}`,
         children: icons.map((icon, i) => {
+            // Type validation to prevent crashes from data contract violations
+            if (typeof icon !== 'string') {
+                console.warn('ExpandingIconTabContainer: Expected string icon name, got:', typeof icon, icon);
+                // Use fallback icon to prevent crash
+                icon = 'error';
+            }
             const tabIcon = MaterialIcon(icon, 'norm', { hexpand: true });
             const tabName = DoubleRevealer({
                 transition1: 'slide_right',
