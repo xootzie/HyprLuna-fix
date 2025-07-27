@@ -122,7 +122,7 @@ PARU_PACKAGES=(
     "python-wheel" "swappy" "wf-recorder" "grim" "tesseract" "tesseract-data-eng" "slurp" "dart-sass"
     "python-pywayland" "python-psutil" "hypridle" "hyprutils" "hyprlock" "wlogout" "wl-clipboard" "hyprpicker"
     "ghostty" "ttf-noto-sans-cjk-vf" "noto-fonts-emoji" "cava" "metar" "gowall" "go" "overskride"
-    "visual-studio-code-bin" "mpv" "github-desktop-bin" "sddm" "python-yapsy" "yt-dlp" "nm-connection-editor" "fastfetch" "citch" "firefox"
+    "visual-studio-code-bin" "mpv" "github-desktop-bin" "sddm" "python-yapsy" "yt-dlp" "nm-connection-editor" "fastfetch" "firefox"
 )
 
 # --- Helper Functions ---
