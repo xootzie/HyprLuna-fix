@@ -15,3 +15,7 @@ sh <(curl -L https://nixos.org/nix/install) --no-daemon
 . ~/.nix-profile/etc/profile.d/nix.sh
 export NIX_CONFIG="experimental-features = nix-command flakes"
 nix profile add github:nurly3/agsv1
+nix profile add nixpkgs#gobject-introspection
+nix profile add nixpkgs#gst_all_1.gstreamer
+nix profile add nixpkgs#gst_all_1.gst-plugins-base
+nix profile add nixpkgs#gst_all_1.gst-plugins-good
