@@ -70,20 +70,20 @@ show_help() {
 # Parse command line arguments
 while getopts "tmh" opt; do
     case $opt in
-        t)
-            BRANCH="testers"
-            ;;
-        m)
-            BRANCH="main"
-            ;;
-        h)
-            show_help
-            ;;
-        \?)
-            echo "Invalid option: -$OPTARG" >&2
-            echo "Use -h for help."
-            exit 1
-            ;;
+    t)
+        BRANCH="testers"
+        ;;
+    m)
+        BRANCH="main"
+        ;;
+    h)
+        show_help
+        ;;
+    \?)
+        echo "Invalid option: -$OPTARG" >&2
+        echo "Use -h for help."
+        exit 1
+        ;;
     esac
 done
 
@@ -97,7 +97,7 @@ fi
 # --- Configuration and Variables ---
 HYPRLUNA_INSTALL_DIR="$HOME/HyprLuna"
 PARU_CLONE_DIR="/tmp/paru_install_$$"
-AGSV1_CLONE_DIR="/tmp/agsv1_install_$$"
+# AGSV1_CLONE_DIR="/tmp/agsv1_install_$$"
 BACKUP_DIR="$HOME/HyprLuna-User-Bak_$(date +%Y%m%d_%H%M%S)"
 PARU_LOG_FILE=$(mktemp /tmp/hyprluna_paru_log.XXXXXX)
 
@@ -156,7 +156,7 @@ show_section_progress() {
     local bar_str=""
     if [ "$filled_count" -gt 0 ]; then
         for i in $(seq 1 "$filled_count"); do
-            if (( i % 2 != 0 )); then
+            if ((i % 2 != 0)); then
                 bar_str+="${C_ANSI_PRIMARY_FG}${progress_char}"
             else
                 bar_str+="${C_ANSI_SECONDARY_FG}${progress_char}"
@@ -170,7 +170,7 @@ show_section_progress() {
 
     local unfilled_spaces=""
     if [ "$unfilled_count" -gt 0 ]; then
-         unfilled_spaces=$(printf "%${unfilled_count}s" "")
+        unfilled_spaces=$(printf "%${unfilled_count}s" "")
     fi
 
     printf "\n"
@@ -178,7 +178,6 @@ show_section_progress() {
     printf "%b%s %d%% - %s\n" "[${bar_str}" "${unfilled_spaces}]" "$progress" "$section_name"
     printf "\n"
 }
-
 
 generate_simple_progress_bar() {
     local current_val=$1
@@ -192,7 +191,7 @@ generate_simple_progress_bar() {
     local bar_str=""
     if [ "$filled_units" -gt 0 ]; then
         for i_fill in $(seq 1 "$filled_units"); do
-            if (( i_fill % 2 != 0 )); then
+            if ((i_fill % 2 != 0)); then
                 bar_str+="${C_ANSI_PRIMARY_FG}${char}"
             else
                 bar_str+="${C_ANSI_SECONDARY_FG}${char}"
@@ -291,19 +290,19 @@ gum style --padding "1 2" --margin "1 0" --align center --width 80 --border norm
     "$(gum style --bold --foreground "$C_ACCENT_SECONDARY" "Installing from branch: $(gum style --foreground "$C_ACCENT_PRIMARY" "$BRANCH")")" \
     "" \
     "$(gum style --bold --foreground "$C_ACCENT_SECONDARY" 'The following steps will be performed:')" \
-    "$(gum style --foreground "$C_TEXT_MUTED" --margin "0 0 0 2" \
-        "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 1. Verify & Install Prerequisites" \
-        "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 2. Install AUR Helper (paru)" \
-        "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 3. Install HyprLuna Dependencies" \
-        "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 4. Install AGS v1 (Aylur's GTK Shell)" \
-        "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 5. Backup Existing User Configurations (Optional)" \
-        "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 6. Clone & Set Up HyprLuna" \
-        "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 7. Configure SDDM (Astronaut Theme)" \
+    "$(
+        gum style --foreground "$C_TEXT_MUTED" --margin "0 0 0 2" \
+            "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 1. Verify & Install Prerequisites" \
+            "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 2. Install AUR Helper (paru)" \
+            "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 3. Install HyprLuna Dependencies" \
+            "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 4. Install AGS v1 (Aylur's GTK Shell)" \
+            "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 5. Backup Existing User Configurations (Optional)" \
+            "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 6. Clone & Set Up HyprLuna" \
+            "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 7. Configure SDDM (Astronaut Theme)"
     )" \
     "" \
     "$(gum style --foreground "$C_WARN_TEXT" 'Some steps will require sudo privileges.')" \
     "$(gum style --foreground "$C_TEXT_MUTED" 'The script will guide you through each step and ask for confirmation.')"
-
 
 if ! gum_confirm "Are you ready to begin the HyprLuna installation?"; then
     gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Installation cancelled by the user."
@@ -365,9 +364,9 @@ else
 
         original_dir=$(pwd)
         cd "$PARU_CLONE_DIR" || {
-            gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $PARU_CLONE_DIR";
-            rm -rf "$PARU_CLONE_DIR";
-            exit 1;
+            gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $PARU_CLONE_DIR"
+            rm -rf "$PARU_CLONE_DIR"
+            exit 1
         }
 
         if ! run_with_spinner "Installing paru..." "makepkg -si --noconfirm"; then
@@ -413,11 +412,11 @@ if gum_confirm "Proceed with package installation?"; then
     SKIPPED_PACKAGES=()
     SUCCESS_PACKAGES=()
 
-    echo "=== HyprLuna Package Installation Log ($(date)) ===" > "$PARU_LOG_FILE"
-    echo "Total packages to install: $TOTAL_PACKAGES" >> "$PARU_LOG_FILE"
-    echo "Python packages to install first: ${#PYTHON_PACKAGES[@]}" >> "$PARU_LOG_FILE"
-    echo "Other packages to install: ${#OTHER_PACKAGES[@]}" >> "$PARU_LOG_FILE"
-    echo "" >> "$PARU_LOG_FILE"
+    echo "=== HyprLuna Package Installation Log ($(date)) ===" >"$PARU_LOG_FILE"
+    echo "Total packages to install: $TOTAL_PACKAGES" >>"$PARU_LOG_FILE"
+    echo "Python packages to install first: ${#PYTHON_PACKAGES[@]}" >>"$PARU_LOG_FILE"
+    echo "Other packages to install: ${#OTHER_PACKAGES[@]}" >>"$PARU_LOG_FILE"
+    echo "" >>"$PARU_LOG_FILE"
 
     is_package_installed() {
         pacman -Q "$1" &>/dev/null
@@ -436,18 +435,18 @@ if gum_confirm "Proceed with package installation?"; then
             printf "\r%b %d%% (%d/%d) - Installing (Python): %-30.30s " "[${pkg_bar_fill_str}]" "$PROGRESS" "$PROCESSED_COUNT" "$TOTAL_PACKAGES" "$pkg"
 
             if is_package_installed "$pkg"; then
-                echo "SKIPPED: $pkg is already installed." >> "$PARU_LOG_FILE"
+                echo "SKIPPED: $pkg is already installed." >>"$PARU_LOG_FILE"
                 SKIPPED_PACKAGES+=("$pkg")
             else
-                echo "=== Installing $pkg ($PROCESSED_COUNT/$TOTAL_PACKAGES) ===" >> "$PARU_LOG_FILE"
-                if ! paru -S --noconfirm --needed "$pkg" >> "$PARU_LOG_FILE" 2>&1; then
+                echo "=== Installing $pkg ($PROCESSED_COUNT/$TOTAL_PACKAGES) ===" >>"$PARU_LOG_FILE"
+                if ! paru -S --noconfirm --needed "$pkg" >>"$PARU_LOG_FILE" 2>&1; then
                     FAILED_PACKAGES+=("$pkg")
-                    echo "FAILURE: Installation of $pkg failed." >> "$PARU_LOG_FILE"
+                    echo "FAILURE: Installation of $pkg failed." >>"$PARU_LOG_FILE"
                 else
                     SUCCESS_PACKAGES+=("$pkg")
-                    echo "SUCCESS: $pkg installed successfully." >> "$PARU_LOG_FILE"
+                    echo "SUCCESS: $pkg installed successfully." >>"$PARU_LOG_FILE"
                 fi
-                echo "" >> "$PARU_LOG_FILE"
+                echo "" >>"$PARU_LOG_FILE"
             fi
         done
         printf "\n"
@@ -467,28 +466,28 @@ if gum_confirm "Proceed with package installation?"; then
             printf "\r%b %d%% (%d/%d) - Installing (Other): %-30.30s " "[${pkg_bar_fill_str}]" "$PROGRESS" "$PROCESSED_COUNT" "$TOTAL_PACKAGES" "$pkg"
 
             if is_package_installed "$pkg"; then
-                echo "SKIPPED: $pkg is already installed." >> "$PARU_LOG_FILE"
+                echo "SKIPPED: $pkg is already installed." >>"$PARU_LOG_FILE"
                 SKIPPED_PACKAGES+=("$pkg")
             else
-                echo "=== Installing $pkg ($PROCESSED_COUNT/$TOTAL_PACKAGES) ===" >> "$PARU_LOG_FILE"
-                if ! paru -S --noconfirm --needed "$pkg" >> "$PARU_LOG_FILE" 2>&1; then
+                echo "=== Installing $pkg ($PROCESSED_COUNT/$TOTAL_PACKAGES) ===" >>"$PARU_LOG_FILE"
+                if ! paru -S --noconfirm --needed "$pkg" >>"$PARU_LOG_FILE" 2>&1; then
                     FAILED_PACKAGES+=("$pkg")
-                    echo "FAILURE: Installation of $pkg failed." >> "$PARU_LOG_FILE"
+                    echo "FAILURE: Installation of $pkg failed." >>"$PARU_LOG_FILE"
                 else
                     SUCCESS_PACKAGES+=("$pkg")
-                    echo "SUCCESS: $pkg installed successfully." >> "$PARU_LOG_FILE"
+                    echo "SUCCESS: $pkg installed successfully." >>"$PARU_LOG_FILE"
                 fi
-                echo "" >> "$PARU_LOG_FILE"
+                echo "" >>"$PARU_LOG_FILE"
             fi
         done
         printf "\n"
         gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "Remaining packages processed."
     fi
 
-    echo "=== Installation Summary ===" >> "$PARU_LOG_FILE"
-    echo "Successful packages: ${#SUCCESS_PACKAGES[@]}" >> "$PARU_LOG_FILE"
-    echo "Skipped packages (already installed): ${#SKIPPED_PACKAGES[@]}" >> "$PARU_LOG_FILE"
-    echo "Failed packages: ${#FAILED_PACKAGES[@]}" >> "$PARU_LOG_FILE"
+    echo "=== Installation Summary ===" >>"$PARU_LOG_FILE"
+    echo "Successful packages: ${#SUCCESS_PACKAGES[@]}" >>"$PARU_LOG_FILE"
+    echo "Skipped packages (already installed): ${#SKIPPED_PACKAGES[@]}" >>"$PARU_LOG_FILE"
+    echo "Failed packages: ${#FAILED_PACKAGES[@]}" >>"$PARU_LOG_FILE"
 
     if [ ${#FAILED_PACKAGES[@]} -gt 0 ]; then
         gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "Some packages failed to install: $(gum style --bold --foreground "$C_ACCENT_PRIMARY" "${FAILED_PACKAGES[*]}")"
@@ -498,7 +497,7 @@ if gum_confirm "Proceed with package installation?"; then
             gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "Continuing with installation. Some components might not work."
         else
             gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Installation cancelled due to package errors."
-            gum_confirm "View the installation log now?" && gum pager < "$PARU_LOG_FILE"
+            gum_confirm "View the installation log now?" && gum pager <"$PARU_LOG_FILE"
             exit 1
         fi
     else
@@ -507,7 +506,7 @@ if gum_confirm "Proceed with package installation?"; then
     fi
 
     if gum_confirm "View detailed installation log?"; then
-        gum pager < "$PARU_LOG_FILE"
+        gum pager <"$PARU_LOG_FILE"
     fi
 else
     gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Package installation cancelled. Aborting."
@@ -515,117 +514,117 @@ else
 fi
 
 # --- STEP 3: INSTALL LATEST AGS V1 ---
-CURRENT_STEP=4
-show_section_progress "$CURRENT_STEP" "$TOTAL_STEPS" "STEP 3: Installing AGS v1"
-gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "STEP 3: Installing AGS v1 (Aylur's GTK Shell)."
-
-if gum_confirm "Install AGS v1?"; then
-    if ! command_exists npm; then
-        gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "npm not found. Installing..."
-        if ! run_with_spinner "Installing npm..." "sudo pacman -S --noconfirm npm"; then
-            gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not install npm. Aborting AGS v1 installation."
-            exit 1
-        fi
-    fi
-
-    gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "Installing AGS v1 using the exact required sequence:"
-    gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "1. sudo npm i -g typescript"
-    gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "2. git clone --recursive https://github.com/Lunaris-Project/agsv1"
-    gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "3. cd agsv1"
-    gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "4. makepkg -si"
-
-    total_ags_steps=4
-    show_ags_progress() {
-        local step_num=$1
-        local desc_text=$2
-        local progress_val=$((step_num * 100 / total_ags_steps))
-
-        local desc_part_plain_text="Step $step_num/$total_ags_steps: $desc_text"
-        local progress_part_plain_text="Progress: $progress_val%"
-
-        local desc_part_styled_text
-        desc_part_styled_text=$(gum style --foreground "$C_ACCENT_PRIMARY" "$desc_part_plain_text")
-        local progress_part_styled_text
-        progress_part_styled_text=$(gum style --foreground "$C_ACCENT_SECONDARY" "$progress_part_plain_text")
-
-        local term_width
-        term_width=$(tput cols 2>/dev/null) || term_width=80
-
-        local padding_size=$(( term_width - ${#desc_part_plain_text} - ${#progress_part_plain_text} ))
-        if [ "$padding_size" -lt 1 ]; then padding_size=1; fi
-        local padding_str
-        padding_str=$(printf "%${padding_size}s" "")
-
-        echo -e "${desc_part_styled_text}${padding_str}${progress_part_styled_text}"
-    }
-
-    show_ags_progress 1 "Installing typescript"
-    printf "\n"
-    gum style --foreground "$C_WARN_TEXT" "TypeScript needs to be installed globally. You will be prompted for your password."
-    if ! sudo npm i -g typescript; then
-        gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Failed to install typescript. Aborting."
-        exit 1
-    fi
-
-    show_ags_progress 2 "Cloning agsv1 repository"
-    if [ -d "$AGSV1_CLONE_DIR" ]; then
-        rm -rf "$AGSV1_CLONE_DIR"
-    fi
-    gum style --foreground "$C_TEXT_MUTED" "Cloning from: https://github.com/Lunaris-Project/agsv1"
-    if ! git clone --recursive https://github.com/Lunaris-Project/agsv1 "$AGSV1_CLONE_DIR"; then
-        gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Failed to clone agsv1. Aborting."
-        rm -rf "$AGSV1_CLONE_DIR"
-        exit 1
-    fi
-
-    show_ags_progress 3 "Changing to agsv1 directory"
-    original_dir_ags=$(pwd)
-    cd "$AGSV1_CLONE_DIR" || {
-        printf "\n"
-        gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $AGSV1_CLONE_DIR. Aborting.";
-        rm -rf "$AGSV1_CLONE_DIR";
-        exit 1;
-    }
-
-    show_ags_progress 4 "Building and installing agsv1"
-    ags_build_log_tmp=$(mktemp)
-    if ! makepkg -s > "$ags_build_log_tmp" 2>&1; then
-        printf "\n"
-        gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Failed to compile agsv1. Aborting."
-        gum style --padding "0 2" --foreground "$C_TEXT_MUTED" "$(tail -n 5 "$ags_build_log_tmp")"
-        cd "$original_dir_ags"
-        rm -rf "$AGSV1_CLONE_DIR" "$ags_build_log_tmp"
-        exit 1
-    fi
-    rm -f "$ags_build_log_tmp"
-
-    printf "\n"
-    gum style --foreground "$C_SUCCESS_TEXT" "AGS v1 package compiled successfully."
-    gum style --foreground "$C_WARN_TEXT" "The package will now be installed. You will be prompted for your password."
-
-    pkg_file=$(find . -name "agsv1*.pkg.tar.zst" | head -n 1)
-    if [ -z "$pkg_file" ]; then
-        gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Compiled package not found. Aborting."
-        cd "$original_dir_ags"
-        rm -rf "$AGSV1_CLONE_DIR"
-        exit 1
-    fi
-
-    gum style --foreground "$C_ACCENT_PRIMARY" "Installing package: $pkg_file"
-    if ! sudo pacman -U --noconfirm "$pkg_file"; then
-        gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Failed to install agsv1. Aborting."
-        cd "$original_dir_ags"
-        rm -rf "$AGSV1_CLONE_DIR"
-        exit 1
-    fi
-
-    printf "\n"
-    cd "$original_dir_ags" || true
-    rm -rf "$AGSV1_CLONE_DIR"
-    gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "AGS v1 installed successfully."
-else
-    gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "AGS v1 installation skipped."
-fi
+# CURRENT_STEP=4
+# show_section_progress "$CURRENT_STEP" "$TOTAL_STEPS" "STEP 3: Installing AGS v1"
+# gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "STEP 3: Installing AGS v1 (Aylur's GTK Shell)."
+#
+# if gum_confirm "Install AGS v1?"; then
+#     if ! command_exists npm; then
+#         gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "npm not found. Installing..."
+#         if ! run_with_spinner "Installing npm..." "sudo pacman -S --noconfirm npm"; then
+#             gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not install npm. Aborting AGS v1 installation."
+#             exit 1
+#         fi
+#     fi
+#
+#     gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "Installing AGS v1 using the exact required sequence:"
+#     gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "1. sudo npm i -g typescript"
+#     gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "2. git clone --recursive https://github.com/Lunaris-Project/agsv1"
+#     gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "3. cd agsv1"
+#     gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "4. makepkg -si"
+#
+#     total_ags_steps=4
+#     show_ags_progress() {
+#         local step_num=$1
+#         local desc_text=$2
+#         local progress_val=$((step_num * 100 / total_ags_steps))
+#
+#         local desc_part_plain_text="Step $step_num/$total_ags_steps: $desc_text"
+#         local progress_part_plain_text="Progress: $progress_val%"
+#
+#         local desc_part_styled_text
+#         desc_part_styled_text=$(gum style --foreground "$C_ACCENT_PRIMARY" "$desc_part_plain_text")
+#         local progress_part_styled_text
+#         progress_part_styled_text=$(gum style --foreground "$C_ACCENT_SECONDARY" "$progress_part_plain_text")
+#
+#         local term_width
+#         term_width=$(tput cols 2>/dev/null) || term_width=80
+#
+#         local padding_size=$((term_width - ${#desc_part_plain_text} - ${#progress_part_plain_text}))
+#         if [ "$padding_size" -lt 1 ]; then padding_size=1; fi
+#         local padding_str
+#         padding_str=$(printf "%${padding_size}s" "")
+#
+#         echo -e "${desc_part_styled_text}${padding_str}${progress_part_styled_text}"
+#     }
+#
+#     show_ags_progress 1 "Installing typescript"
+#     printf "\n"
+#     gum style --foreground "$C_WARN_TEXT" "TypeScript needs to be installed globally. You will be prompted for your password."
+#     if ! sudo npm i -g typescript; then
+#         gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Failed to install typescript. Aborting."
+#         exit 1
+#     fi
+#
+#     show_ags_progress 2 "Cloning agsv1 repository"
+#     if [ -d "$AGSV1_CLONE_DIR" ]; then
+#         rm -rf "$AGSV1_CLONE_DIR"
+#     fi
+#     gum style --foreground "$C_TEXT_MUTED" "Cloning from: https://github.com/Lunaris-Project/agsv1"
+#     if ! git clone --recursive https://github.com/Lunaris-Project/agsv1 "$AGSV1_CLONE_DIR"; then
+#         gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Failed to clone agsv1. Aborting."
+#         rm -rf "$AGSV1_CLONE_DIR"
+#         exit 1
+#     fi
+#
+#     show_ags_progress 3 "Changing to agsv1 directory"
+#     original_dir_ags=$(pwd)
+#     cd "$AGSV1_CLONE_DIR" || {
+#         printf "\n"
+#         gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $AGSV1_CLONE_DIR. Aborting."
+#         rm -rf "$AGSV1_CLONE_DIR"
+#         exit 1
+#     }
+#
+#     show_ags_progress 4 "Building and installing agsv1"
+#     ags_build_log_tmp=$(mktemp)
+#     if ! makepkg -s >"$ags_build_log_tmp" 2>&1; then
+#         printf "\n"
+#         gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Failed to compile agsv1. Aborting."
+#         gum style --padding "0 2" --foreground "$C_TEXT_MUTED" "$(tail -n 5 "$ags_build_log_tmp")"
+#         cd "$original_dir_ags"
+#         rm -rf "$AGSV1_CLONE_DIR" "$ags_build_log_tmp"
+#         exit 1
+#     fi
+#     rm -f "$ags_build_log_tmp"
+#
+#     printf "\n"
+#     gum style --foreground "$C_SUCCESS_TEXT" "AGS v1 package compiled successfully."
+#     gum style --foreground "$C_WARN_TEXT" "The package will now be installed. You will be prompted for your password."
+#
+#     pkg_file=$(find . -name "agsv1*.pkg.tar.zst" | head -n 1)
+#     if [ -z "$pkg_file" ]; then
+#         gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Compiled package not found. Aborting."
+#         cd "$original_dir_ags"
+#         rm -rf "$AGSV1_CLONE_DIR"
+#         exit 1
+#     fi
+#
+#     gum style --foreground "$C_ACCENT_PRIMARY" "Installing package: $pkg_file"
+#     if ! sudo pacman -U --noconfirm "$pkg_file"; then
+#         gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Failed to install agsv1. Aborting."
+#         cd "$original_dir_ags"
+#         rm -rf "$AGSV1_CLONE_DIR"
+#         exit 1
+#     fi
+#
+#     printf "\n"
+#     cd "$original_dir_ags" || true
+#     rm -rf "$AGSV1_CLONE_DIR"
+#     gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "AGS v1 installed successfully."
+# else
+#     gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "AGS v1 installation skipped."
+# fi
 
 # --- STEP 4: CREATE BACKUP (Optional) ---
 CURRENT_STEP=5
@@ -650,10 +649,10 @@ if gum_confirm "Create a backup of your configurations in '$BACKUP_DIR'?"; then
 
         if [ -d "$dir_path" ]; then
             rsync -aq "$dir_path" "$BACKUP_DIR/" >/dev/null 2>&1 || {
-                 echo "Error backing up $dir_name." >> "$PARU_LOG_FILE"
+                echo "Error backing up $dir_name." >>"$PARU_LOG_FILE"
             }
         else
-             echo "$dir_name not found for backup." >> "$PARU_LOG_FILE"
+            echo "$dir_name not found for backup." >>"$PARU_LOG_FILE"
         fi
     done
     printf "\n"
@@ -681,47 +680,47 @@ if [ -d "$HYPRLUNA_INSTALL_DIR" ]; then
             "Reinstall (remove and clone again)")
 
         case "$repo_action" in
-            "Skip (keep existing installation)")
-                gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Keeping existing HyprLuna installation."
-                ;;
-            "Update (pull latest changes)")
-                gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Updating existing HyprLuna installation..."
-                original_dir_update=$(pwd)
-                cd "$HYPRLUNA_INSTALL_DIR" || {
-                    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $HYPRLUNA_INSTALL_DIR. Aborting.";
-                    exit 1;
-                }
+        "Skip (keep existing installation)")
+            gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Keeping existing HyprLuna installation."
+            ;;
+        "Update (pull latest changes)")
+            gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Updating existing HyprLuna installation..."
+            original_dir_update=$(pwd)
+            cd "$HYPRLUNA_INSTALL_DIR" || {
+                gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $HYPRLUNA_INSTALL_DIR. Aborting."
+                exit 1
+            }
 
-                # Switch to the specified branch and pull latest changes
-                if ! run_with_spinner "Switching to $BRANCH branch..." "git checkout $BRANCH"; then
-                    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not switch to $BRANCH branch. Aborting."
-                    cd "$original_dir_update" || true
-                    exit 1
-                fi
-
-                if ! run_with_spinner "Updating HyprLuna from $BRANCH branch..." "git pull origin $BRANCH"; then
-                    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not update HyprLuna from $BRANCH branch. Aborting."
-                    cd "$original_dir_update" || true
-                    exit 1
-                fi
-
-                gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "HyprLuna updated successfully from $BRANCH branch."
+            # Switch to the specified branch and pull latest changes
+            if ! run_with_spinner "Switching to $BRANCH branch..." "git checkout $BRANCH"; then
+                gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not switch to $BRANCH branch. Aborting."
                 cd "$original_dir_update" || true
-                ;;
-            "Reinstall (remove and clone again)")
-                gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "Removing existing installation for a fresh clone..."
-                if ! run_with_spinner "Deleting existing directory $HYPRLUNA_INSTALL_DIR..." "rm -rf $HYPRLUNA_INSTALL_DIR"; then
-                    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not delete directory $HYPRLUNA_INSTALL_DIR. Aborting."
-                    exit 1
-                fi
-                gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "Directory $HYPRLUNA_INSTALL_DIR deleted."
+                exit 1
+            fi
 
-                # Clone fresh repository
-                if ! run_with_spinner "Cloning HyprLuna ($BRANCH branch)..." "git clone -b $BRANCH $REPO_URL $HYPRLUNA_INSTALL_DIR"; then
-                    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not clone HyprLuna from $BRANCH branch. Aborting."
-                    exit 1
-                fi
-                ;;
+            if ! run_with_spinner "Updating HyprLuna from $BRANCH branch..." "git pull origin $BRANCH"; then
+                gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not update HyprLuna from $BRANCH branch. Aborting."
+                cd "$original_dir_update" || true
+                exit 1
+            fi
+
+            gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "HyprLuna updated successfully from $BRANCH branch."
+            cd "$original_dir_update" || true
+            ;;
+        "Reinstall (remove and clone again)")
+            gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "Removing existing installation for a fresh clone..."
+            if ! run_with_spinner "Deleting existing directory $HYPRLUNA_INSTALL_DIR..." "rm -rf $HYPRLUNA_INSTALL_DIR"; then
+                gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not delete directory $HYPRLUNA_INSTALL_DIR. Aborting."
+                exit 1
+            fi
+            gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "Directory $HYPRLUNA_INSTALL_DIR deleted."
+
+            # Clone fresh repository
+            if ! run_with_spinner "Cloning HyprLuna ($BRANCH branch)..." "git clone -b $BRANCH $REPO_URL $HYPRLUNA_INSTALL_DIR"; then
+                gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not clone HyprLuna from $BRANCH branch. Aborting."
+                exit 1
+            fi
+            ;;
         esac
     else
         # Directory exists but not a git repository
@@ -766,8 +765,8 @@ fi
 
 original_dir_step5=$(pwd)
 cd "$HYPRLUNA_INSTALL_DIR" || {
-    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $HYPRLUNA_INSTALL_DIR. Aborting.";
-    exit 1;
+    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $HYPRLUNA_INSTALL_DIR. Aborting."
+    exit 1
 }
 
 # Only apply configuration files if not using "Skip" option
@@ -804,35 +803,35 @@ total_actions=${#setup_actions[@]}
 # Only execute setup actions if not using "Skip" option
 if [ "${repo_action:-}" != "Skip (keep existing installation)" ]; then
     echo "Copying configuration files..." | tee -a "$PARU_LOG_FILE"
-    echo "--- Start of Setup Actions ---" >> "$PARU_LOG_FILE"
+    echo "--- Start of Setup Actions ---" >>"$PARU_LOG_FILE"
 
     for i in "${!setup_actions[@]}"; do
         action="${setup_actions[$i]}"
-        action_num=$((i+1))
-        progress=$(( action_num * 100 / total_actions ))
+        action_num=$((i + 1))
+        progress=$((action_num * 100 / total_actions))
 
         setup_bar_fill_str=$(generate_simple_progress_bar "$action_num" "$total_actions" 25)
 
         printf "\r%b %d%% (%d/%d) - Applying configuration...      " "[${setup_bar_fill_str}]" "$progress" "$action_num" "$total_actions"
 
-        echo "Executing setup_action $action_num/$total_actions: $action" >> "$PARU_LOG_FILE"
+        echo "Executing setup_action $action_num/$total_actions: $action" >>"$PARU_LOG_FILE"
 
         action_output_tmp=$(mktemp)
-        if eval "$action" > "$action_output_tmp" 2>&1; then
-            echo "SUCCESS: $action" >> "$PARU_LOG_FILE"
+        if eval "$action" >"$action_output_tmp" 2>&1; then
+            echo "SUCCESS: $action" >>"$PARU_LOG_FILE"
         else
             ret_code=$?
-            echo "FAILURE ($ret_code): $action" >> "$PARU_LOG_FILE"
-            echo "Failure output:" >> "$PARU_LOG_FILE"
-            cat "$action_output_tmp" >> "$PARU_LOG_FILE"
+            echo "FAILURE ($ret_code): $action" >>"$PARU_LOG_FILE"
+            echo "Failure output:" >>"$PARU_LOG_FILE"
+            cat "$action_output_tmp" >>"$PARU_LOG_FILE"
         fi
         rm -f "$action_output_tmp"
     done
     printf "\n"
-    echo "--- End of Setup Actions ---" >> "$PARU_LOG_FILE"
+    echo "--- End of Setup Actions ---" >>"$PARU_LOG_FILE"
     gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "HyprLuna configuration applied."
 else
-    echo "Skipping configuration files (using existing installation)..." >> "$PARU_LOG_FILE"
+    echo "Skipping configuration files (using existing installation)..." >>"$PARU_LOG_FILE"
     gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Using existing HyprLuna configuration."
 fi
 cd "$original_dir_step5" || true
@@ -861,7 +860,7 @@ if pacman -Q sddm &>/dev/null; then
 
     if gum_confirm "Configure SDDM Astronaut theme?"; then
         sddm_setup_url="https://raw.githubusercontent.com/keyitdev/sddm-astronaut-theme/master/setup.sh"
-        if ! curl -s --head --fail "$sddm_setup_url" > /dev/null; then
+        if ! curl -s --head --fail "$sddm_setup_url" >/dev/null; then
             gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Cannot access SDDM configuration script."
             gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "You can install it manually later."
         else
@@ -894,7 +893,7 @@ else
 fi
 
 # --- FINAL CLEANUP ---
-rm -rf "$PARU_CLONE_DIR" "$AGSV1_CLONE_DIR" 2>/dev/null
+# rm -rf "$PARU_CLONE_DIR" "$AGSV1_CLONE_DIR" 2>/dev/null
 gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Cleanup of temporary files completed."
 
 # --- FINAL MESSAGE ---
@@ -939,7 +938,6 @@ log_line_text="${C_ANSI_TEXT_BRIGHT}Installation log: ${C_ANSI_UNDERLINE}${PARU_
 printf_box_line "$log_line_text"
 echo -e "${C_ANSI_PRIMARY_FG}└$(printf '%*s' "$BOX_CONTENT_WIDTH" '' | tr ' ' '─')┘${C_ANSI_RESET}"
 
-
 if [ -d "$BACKUP_DIR" ]; then
     echo -e "\n${C_ANSI_TEXT_BRIGHT}Backup created in: ${C_ANSI_UNDERLINE}$BACKUP_DIR${C_ANSI_RESET}\n"
 fi
@@ -950,13 +948,12 @@ BOX_RESTART_WIDTH=63
 echo -e "${C_ANSI_PRIMARY_FG}┌$(printf '%*s' "$BOX_RESTART_WIDTH" '' | tr ' ' '─')┐${C_ANSI_RESET}"
 restart_options_text="                 ${C_ANSI_YELLOW}REBOOT OPTIONS:${C_ANSI_RESET}                 "
 restart_options_len=$(echo -e "$restart_options_text" | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" | wc -c)
-restart_options_len=$((restart_options_len -1))
+restart_options_len=$((restart_options_len - 1))
 restart_padding_needed=$((BOX_RESTART_WIDTH - restart_options_len))
 if [ $restart_padding_needed -lt 0 ]; then restart_padding_needed=0; fi
 restart_padding_spaces=$(printf "%${restart_padding_needed}s" "")
 echo -e "${C_ANSI_PRIMARY_FG}│${C_ANSI_RESET} ${restart_options_text}${restart_padding_spaces} ${C_ANSI_PRIMARY_FG}│${C_ANSI_RESET}"
 echo -e "${C_ANSI_PRIMARY_FG}└$(printf '%*s' "$BOX_RESTART_WIDTH" '' | tr ' ' '─')┘${C_ANSI_RESET}"
-
 
 printf "${C_ANSI_TEXT_BRIGHT}Reboot the system now? (y/n): ${C_ANSI_RESET}"
 read -r choice
