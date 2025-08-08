@@ -514,117 +514,22 @@ else
 fi
 
 # --- STEP 3: INSTALL LATEST AGS V1 ---
-# CURRENT_STEP=4
-# show_section_progress "$CURRENT_STEP" "$TOTAL_STEPS" "STEP 3: Installing AGS v1"
-# gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "STEP 3: Installing AGS v1 (Aylur's GTK Shell)."
-#
-# if gum_confirm "Install AGS v1?"; then
-#     if ! command_exists npm; then
-#         gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "npm not found. Installing..."
-#         if ! run_with_spinner "Installing npm..." "sudo pacman -S --noconfirm npm"; then
-#             gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not install npm. Aborting AGS v1 installation."
-#             exit 1
-#         fi
-#     fi
-#
-#     gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "Installing AGS v1 using the exact required sequence:"
-#     gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "1. sudo npm i -g typescript"
-#     gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "2. git clone --recursive https://github.com/Lunaris-Project/agsv1"
-#     gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "3. cd agsv1"
-#     gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "4. makepkg -si"
-#
-#     total_ags_steps=4
-#     show_ags_progress() {
-#         local step_num=$1
-#         local desc_text=$2
-#         local progress_val=$((step_num * 100 / total_ags_steps))
-#
-#         local desc_part_plain_text="Step $step_num/$total_ags_steps: $desc_text"
-#         local progress_part_plain_text="Progress: $progress_val%"
-#
-#         local desc_part_styled_text
-#         desc_part_styled_text=$(gum style --foreground "$C_ACCENT_PRIMARY" "$desc_part_plain_text")
-#         local progress_part_styled_text
-#         progress_part_styled_text=$(gum style --foreground "$C_ACCENT_SECONDARY" "$progress_part_plain_text")
-#
-#         local term_width
-#         term_width=$(tput cols 2>/dev/null) || term_width=80
-#
-#         local padding_size=$((term_width - ${#desc_part_plain_text} - ${#progress_part_plain_text}))
-#         if [ "$padding_size" -lt 1 ]; then padding_size=1; fi
-#         local padding_str
-#         padding_str=$(printf "%${padding_size}s" "")
-#
-#         echo -e "${desc_part_styled_text}${padding_str}${progress_part_styled_text}"
-#     }
-#
-#     show_ags_progress 1 "Installing typescript"
-#     printf "\n"
-#     gum style --foreground "$C_WARN_TEXT" "TypeScript needs to be installed globally. You will be prompted for your password."
-#     if ! sudo npm i -g typescript; then
-#         gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Failed to install typescript. Aborting."
-#         exit 1
-#     fi
-#
-#     show_ags_progress 2 "Cloning agsv1 repository"
-#     if [ -d "$AGSV1_CLONE_DIR" ]; then
-#         rm -rf "$AGSV1_CLONE_DIR"
-#     fi
-#     gum style --foreground "$C_TEXT_MUTED" "Cloning from: https://github.com/Lunaris-Project/agsv1"
-#     if ! git clone --recursive https://github.com/Lunaris-Project/agsv1 "$AGSV1_CLONE_DIR"; then
-#         gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Failed to clone agsv1. Aborting."
-#         rm -rf "$AGSV1_CLONE_DIR"
-#         exit 1
-#     fi
-#
-#     show_ags_progress 3 "Changing to agsv1 directory"
-#     original_dir_ags=$(pwd)
-#     cd "$AGSV1_CLONE_DIR" || {
-#         printf "\n"
-#         gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $AGSV1_CLONE_DIR. Aborting."
-#         rm -rf "$AGSV1_CLONE_DIR"
-#         exit 1
-#     }
-#
-#     show_ags_progress 4 "Building and installing agsv1"
-#     ags_build_log_tmp=$(mktemp)
-#     if ! makepkg -s >"$ags_build_log_tmp" 2>&1; then
-#         printf "\n"
-#         gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Failed to compile agsv1. Aborting."
-#         gum style --padding "0 2" --foreground "$C_TEXT_MUTED" "$(tail -n 5 "$ags_build_log_tmp")"
-#         cd "$original_dir_ags"
-#         rm -rf "$AGSV1_CLONE_DIR" "$ags_build_log_tmp"
-#         exit 1
-#     fi
-#     rm -f "$ags_build_log_tmp"
-#
-#     printf "\n"
-#     gum style --foreground "$C_SUCCESS_TEXT" "AGS v1 package compiled successfully."
-#     gum style --foreground "$C_WARN_TEXT" "The package will now be installed. You will be prompted for your password."
-#
-#     pkg_file=$(find . -name "agsv1*.pkg.tar.zst" | head -n 1)
-#     if [ -z "$pkg_file" ]; then
-#         gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Compiled package not found. Aborting."
-#         cd "$original_dir_ags"
-#         rm -rf "$AGSV1_CLONE_DIR"
-#         exit 1
-#     fi
-#
-#     gum style --foreground "$C_ACCENT_PRIMARY" "Installing package: $pkg_file"
-#     if ! sudo pacman -U --noconfirm "$pkg_file"; then
-#         gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Failed to install agsv1. Aborting."
-#         cd "$original_dir_ags"
-#         rm -rf "$AGSV1_CLONE_DIR"
-#         exit 1
-#     fi
-#
-#     printf "\n"
-#     cd "$original_dir_ags" || true
-#     rm -rf "$AGSV1_CLONE_DIR"
-#     gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "AGS v1 installed successfully."
-# else
-#     gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "AGS v1 installation skipped."
-# fi
+CURRENT_STEP=4
+show_section_progress "$CURRENT_STEP" "$TOTAL_STEPS" "STEP 3: Installing AGS v1"
+gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "STEP 3: Installing AGS v1 (Aylur's GTK Shell)."
+
+if gum_confirm "Install AGS v1?"; then
+
+    gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "Installing AGS v1 by copying binaries to their appropriate paths you'll be prompted for your password:"
+    sudo cp -r ./ags_bin_lib/com.github.Aylur.ags/ /usr/share/
+    sudo cp -r ./ags_bin_lib/agsv1/ /usr/lib/
+    sudo ln -sf /usr/share/com.github.Aylur.ags/com.github.Aylur.ags /usr/bin/agsv1
+
+    rm -rf "$AGSV1_CLONE_DIR"
+    gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "AGS v1 installed successfully."
+else
+    gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "AGS v1 installation skipped."
+fi
 
 # --- STEP 4: CREATE BACKUP (Optional) ---
 CURRENT_STEP=5

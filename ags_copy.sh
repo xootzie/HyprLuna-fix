@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#!/bin/bash
-
 echo "We'll copy binaries and libraries from the repo to /usr and will require sudo perms do you wish to continue? (y/N)"
 read -r answer
 answer=$(echo "$answer" | tr '[:upper:]' '[:lower:]')
