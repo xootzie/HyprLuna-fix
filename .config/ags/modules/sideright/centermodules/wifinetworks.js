@@ -132,8 +132,8 @@ const CurrentNetwork = () => {
         hpack: 'end',
         className: 'sidebar-wifinetworks-bandwidth',
         children: [
-            NetResource('arrow_warm_up', `${App.configDir}/scripts/network_bandwidth.sh sent`),
-            NetResource('arrow_cool_down', `${App.configDir}/scripts/network_bandwidth.sh recv`),
+            NetResource('arrow_warm_up', `lunactl network bandwidth sent`),
+            NetResource('arrow_cool_down', `lunactl network bandwidth recv`),
         ]
     });
     // const networkStatus = Box({

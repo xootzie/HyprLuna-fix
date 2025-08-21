@@ -159,43 +159,55 @@ const CalendarWidget = () => {
   });
 };
 
-// Define valid options for the default shown module
-const validOptions = ["calendar", "todo", "media", "timers"];
-if (userOpts.muslim?.enabled) {
-  validOptions.push("PrayerTimes");
-}
+// Define all available modules and their properties
+const allModules = {
+  'PrayerTimes': { widget: PrayerTimesWidget, icon: 'mosque', name: getString("Prayers"), condition: () => userOpts.muslim?.enabled },
+  'calendar': { widget: CalendarWidget, icon: 'calendar_month', name: getString("Calendar"), condition: () => true },
+  'todo': { widget: TodoWidget, icon: 'done_outline', name: getString("To Do"), condition: () => true },
+  'media': { widget: AudioFiles, icon: 'music_note', name: getString("Media"), condition: () => true },
+  'timers': { widget: TimerWidget, icon: 'access_time', name: getString("Timers"), condition: () => true },
+};
 
-// Get the default shown module from config or fallback to "calendar"
-let configDefault = userOpts.sidebar?.ModuleCalendar?.default || "calendar";
-// Validate that the default is one of the valid options
-const defaultShown = validOptions.includes(configDefault) ? configDefault : "calendar";
+// Default enabled modules
+const defaultEnabledModules = {
+    'calendar': true,
+    'todo': true,
+    'media': true,
+    'timers': true,
+};
+
+// Get user's config, merge with defaults
+const userEnabledModules = userOpts.sidebar?.ModuleCalendar?.enabledModules || {};
+const enabledModulesConfig = { ...defaultEnabledModules, ...userEnabledModules };
+
+
+// Filter the modules based on config and their own conditions (e.g., muslim mode)
+const activeModules = Object.fromEntries(
+  Object.entries(allModules)
+    .filter(([key, mod]) => mod.condition() && enabledModulesConfig[key] === true)
+);
+const activeModuleKeys = Object.keys(activeModules);
+
+// Get the default module from config, validated against the list of active modules
+let configDefault = userOpts.sidebar?.ModuleCalendar?.default || 'calendar';
+// If the default from config is not active, fall back to the first active module
+const defaultShown = activeModuleKeys.includes(configDefault) ? configDefault : (activeModuleKeys[0] || '');
 
 const contentStack = Widget.Stack({
   hexpand: true,
   vexpand: false,
   homogeneous: true,
-  children: {
-    ...(userOpts.muslim?.enabled ? { PrayerTimes: PrayerTimesWidget() } : {}),
-    calendar: CalendarWidget(),
-    todo: TodoWidget(),
-    media: AudioFiles(),
-    timers: TimerWidget(),
-  },
-  setup: (self) => {
-    // Set the default shown to the validated default value
-    self.shown = defaultShown;
-  },
+  children: Object.fromEntries(
+    Object.entries(activeModules).map(([key, mod]) => [key, mod.widget()])
+  ),
   transition: "slide_up_down",
   transitionDuration: userOpts.animations.durationLarge,
-  // setup: (stack) => {
-  //   Utils.timeout(1, () => (stack.shown = defaultShown));
-  //   userOptions.subscribe(newOpts => {
-  //     userOpts = newOpts;
-  //     if (!newOpts.muslim?.enabled && stack.shown === "PrayerTimes") {
-  //       stack.shown = "calendar";
-  //     }
-  //   });
-  // },
+  setup: (self) => {
+    // Set the default shown view. A timeout is used to ensure all widgets are ready.
+    Utils.timeout(1, () => {
+        if(defaultShown) self.shown = defaultShown;
+    });
+  },
 });
 
 const StackButton = (stackItemName, icon, name) =>
@@ -227,10 +239,12 @@ const StackButton = (stackItemName, icon, name) =>
     setup: (button) =>
       Utils.timeout(1, () => {
         setupCursorHover(button);
-        button.toggleClassName(
-          "sidebar-navrail-btn-active",
-          defaultShown === stackItemName,
-        );
+        if(defaultShown) {
+            button.toggleClassName(
+              "sidebar-navrail-btn-active",
+              defaultShown === stackItemName,
+            );
+        }
       }),
   });
 
@@ -242,16 +256,9 @@ export const ModuleCalendar = () =>
       box.pack_start(
         Box({
           vpack: "center",
-          // hexpand: true,
           vertical: true,
           className: "sidebar-navrail spacing-v-10",
-          children: [
-            ...(userOpts.muslim?.enabled ? [StackButton("PrayerTimes", "mosque", getString("Prayers"))] : []),
-            StackButton("calendar", "calendar_month", getString("Calendar")),
-            StackButton("todo", "done_outline", getString("To Do")),
-            StackButton("media", "music_note", getString("Media")),
-            StackButton("timers", "access_time", getString("Timers")),
-          ],
+          children: Object.entries(activeModules).map(([key, mod]) => StackButton(key, mod.icon, mod.name)),
         }),
         false,
         false,

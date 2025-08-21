@@ -99,7 +99,7 @@ const Utilities = () => {
             }),
             UtilButton({
                 name: getString('Screen snip'), icon: 'screenshot_region', onClicked: () => {
-                    Utils.execAsync(`${App.configDir}/scripts/grimblast.sh copy area`)
+                    Utils.execAsync(['lunactl', 'screenshot', 'copy', 'area'])
                         .catch(print)
                 }
             }),

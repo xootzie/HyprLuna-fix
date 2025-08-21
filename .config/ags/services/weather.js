@@ -35,10 +35,14 @@ class WeatherService extends Service {
 
     async _getLocation() {
         try {
-            const response = await Utils.execAsync(['curl', '-s', '-k', 'https://ipapi.co/json/']);
+            const response = await Utils.execAsync(['curl', '-s', '-k', '--connect-timeout', '3', '--max-time', '5', 'https://ipapi.co/json/']);
+            if (!response || response.trim() === '') {
+                throw new Error('Empty response');
+            }
             const data = JSON.parse(response);
             return data.city || userOptions.weather?.city || 'Cairo';
         } catch (err) {
+            // Silent fail for location detection
             return userOptions.weather?.city || 'Cairo';
         }
     }
@@ -75,20 +79,25 @@ class WeatherService extends Service {
             const response = await Utils.execAsync(cmd);
 
             if (!response) throw new Error('Empty response');
-            
+
             const data = JSON.parse(response);
             const current = data.current_condition[0];
-            
-            this._temperature = `${current.temp_C}°C`;
-            this._feelsLike = `${current.FeelsLikeC}°C`;
-            this._description = current.weatherDesc[0].value;
+
+            const temp = current.temp_C;
+            const feelsLike = current.FeelsLikeC;
+            const description = current.weatherDesc[0].value;
+
+            // Format temperature with descriptive text
+            this._temperature = `${description} feels ${temp}°C`;
+            this._feelsLike = `${feelsLike}°C`;  // Keep this simple for other uses
+            this._description = description;
             this._icon = this._getWeatherIcon(current.weatherCode);
 
             this.emit('changed');
             Utils.exec(`echo '${response}' > ${WEATHER_CACHE_PATH}`);
-            
+
         } catch (error) {
-            console.error('Weather update failed:', error);
+            // Silent fail for weather updates to reduce console noise
             this._loadCachedWeather();
         }
     }
@@ -98,15 +107,20 @@ class WeatherService extends Service {
             const data = Utils.readFile(WEATHER_CACHE_PATH);
             const parsed = JSON.parse(data);
             const current = parsed.current_condition[0];
-            
-            this._temperature = `${current.temp_C}°C`;
-            this._feelsLike = `${current.FeelsLikeC}°C`;
-            this._description = current.weatherDesc[0].value;
+
+            const temp = current.temp_C;
+            const feelsLike = current.FeelsLikeC;
+            const description = current.weatherDesc[0].value;
+
+            // Format temperature with descriptive text
+            this._temperature = `${description} feels ${temp}°C`;
+            this._feelsLike = `${feelsLike}°C`;  // Keep this simple for other uses
+            this._description = description;
             this._icon = this._getWeatherIcon(current.weatherCode);
-            
+
             this.emit('changed');
         } catch (error) {
-            console.error('Failed to load cached weather:', error);
+            // Silent fail for cached weather loading
         }
     }
 

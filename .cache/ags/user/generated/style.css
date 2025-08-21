@@ -26,21 +26,21 @@
 }
 
 .txt-title {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 2.045rem;
 }
 
 .txt-title-small {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.364rem;
 }
 
 .techfont {
-  font-family: "SF Mono", "Menlo", "Courier", monospace;
+  font-family: "Geist Mono", "Geist Mono NF", "Cascadia Mono", "Fira Mono", monospace;
 }
 
 .txt-reading {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Open Sans", sans-serif;
   font-weight: 500;
 }
 
@@ -49,11 +49,11 @@
 }
 
 .txt {
-  color: #e5e3d6;
+  color: #dfe3e7;
 }
 
 .txt-primary {
-  color: #c4cd7b;
+  color: #8ccff1;
 }
 
 .txt-onSecondaryContainer {
@@ -61,11 +61,11 @@
 }
 
 .txt-onSurfaceVariant {
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .txt-onLayer1 {
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .txt-shadow {
@@ -77,57 +77,57 @@
 }
 
 .txt-gigantic {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 3rem;
 }
 
 .txt-massive {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 2.7273rem;
 }
 
 .txt-hugerass {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 2.045rem;
 }
 
 .txt-hugeass {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.8182rem;
 }
 
 .txt-larger {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.6363rem;
 }
 
 .txt-large {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.4545rem;
 }
 
 .txt-norm {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.2727rem;
 }
 
 .txt-small {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.0909rem;
 }
 
 .txt-smallie {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1rem;
 }
 
 .txt-smaller {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 0.9091rem;
 }
 
 .txt-tiny {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 0.7273rem;
 }
 
@@ -136,11 +136,11 @@
 }
 
 .txt-subtext {
-  color: #979788;
+  color: #90979c;
 }
 
 .txt-action {
-  color: rgb(197.5, 195.95, 183.85);
+  color: rgb(191.8, 195.95, 199.8);
 }
 
 .txt-thin {
@@ -162,29 +162,29 @@
 .btn-primary {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
-  background-color: #c4cd7b;
-  color: #262a00;
+  background-color: #8ccff1;
+  color: #002c3b;
   padding: 0.682rem 1.023rem;
 }
 
 .titlefont {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
 }
 
 .mainfont {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
 }
 
 .icon-material {
-  font-family: "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Symbols Sharp";
+  font-family: "Material Icons", "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Icons Outlined", "Material Symbols Sharp";
 }
 
 .icon-nerd {
-  font-family: "SF Mono Nerd Font", "SF Mono", "Menlo", monospace;
+  font-family: "Cascadia Code NF", "Cascadia Mono NF", "Fira Code", monospace;
 }
 
 .separator-line {
-  background-color: rgb(85, 85.5, 74.5);
+  background-color: rgb(79.5, 85.5, 89.5);
   min-width: 0.068rem;
   min-height: 0.068rem;
 }
@@ -192,7 +192,7 @@
 .separator-circle {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
-  background-color: #979788;
+  background-color: #90979c;
   margin: 0rem 0.682rem;
   min-width: 0.273rem;
   min-height: 0.273rem;
@@ -714,7 +714,7 @@
 }
 
 .sec-txt {
-  color: #c7c9a7;
+  color: #b4cad6;
 }
 
 .padding01 {
@@ -727,20 +727,20 @@
 }
 
 .onSurfaceVariant {
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .quran-arabic-text {
   font-family: "TE HAFS2 Tharwat Emara", "Noto Naskh Arabic", "Noto Sans Arabic", serif;
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 * {
-  caret-color: #e9e7da;
+  caret-color: #e3e7eb;
 }
 * selection {
-  background-color: #c7c9a7;
-  color: #272a12;
+  background-color: #b4cad6;
+  color: #162a34;
 }
 
 @keyframes appear {
@@ -754,10 +754,10 @@
 menu {
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
-  border: 1px solid rgb(73.8, 73.4, 64.4);
+  border: 1px solid rgb(69.4, 74.2, 76.6);
   padding: 0.681rem;
-  background: #23231b;
-  color: #e9e7da;
+  background: #1f2426;
+  color: #e3e7eb;
   -gtk-outline-radius: 1.159rem;
   animation-name: appear;
   animation-duration: 40ms;
@@ -782,11 +782,11 @@ menu > menuitem {
 
 menu > menuitem:hover,
 menu > menuitem:focus {
-  background-color: rgb(58.85, 59.055, 50.555);
+  background-color: rgb(54.65, 59.55, 62.155);
 }
 
 menu > menuitem:active {
-  background-color: rgb(78.2, 78.16, 69.16);
+  background-color: rgb(73.8, 78.6, 81.36);
 }
 
 radio {
@@ -795,14 +795,14 @@ radio {
   margin: 0.273rem;
   min-width: 15px;
   min-height: 15px;
-  border: 0.068rem solid #979788;
+  border: 0.068rem solid #90979c;
 }
 
 radio:checked {
   min-width: 8px;
   min-height: 8px;
-  background-color: #262a00;
-  border: 0.477rem solid #c4cd7b;
+  background-color: #002c3b;
+  border: 0.477rem solid #8ccff1;
 }
 
 tooltip {
@@ -812,18 +812,18 @@ tooltip {
   animation-iteration-count: 1;
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  background-color: #e5e3d6;
-  color: #313128;
+  background-color: #dfe3e7;
+  color: #2c3134;
 }
 
 popover {
-  border-top: 1px solid rgb(48.96, 49.54, 41.7);
-  border-left: 1px solid rgb(48.96, 49.54, 41.7);
-  border-right: 1px solid rgb(40.4, 41.1, 33.5);
-  border-bottom: 1px solid rgb(40.4, 41.1, 33.5);
+  border-top: 1px solid rgb(44.68, 49.54, 52.68);
+  border-left: 1px solid rgb(44.68, 49.54, 52.68);
+  border-right: 1px solid rgb(36.2, 41.1, 44.2);
+  border-bottom: 1px solid rgb(36.2, 41.1, 44.2);
   padding: 0.681rem;
-  background: #2d2e26;
-  color: #e9e7da;
+  background: #292e31;
+  color: #e3e7eb;
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
   animation-name: appear;
@@ -840,30 +840,30 @@ popover {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
-  border: 0.136rem solid #e9e7da;
+  border: 0.136rem solid #e3e7eb;
   min-width: 2.864rem;
   min-height: 1.637rem;
 }
 
 .switch-bg-true {
-  background-color: #c4cd7b;
-  border: 0.136rem solid #c4cd7b;
+  background-color: #8ccff1;
+  border: 0.136rem solid #8ccff1;
 }
 
 .switch-fg {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
   transition: 400ms cubic-bezier(0.1, 1, 0, 1);
-  background-color: #e9e7da;
-  color: #1c1d15;
+  background-color: #e3e7eb;
+  color: #181d20;
   min-width: 0.819rem;
   min-height: 0.819rem;
   margin-left: 0.477rem;
 }
 
 .switch-fg-true {
-  background-color: #262a00;
-  color: #c4cd7b;
+  background-color: #002c3b;
+  color: #8ccff1;
   min-width: 1.431rem;
   min-height: 1.431rem;
   margin-left: 1.431rem;
@@ -878,7 +878,7 @@ popover {
 .segment-container {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
-  border: 0.068rem solid #979788;
+  border: 0.068rem solid #90979c;
 }
 
 .segment-container > *:first-child {
@@ -887,7 +887,7 @@ popover {
 }
 
 .segment-container > * {
-  border-right: 0.068rem solid #979788;
+  border-right: 0.068rem solid #90979c;
   padding: 0.341rem 0.682rem;
 }
 
@@ -898,22 +898,22 @@ popover {
 }
 
 .segment-btn {
-  color: #e9e7da;
+  color: #e3e7eb;
 }
 
 .segment-btn:focus,
 .segment-btn:hover {
-  background-color: rgb(50.5, 51.05, 43.15);
+  background-color: rgb(46.2, 51.05, 54.2);
 }
 
 .segment-btn-enabled {
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
 .segment-btn-enabled:hover,
 .segment-btn-enabled:focus {
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
@@ -921,24 +921,24 @@ popover {
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
   padding: 0rem 0.341rem;
-  border: 0.034rem solid #979788;
-  color: #e9e7da;
+  border: 0.034rem solid #90979c;
+  color: #e3e7eb;
 }
 
 .multipleselection-btn:focus,
 .multipleselection-btn:hover {
-  background-color: rgb(50.5, 51.05, 43.15);
-  color: #e9e7da;
+  background-color: rgb(46.2, 51.05, 54.2);
+  color: #e3e7eb;
 }
 
 .multipleselection-btn-enabled {
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
 .multipleselection-btn-enabled:hover,
 .multipleselection-btn-enabled:focus {
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
@@ -971,26 +971,26 @@ popover {
   -gtk-outline-radius: 0.818rem;
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
   min-height: 2.5rem;
-  color: #e5e3d6;
+  color: #dfe3e7;
 }
 
 .tab-btn:hover {
-  background-color: rgb(50.5, 51.05, 43.15);
+  background-color: rgb(46.2, 51.05, 54.2);
 }
 
 .tab-btn:focus {
-  background-color: #1c1d15;
+  background-color: #181d20;
 }
 
 .tab-btn-active > box > label {
-  color: #c4cd7b;
+  color: #8ccff1;
 }
 
 .tab-indicator {
   transition: 180ms ease-in-out;
   min-height: 0.205rem;
   padding: 0rem 1.023rem;
-  color: #c4cd7b;
+  color: #8ccff1;
 }
 
 .tab-icon {
@@ -1000,11 +1000,11 @@ popover {
   min-width: 2.25rem;
   min-height: 2.25rem;
   font-size: 1.406rem;
-  color: #e9e7da;
+  color: #e3e7eb;
 }
 
 .tab-icon-active {
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
@@ -1015,12 +1015,12 @@ popover {
   min-width: 2.25rem;
   min-height: 2.25rem;
   font-size: 1.406rem;
-  color: #e9e7da;
+  color: #e3e7eb;
   padding: 0rem;
 }
 
 .tab-icon-expandable-active {
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
   padding: 0rem 0.545rem;
   min-width: 9.545rem;
@@ -1034,11 +1034,11 @@ widget {
 .spinbutton {
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
-  background-color: rgb(39.5, 39.95, 31.95);
+  background-color: rgb(35.5, 40.5, 42.95);
   padding: 0.341rem;
 }
 .spinbutton entry {
-  color: #e9e7da;
+  color: #e3e7eb;
   margin: 0.136rem 0.273rem;
 }
 .spinbutton button {
@@ -1047,36 +1047,36 @@ widget {
 }
 
 .bar-module-box {
-  background-color: #13140d;
-  color: #e5e3d6;
+  background-color: #0f1417;
+  color: #dfe3e7;
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
   padding: 0.5rem 1.5rem;
 }
 
 .bar-icon {
-  font-family: "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Symbols Sharp";
+  font-family: "Material Icons", "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Icons Outlined", "Material Symbols Sharp";
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
-  background-color: #13140d;
-  color: #e5e3d6;
+  background-color: #0f1417;
+  color: #dfe3e7;
   font-size: 2.032rem;
 }
 
 .bar-util-btn2 {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
-  background-color: #13140d;
+  background-color: #0f1417;
   min-width: 1rem;
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
-  border: 0.6px solid rgba(199, 201, 167, 0);
+  border: 0.6px solid rgba(180, 202, 214, 0);
 }
 
 .bar-notch {
-  background-color: #13140d;
+  background-color: #0f1417;
   min-width: 16.1rem;
   border-radius: 0 0 1.364rem 1.364rem;
-  border-bottom: 0.6px solid rgba(199, 201, 167, 0);
+  /* Removed bottom border */
 }
 
 .bar-resources progressbar {
@@ -1086,30 +1086,33 @@ widget {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
   min-width: 6rem;
-  background-color: #47483b;
+  background-color: #40484c;
 }
 .bar-resources progressbar progress {
-  background-color: #c4cd7b;
+  padding: 0 0;
+  background-color: #8ccff1;
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
 }
 .bar-resources:first-child progressbar progress {
-  background-color: #c4cd7b;
+  background-color: #8ccff1;
 }
 .bar-resources:nth-child(2) progressbar progress {
-  background-color: rgb(203.4, 210.2, 142);
+  background-color: rgb(157.4, 211.8, 239.8);
 }
 .bar-resources:last-child progressbar progress {
-  background-color: rgb(210.8, 215.4, 161);
+  background-color: rgb(174.8, 216.6, 238.6);
 }
 
 .bar-knocks {
   transition: 100ms cubic-bezier(0.38, 0.04, 1, 0.07);
-  border-radius: 1.364rem;
+  border-radius: 9999px;
+  -gtk-outline-radius: 9999px;
   margin: 0.6rem 0;
-  border: 0.4px solid rgba(199, 201, 167, 0);
-  background-color: #13140d;
+  border: 0.4px solid rgba(180, 202, 214, 0);
+  background-color: #0f1417;
   padding: 0rem 1rem;
+  min-height: 0.5rem;
   box-shadow: 0 4px 2px rgba(0, 0, 0, 0.15), 0 3px 4px rgba(0, 0, 0, 0.2);
 }
 .bar-knocks.song-changing {
@@ -1118,23 +1121,17 @@ widget {
 }
 
 .bar-floating {
-  background-color: #13140d;
-  border: 0.3px solid rgba(199, 201, 167, 0);
+  background-color: #0f1417;
+  border: 0.3px solid rgba(180, 202, 214, 0);
   margin: 0.476rem;
-  border: 0.4px solid rgba(199, 201, 167, 0.6);
   transition: 200ms cubic-bezier(0.05, 0.7, 0.1, 1);
-  border-radius: 1.159rem;
-  -gtk-outline-radius: 1.159rem;
+  border-radius: 1.705rem;
+  -gtk-outline-radius: 1.705rem;
   box-shadow: 0 5px 3px rgba(0, 0, 0, 0.15), 0 8px 6px rgba(0, 0, 0, 0.2);
 }
 
 .bar-floating-outline {
-  background-color: #13140d;
-  border: 0.3px solid rgba(199, 201, 167, 0);
-  margin: 0.476rem;
-  transition: 200ms cubic-bezier(0.05, 0.7, 0.1, 1);
-  border-radius: 0.818rem;
-  -gtk-outline-radius: 0.818rem;
+  border: 0.5px solid rgba(192, 199, 205, 0.5);
 }
 
 .bar-height {
@@ -1142,37 +1139,37 @@ widget {
 }
 
 .prim-txt {
-  color: #c7c9a7;
+  color: #b4cad6;
 }
 
 .bar-bg {
-  background-color: #13140d;
+  background-color: #0f1417;
   min-height: 2.827rem;
 }
 
 .bar-vertical-pinned {
-  background-color: #13140d;
+  background-color: #0f1417;
   margin-right: 0.3rem;
 }
 
 .bar-pads {
-  background-color: #13140d;
+  background-color: #0f1417;
   border-radius: 1.705rem;
   -gtk-outline-radius: 1.705rem;
 }
 
 .bar-bg-focus {
-  background-color: #13140d;
+  background-color: #0f1417;
   min-height: 1.364rem;
 }
 
 .bar-bg-nothing {
-  background-color: #13140d;
+  background-color: #0f1417;
   min-height: 2px;
 }
 
 .bar-bg-focus-batterylow {
-  background-color: rgb(54.2, 22.8, 16.8);
+  background-color: rgb(51, 22.8, 24.8);
 }
 
 .bar-sidespace {
@@ -1184,11 +1181,11 @@ widget {
 }
 
 .bar-group {
-  background-color: #1c1d15;
+  background-color: #181d20;
 }
 
 .bar-saadi {
-  background-color: #13140d;
+  background-color: #0f1417;
 }
 
 .group-saadi {
@@ -1196,16 +1193,16 @@ widget {
   -gtk-outline-radius: 9999px;
   padding: 0 1rem;
   margin: 0.6rem 0.4rem;
-  background-color: #1c1d15;
+  background-color: #181d20;
 }
 
 .bar-group2 {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   color: #ffffff;
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
   padding: 0 1.3rem;
-  background-color: #64674a;
+  background-color: #536772;
 }
 
 .bar-gradiant-tert {
@@ -1213,7 +1210,7 @@ widget {
   -gtk-outline-radius: 9999px;
   padding: 0 1rem;
   margin: 0.6rem 0.4rem;
-  background: linear-gradient(90deg, #393930, #beecdd);
+  background: linear-gradient(90deg, #34393c, #e4dfff);
 }
 
 .bar-gradiant-prim {
@@ -1221,7 +1218,7 @@ widget {
   -gtk-outline-radius: 9999px;
   padding: 0 1rem;
   margin: 0.6rem 0.4rem;
-  background: linear-gradient(90deg, #393930, #e0e994);
+  background: linear-gradient(90deg, #34393c, #bfe8ff);
 }
 
 .bar-gradiant-sec {
@@ -1229,7 +1226,7 @@ widget {
   -gtk-outline-radius: 9999px;
   padding: 0 1rem;
   margin: 0.6rem 0.4rem;
-  background: linear-gradient(90deg, #393930, #beecdd);
+  background: linear-gradient(90deg, #34393c, #e4dfff);
 }
 
 .group-saadi-short {
@@ -1237,7 +1234,7 @@ widget {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
   margin: 0.6rem 0.4rem;
-  background-color: #1c1d15;
+  background-color: #181d20;
 }
 
 .bar-group-pad {
@@ -1308,7 +1305,7 @@ widget {
 }
 
 .active-window-tb {
-  background-color: #c4cd7b;
+  background-color: #8ccff1;
   border-radius: 1.705rem;
   -gtk-outline-radius: 1.705rem;
 }
@@ -1317,31 +1314,31 @@ widget {
   font-size: 1.02rem;
   font-weight: 600;
   min-width: 1.774rem;
-  color: rgb(120.25, 119.9, 109.65);
+  color: rgb(115.35, 119.9, 123.35);
 }
 
 .bar-ws-active {
-  background-color: #c4cd7b;
-  color: #262a00;
+  background-color: #8ccff1;
+  color: #002c3b;
 }
 
 .bar-ws-occupied {
-  background-color: rgb(39.5, 39.95, 31.95);
+  background-color: rgb(35.5, 40.5, 42.95);
   color: #ffffff;
 }
 
 .bar-ws-focus {
-  background-color: #47483b;
+  background-color: #40484c;
   min-width: 1rem;
 }
 
 .bar-ws-focus-active {
-  min-width: 6.045rem;
-  background-color: #e0e994;
+  min-width: 4.045rem;
+  background-color: #bfe8ff;
 }
 
 .bar-ws-focus-occupied {
-  background-color: #64674a;
+  background-color: #536772;
 }
 
 .bar-clock-box {
@@ -1349,19 +1346,19 @@ widget {
 }
 
 .bar-time {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.2727rem;
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .power-draw-text {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.2rem;
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .bar-date {
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .bar-bat {
@@ -1376,19 +1373,19 @@ widget {
 }
 
 .bar-bat-circprog {
-  border: 0.12rem solid #979788;
+  border: 0.12rem solid #90979c;
   transition: 1000ms cubic-bezier(0.1, 1, 0, 1);
   min-width: 0.23rem;
   min-height: 2.1rem;
   padding: 0rem;
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
 .bar-music-art {
   margin: 4px;
-  border: 1px solid #393930;
-  background-color: #393930;
+  border: 1px solid #34393c;
+  background-color: #34393c;
   border-radius: 8px;
   padding: 4px;
   -gtk-icon-style: regular;
@@ -1406,7 +1403,7 @@ widget {
 }
 
 .bar-batt-txt {
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .bar-batt-circprog {
@@ -1414,7 +1411,7 @@ widget {
   min-width: 0.136rem;
   min-height: 1.636rem;
   padding: 0rem;
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
@@ -1443,12 +1440,12 @@ widget {
   min-width: 0.136rem;
   min-height: 1.636rem;
   padding: 0rem;
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
 .bar-ram-txt {
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .bar-swap-icon {
@@ -1466,12 +1463,12 @@ widget {
   min-width: 0.136rem;
   min-height: 1.636rem;
   padding: 0rem;
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
 .bar-swap-txt {
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .bar-cpu-icon {
@@ -1489,12 +1486,12 @@ widget {
   min-width: 0.136rem;
   min-height: 1.636rem;
   padding: 0rem;
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
 .bar-cpu-txt {
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .bar-music-playstate {
@@ -1510,7 +1507,7 @@ widget {
   min-width: 0.136rem;
   min-height: 1.636rem;
   padding: 0rem;
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
@@ -1523,11 +1520,11 @@ widget {
 
 .bar-music-playstate-txt {
   transition: 100ms cubic-bezier(0.05, 0.7, 0.1, 1);
-  font-family: "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Symbols Sharp";
+  font-family: "Material Icons", "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Icons Outlined", "Material Symbols Sharp";
 }
 
 .bar-music-txt {
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .bar-music-cover {
@@ -1560,7 +1557,7 @@ widget {
 }
 
 .corner {
-  background-color: #13140d;
+  background-color: #0f1417;
   border-radius: 1.705rem;
 }
 
@@ -1572,11 +1569,11 @@ widget {
 .bar-wintitle-topdesc {
   margin-top: -0.136rem;
   margin-bottom: -0.341rem;
-  color: rgb(166, 164.9, 153.7);
+  color: rgb(160.6, 164.9, 168.6);
 }
 
 .bar-wintitle-txt {
-  color: #e5e3d6;
+  color: #dfe3e7;
 }
 
 .bar-space-button {
@@ -1612,7 +1609,7 @@ widget {
   min-height: 1.032rem;
   min-width: 1.032rem;
   font-size: 1.032rem;
-  color: #e5e3d6;
+  color: #dfe3e7;
 }
 
 .bar-statusicons {
@@ -1624,8 +1621,8 @@ widget {
 }
 
 .bar-statusicons-active {
-  background-color: #2d2e26;
-  color: #e9e7da;
+  background-color: #292e31;
+  color: #e3e7eb;
 }
 
 .bar-util-btn {
@@ -1634,8 +1631,8 @@ widget {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
   min-height: 1.77rem;
   min-width: 1.77rem;
-  background-color: rgb(39.5, 39.95, 31.95);
-  color: #e9e7da;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #e3e7eb;
 }
 
 .bar-util-btn2 {
@@ -1644,21 +1641,21 @@ widget {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
   min-height: 1.77rem;
   min-width: 1.77rem;
-  background-color: #13140d;
-  color: #e9e7da;
+  background-color: #0f1417;
+  color: #e3e7eb;
 }
 
 .bar-util-btn:hover,
 .bar-util-btn:focus {
-  background-color: rgb(58.85, 59.055, 50.555);
+  background-color: rgb(54.65, 59.55, 62.155);
 }
 
 .bar-util-btn:active {
-  background-color: rgb(78.2, 78.16, 69.16);
+  background-color: rgb(73.8, 78.6, 81.36);
 }
 
 .bar-spaceright {
-  color: #e5e3d6;
+  color: #dfe3e7;
 }
 
 .bar-bluetooth-device {
@@ -1674,7 +1671,7 @@ widget {
 .bar-time-module {
   margin-left: 0.5rem;
   margin-right: 1rem;
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .status-icons-group {
@@ -1694,40 +1691,35 @@ widget {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
-  padding: 0 6px;
-  background: #1c1d15;
+  padding: 0 0 0 12px;
 }
 
 .battery-scale-box {
   min-width: 100px;
 }
 
-.battery-icon-box {
-  padding: 0 2px;
-}
 .battery-icon-box.bar-batt-charging {
-  color: #c4cd7b;
+  color: #8ccff1;
 }
 .battery-icon-box.bar-batt-low {
   color: #ffb4ab;
 }
 
 .battery-scale-bar {
+  background-color: #8ccff1;
   min-width: 50px;
-  min-height: 5px;
-  background-color: #c8c7b7;
   border-radius: 99px;
 }
 .battery-scale-bar trough progress {
-  background: linear-gradient(90deg, #c7c9a7 1%, #616923);
+  background: linear-gradient(90deg, #292e31 1%, #536772);
   animation: chargeAnimation 10s linear infinite;
   border-radius: 99px;
-  min-height: 25.5px;
+  min-height: 15.5px;
 }
 .battery-scale-bar.bar-batt-charging trough progress {
-  background: linear-gradient(90deg, black, #c4cd7b);
+  background: linear-gradient(90deg, #292e31, #8ccff1);
   border-radius: 99px;
-  min-height: 25.5px;
+  min-height: 15.5px;
   animation: chargeAnimation 2s linear infinite;
 }
 .battery-scale-bar.bar-batt-low trough progress {
@@ -1748,34 +1740,40 @@ widget {
   -gtk-outline-radius: 1.159rem;
   padding: 3px 6px;
   margin: 3px;
-  background-color: rgb(39.5, 39.95, 31.95);
+  background-color: rgb(35.5, 40.5, 42.95);
 }
 
 .avatar-box {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
-  box-shadow: inset 0 0 0 1px #1c1d15;
+  box-shadow: inset 0 0 0 1px #181d20;
 }
 
 .avatar-eventbox:hover .avatar-widget {
-  background-color: #2d2e26;
+  background-color: #292e31;
 }
 
 .avatar-eventbox:active .avatar-widget {
-  background-color: #393930;
+  background-color: #34393c;
+}
+
+.battery-module {
+  background-color: #0f1417;
+  border-radius: 1.705rem;
+  -gtk-outline-radius: 1.705rem;
 }
 
 .cheatsheet-bg {
   border-radius: 1.705rem;
   -gtk-outline-radius: 1.705rem;
-  border-top: 1px solid #23231b;
-  border-left: 1px solid #23231b;
-  border-right: 1px solid #23231b;
-  border-bottom: 1px solid #23231b;
-  border: 0.3px solid rgba(199, 201, 167, 0);
+  border-top: 1px solid #1f2426;
+  border-left: 1px solid #1f2426;
+  border-right: 1px solid #1f2426;
+  border-bottom: 1px solid #1f2426;
+  border: 0.3px solid rgba(180, 202, 214, 0);
   margin: 0.476rem;
-  margin-bottom: 0.682rem;
-  background-color: #13140d;
-  padding: 1.364rem;
+  background-color: #0f1417;
+  padding: 0.8rem;
+  margin: 0.5rem;
 }
 
 .cheatsheet-title {
@@ -1783,75 +1781,68 @@ widget {
 }
 
 .cheatsheet-bind-lineheight {
-  min-height: 2.045rem;
+  min-height: 1.8rem;
 }
 
 .cheatsheet-key {
-  font-family: "SF Mono", "Menlo", "Courier", monospace;
-  min-height: 1.364rem;
-  min-width: 1.364rem;
-  margin: 0.17rem;
-  padding: 0.136rem 0.205rem;
-  -gtk-outline-radius: 0.409rem;
-  color: #ffffff;
-  border-radius: 0.409rem;
-  border: 0.068rem solid #ffffff;
-  box-shadow: 0rem 0.136rem 0rem #ffffff;
+  font-family: "Geist Mono", "Geist Mono NF", "Cascadia Mono", "Fira Mono", monospace;
+  min-height: 1.2rem;
+  min-width: 1.2rem;
+  margin: 0.1rem;
+  padding: 0.1rem 0.15rem;
+  -gtk-outline-radius: 0.3rem;
+  color: #002c3b;
+  background-color: #8ccff1;
+  border-radius: 0.3rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .cheatsheet-key-notkey {
-  min-height: 1.364rem;
-  padding: 0.136rem 0.205rem;
-  margin: 0.17rem;
-  color: #e5e3d6;
+  min-height: 1.2rem;
+  padding: 0.1rem 0.15rem;
+  margin: 0.1rem;
+  color: #dfe3e7;
 }
 
 .cheatsheet-color-1 {
-  color: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0rem 0.136rem 0rem #ffffff;
+  color: #002c3b;
+  background-color: #ffffff;
 }
 
 .cheatsheet-color-2 {
-  color: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0rem 0.136rem 0rem #ffffff;
+  color: #002c3b;
+  background-color: #ffffff;
 }
 
 .cheatsheet-color-3 {
-  color: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0rem 0.136rem 0rem #ffffff;
+  color: #002c3b;
+  background-color: #ffffff;
 }
 
 .cheatsheet-color-4 {
-  color: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0rem 0.136rem 0rem #ffffff;
+  color: #002c3b;
+  background-color: #ffffff;
 }
 
 .cheatsheet-color-5 {
-  color: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0rem 0.136rem 0rem #ffffff;
+  color: #002c3b;
+  background-color: #ffffff;
 }
 
 .cheatsheet-color-6 {
-  color: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0rem 0.136rem 0rem #ffffff;
+  color: #002c3b;
+  background-color: #ffffff;
 }
 
 .cheatsheet-color-7 {
-  color: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0rem 0.136rem 0rem #ffffff;
+  color: #002c3b;
+  background-color: #ffffff;
 }
 
 .cheatsheet-color-8 {
-  color: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0rem 0.136rem 0rem #ffffff;
+  color: #002c3b;
+  background-color: #ffffff;
 }
 
 .cheatsheet-closebtn {
@@ -1864,20 +1855,77 @@ widget {
 
 .cheatsheet-closebtn:hover,
 .cheatsheet-closebtn:focus {
-  background-color: rgb(50.5, 51.05, 43.15);
+  background-color: rgb(46.2, 51.05, 54.2);
 }
 
 .cheatsheet-closebtn:active {
-  background-color: #2d2e26;
+  background-color: #292e31;
 }
 
 .cheatsheet-category-title {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
-  font-size: 1.705rem;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+  font-size: 1.5rem;
+  color: #8ccff1;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid #8ccff1;
+}
+
+.cheatsheet-section {
+  background-color: #181d20;
+  border-radius: 0.8rem;
+  padding: 0.8rem;
+  margin-bottom: 0.5rem;
+  border-top: 1px solid #1f2426;
+  border-left: 1px solid #1f2426;
+  border-right: 1px solid #1f2426;
+  border-bottom: 1px solid #1f2426;
+}
+
+.cheatsheet-keybind-row {
+  min-height: 1.8rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.5rem;
+}
+.cheatsheet-keybind-row:hover {
+  background-color: rgb(35.5, 40.5, 42.95);
+}
+
+.cheatsheet-search-container {
+  margin-bottom: 1rem;
+}
+
+.cheatsheet-search-entry {
+  border-radius: 0.818rem;
+  -gtk-outline-radius: 0.818rem;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #c0c7cd;
+  padding: 0.5rem 0.8rem;
+  caret-color: #c0c7cd;
+  border: 1px solid rgba(180, 202, 214, 0);
+  min-width: 25rem;
+}
+.cheatsheet-search-entry selection {
+  background-color: #b4cad6;
+  color: #162a34;
+}
+
+.cheatsheet-search-entry:focus {
+  background-color: rgb(54.65, 59.55, 62.155);
+  border: 1px solid #8ccff1;
+}
+
+.cheatsheet-no-results {
+  padding: 2rem;
+}
+.cheatsheet-no-results .txt-title {
+  color: #8ccff1;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
 }
 
 .cheatsheet-periodictable-elementsymbol {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Open Sans", sans-serif;
   font-weight: 500;
   font-size: 1.705rem;
   font-weight: bold;
@@ -1888,8 +1936,8 @@ widget {
   -gtk-outline-radius: 9999px;
   min-width: 1.364rem;
   min-height: 1.364rem;
-  background-color: #c4cd7b;
-  color: #e5e3d6;
+  background-color: #8ccff1;
+  color: #dfe3e7;
 }
 
 .cheatsheet-periodictable-empty {
@@ -1904,9 +1952,9 @@ widget {
   min-height: 5.455rem;
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
-  background-color: #1c1d15;
-  color: #c8c7b7;
-  background-color: #616923;
+  background-color: #181d20;
+  color: #c0c7cd;
+  background-color: #1f6c89;
   color: #ffffff;
 }
 
@@ -1915,9 +1963,9 @@ widget {
   min-height: 5.455rem;
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
-  background-color: #1c1d15;
-  color: #c8c7b7;
-  background-color: #416c60;
+  background-color: #181d20;
+  color: #c0c7cd;
+  background-color: #646083;
   color: #ffffff;
 }
 
@@ -1926,9 +1974,9 @@ widget {
   min-height: 5.455rem;
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
-  background-color: #1c1d15;
-  color: #c8c7b7;
-  background-color: #64674a;
+  background-color: #181d20;
+  color: #c0c7cd;
+  background-color: #536772;
   color: #ffffff;
 }
 
@@ -1937,9 +1985,9 @@ widget {
   min-height: 5.455rem;
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
-  background-color: #1c1d15;
-  color: #c8c7b7;
-  background-color: #393930;
+  background-color: #181d20;
+  color: #c0c7cd;
+  background-color: #34393c;
   color: #ffffff;
 }
 
@@ -1948,9 +1996,9 @@ widget {
   min-height: 5.455rem;
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
-  background-color: #1c1d15;
-  color: #c8c7b7;
-  background-color: #2d2e26;
+  background-color: #181d20;
+  color: #c0c7cd;
+  background-color: #292e31;
   color: #ffffff;
 }
 
@@ -1958,7 +2006,7 @@ widget {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
   padding: 0.273rem;
-  border: 0.136rem solid #e5e3d6;
+  border: 0.136rem solid #dfe3e7;
 }
 
 .cheatsheet-periodictable-legend-color-metal {
@@ -1966,7 +2014,7 @@ widget {
   -gtk-outline-radius: 9999px;
   min-width: 1.023rem;
   min-height: 1.023rem;
-  background-color: #616923;
+  background-color: #1f6c89;
 }
 
 .cheatsheet-periodictable-legend-color-nonmetal {
@@ -1974,7 +2022,7 @@ widget {
   -gtk-outline-radius: 9999px;
   min-width: 1.023rem;
   min-height: 1.023rem;
-  background-color: #416c60;
+  background-color: #646083;
 }
 
 .cheatsheet-periodictable-legend-color-noblegas {
@@ -1982,7 +2030,7 @@ widget {
   -gtk-outline-radius: 9999px;
   min-width: 1.023rem;
   min-height: 1.023rem;
-  background-color: #64674a;
+  background-color: #536772;
 }
 
 .cheatsheet-periodictable-legend-color-lanthanum {
@@ -1990,7 +2038,7 @@ widget {
   -gtk-outline-radius: 9999px;
   min-width: 1.023rem;
   min-height: 1.023rem;
-  background-color: #393930;
+  background-color: #34393c;
 }
 
 .cheatsheet-periodictable-legend-color-actinium {
@@ -1998,7 +2046,7 @@ widget {
   -gtk-outline-radius: 9999px;
   min-width: 1.023rem;
   min-height: 1.023rem;
-  background-color: #2d2e26;
+  background-color: #292e31;
 }
 
 .bg-wallpaper-transition {
@@ -2014,15 +2062,15 @@ widget {
 }
 
 .bg-time-clock {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 5.795rem;
-  color: #e5e3d6;
+  color: #dfe3e7;
 }
 
 .bg-time-date {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 2.591rem;
-  color: #e5e3d6;
+  color: #dfe3e7;
 }
 
 .bg-distro-box {
@@ -2033,13 +2081,13 @@ widget {
 }
 
 .bg-distro-txt {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.432rem;
-  color: #e5e3d6;
+  color: #dfe3e7;
 }
 
 .bg-distro-name {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.432rem;
   color: #ffffff;
 }
@@ -2051,16 +2099,16 @@ widget {
 }
 
 .bg-quicklaunch-title {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
-  color: #c8c7b7;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+  color: #c0c7cd;
 }
 
 .bg-quicklaunch-btn {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
-  background-color: rgb(39.5, 39.95, 31.95);
-  color: #e9e7da;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #e3e7eb;
   min-width: 4.432rem;
   min-height: 2.045rem;
   padding: 0.273rem 0.682rem;
@@ -2068,11 +2116,11 @@ widget {
 
 .bg-quicklaunch-btn:hover,
 .bg-quicklaunch-btn:focus {
-  background-color: rgb(58.85, 59.055, 50.555);
+  background-color: rgb(54.65, 59.55, 62.155);
 }
 
 .bg-quicklaunch-btn:active {
-  background-color: rgb(78.2, 78.16, 69.16);
+  background-color: rgb(73.8, 78.6, 81.36);
 }
 
 .bg-system-bg {
@@ -2086,18 +2134,17 @@ widget {
   min-height: 4.091rem;
   font-size: 0px;
   padding: 0rem;
-  background-color: rgb(39.5, 39.95, 31.95);
+  background-color: rgb(35.5, 40.5, 42.95);
 }
 
 .dock-bg {
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.08), 0 10px 20px rgba(0, 0, 0, 0.2);
-  background-color: #13140d;
-  margin-top: 1rem;
-  border-top: 0.5px solid rgba(199, 201, 167, 0);
+  background-color: #0f1417;
+  border-top: 0.5px solid rgba(180, 202, 214, 0);
 }
 
 .dock-round {
-  border-top: 0.5px solid rgba(199, 201, 167, 0);
+  border-top: 0.5px solid rgba(180, 202, 214, 0);
   border-radius: 1.159rem 1.159rem 0 0;
 }
 
@@ -2112,22 +2159,22 @@ widget {
 }
 
 .unpinned-dock-app-btn {
-  color: #0b0c06;
+  color: #080c0f;
 }
 
 .pinned-dock-app-btn {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
-  color: #c7c9a7;
+  color: #b4cad6;
 }
 
 .dock-app-btn:hover,
 .dock-app-btn:focus {
-  background-color: rgb(50.5, 51.05, 43.15);
+  background-color: rgb(46.2, 51.05, 54.2);
 }
 
 .dock-app-btn:active {
-  background-color: #2d2e26;
+  background-color: #292e31;
 }
 
 .dock-app-icon {
@@ -2136,11 +2183,56 @@ widget {
   font-size: 3.409rem;
 }
 
+.notification-badge {
+  background-color: #ffb4ab;
+  color: #580003;
+  border-radius: 0.6rem;
+  min-width: 1.2rem;
+  min-height: 1.2rem;
+  margin: 0;
+  padding: 0;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.notification-count {
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+}
+
+.window-indicators {
+  margin-bottom: 0.2rem;
+  min-height: 0.4rem;
+  min-width: 2rem;
+}
+
+.window-indicator {
+  min-width: 0.5rem;
+  min-height: 0.25rem;
+  margin: 0 0.1rem;
+  border-radius: 0.1rem;
+  background-color: #c0c7cd;
+  opacity: 0.7;
+}
+
+.active-window {
+  background-color: #8ccff1;
+  opacity: 1;
+}
+
+.window-count {
+  font-size: 0.6rem;
+  color: #c0c7cd;
+  margin-left: 0.2rem;
+}
+
 .dock-separator {
   min-width: 0.04rem;
   opacity: 0.4;
   margin: 0.45rem 0.6rem;
-  background-color: #979788;
+  background-color: #90979c;
 }
 
 .osd-bg {
@@ -2149,13 +2241,13 @@ widget {
 }
 
 .osd-value {
-  border-top: 1px solid #23231b;
-  border-left: 1px solid #23231b;
-  border-right: 1px solid #23231b;
-  border-bottom: 1px solid #23231b;
-  border: 0.3px solid rgba(199, 201, 167, 0);
+  border-top: 1px solid #1f2426;
+  border-left: 1px solid #1f2426;
+  border-right: 1px solid #1f2426;
+  border-bottom: 1px solid #1f2426;
+  border: 0.3px solid rgba(180, 202, 214, 0);
   margin: 0.476rem;
-  background-color: #13140d;
+  background-color: #0f1417;
   border-radius: 1.023rem;
   padding: 0.625rem 1.023rem;
   padding-top: 0.313rem;
@@ -2172,7 +2264,7 @@ widget {
   min-height: 0.954rem;
   min-width: 0.068rem;
   border-radius: 10rem;
-  background-color: rgb(39.5, 39.95, 31.95);
+  background-color: rgb(35.5, 40.5, 42.95);
 }
 .osd-progress progress {
   transition: 200ms cubic-bezier(0.1, 1, 0, 1);
@@ -2180,7 +2272,7 @@ widget {
   min-width: 0.68rem;
   margin: 0rem 0.137rem;
   border-radius: 10rem;
-  background-color: #e9e7da;
+  background-color: #e3e7eb;
 }
 
 .osd-label {
@@ -2190,10 +2282,10 @@ widget {
 }
 
 .osd-value-txt {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.688rem;
   font-weight: 500;
-  color: #e5e3d6;
+  color: #dfe3e7;
 }
 
 .osd-value-icon {
@@ -2201,19 +2293,19 @@ widget {
 }
 
 .osd-brightness {
-  color: #e5e3d6;
+  color: #dfe3e7;
 }
 
 .osd-brightness-progress progress {
-  background-color: #e5e3d6;
+  background-color: #dfe3e7;
 }
 
 .osd-volume {
-  color: #e5e3d6;
+  color: #dfe3e7;
 }
 
 .osd-volume-progress progress {
-  background-color: #e5e3d6;
+  background-color: #dfe3e7;
 }
 
 .osd-notifs {
@@ -2225,15 +2317,13 @@ widget {
 }
 
 .osd-colorscheme {
-  background-color: #13140d;
+  background-color: #0f1417;
   padding: 0 0.626rem;
-  border-bottom: 0.5px solid rgba(199, 201, 167, 0);
-  margin: 0rem 0rem 1rem 0rem;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.8), 0 2px 14px rgba(0, 0, 0, 0.1);
+  border-bottom: 0.5px solid rgba(180, 202, 214, 0);
 }
 
 .osd-colorscheme-settings {
-  background-color: #1c1d15;
+  background-color: #181d20;
   padding: 0.313rem 0.626rem;
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
@@ -2254,15 +2344,15 @@ widget {
 }
 
 .osd-color-primary {
-  background-color: #c4cd7b;
-  color: #262a00;
+  background-color: #8ccff1;
+  color: #002c3b;
 }
 .osd-color-primary box {
-  background-color: #262a00;
+  background-color: #002c3b;
 }
 
 .osd-color-primaryContainer {
-  background-color: #616923;
+  background-color: #1f6c89;
   color: #ffffff;
 }
 .osd-color-primaryContainer box {
@@ -2270,15 +2360,15 @@ widget {
 }
 
 .osd-color-secondary {
-  background-color: #c7c9a7;
-  color: #272a12;
+  background-color: #b4cad6;
+  color: #162a34;
 }
 .osd-color-secondary box {
-  background-color: #272a12;
+  background-color: #162a34;
 }
 
 .osd-color-secondaryContainer {
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 .osd-color-secondaryContainer box {
@@ -2286,15 +2376,15 @@ widget {
 }
 
 .osd-color-tertiary {
-  background-color: #a2d0c1;
-  color: #002e25;
+  background-color: #c7c2ea;
+  color: #272443;
 }
 .osd-color-tertiary box {
-  background-color: #002e25;
+  background-color: #272443;
 }
 
 .osd-color-tertiaryContainer {
-  background-color: #416c60;
+  background-color: #646083;
   color: #ffffff;
 }
 .osd-color-tertiaryContainer box {
@@ -2318,67 +2408,67 @@ widget {
 }
 
 .osd-color-surface {
-  background-color: #13140d;
-  color: #e9e7da;
-  border: 0.068rem solid #656558;
+  background-color: #0f1417;
+  color: #e3e7eb;
+  border: 0.068rem solid #5e656a;
 }
 .osd-color-surface box {
-  background-color: #e9e7da;
+  background-color: #e3e7eb;
 }
 
 .osd-color-surfaceContainer {
-  background-color: #23231b;
-  color: #e9e7da;
+  background-color: #1f2426;
+  color: #e3e7eb;
 }
 .osd-color-surfaceContainer box {
-  background-color: #e9e7da;
+  background-color: #e3e7eb;
 }
 
 .osd-color-inverseSurface {
-  background-color: #e5e3d6;
-  color: #313128;
+  background-color: #dfe3e7;
+  color: #2c3134;
 }
 .osd-color-inverseSurface box {
-  background-color: #c8c7b7;
+  background-color: #c0c7cd;
 }
 
 .osd-color-surfaceVariant {
-  background-color: #47483b;
-  color: #c8c7b7;
+  background-color: #40484c;
+  color: #c0c7cd;
 }
 .osd-color-surfaceVariant box {
-  background-color: #c8c7b7;
+  background-color: #c0c7cd;
 }
 
 .osd-color-L1 {
-  background-color: #1c1d15;
-  color: #c8c7b7;
+  background-color: #181d20;
+  color: #c0c7cd;
 }
 .osd-color-L1 box {
-  background-color: #c8c7b7;
+  background-color: #c0c7cd;
 }
 
 .osd-color-layer0 {
-  background-color: #13140d;
-  color: #e5e3d6;
+  background-color: #0f1417;
+  color: #dfe3e7;
 }
 .osd-color-layer0 box {
-  background-color: #e5e3d6;
+  background-color: #dfe3e7;
 }
 
 .osd-settings-btn-arrow {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
-  font-family: "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Symbols Sharp";
+  font-family: "Material Icons", "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Icons Outlined", "Material Symbols Sharp";
   min-width: 1.705rem;
   min-height: 1.705rem;
-  color: #e9e7da;
+  color: #e3e7eb;
 }
 .osd-settings-btn-arrow:hover {
-  background-color: #2d2e26;
+  background-color: #292e31;
 }
 .osd-settings-btn-arrow:active {
-  background-color: #393930;
+  background-color: #34393c;
 }
 
 .osd-show {
@@ -2390,26 +2480,26 @@ widget {
 }
 
 .recorder-bg {
-  background-color: #13140d;
-  color: #e5e3d6;
+  background-color: #0f1417;
+  color: #dfe3e7;
   padding: 1rem;
-  border-left: 0.2px solid rgba(199, 201, 167, 0);
+  border-left: 0.2px solid rgba(180, 202, 214, 0);
 }
 
 .recorder-btn {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
-  background-color: #2d2e26;
+  background-color: #292e31;
   padding: 1.5rem;
   min-width: 1.8rem;
   min-height: 1.8rem;
-  color: #e9e7da;
+  color: #e3e7eb;
 }
 
 .recording-state {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
-  color: #e9e7da;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+  color: #e3e7eb;
 }
 
 .recorder-btn-red {
@@ -2434,14 +2524,14 @@ widget {
   margin-bottom: 4rem;
   border-radius: 0 0 1.364rem 1.364rem;
   padding-right: 3.5rem;
-  border-bottom: 0.3px solid rgba(199, 201, 167, 0);
-  background-color: #13140d;
-  color: #e5e3d6;
+  border-bottom: 0.3px solid rgba(180, 202, 214, 0);
+  background-color: #0f1417;
+  color: #dfe3e7;
   caret-color: transparent;
 }
 .overview-search-box selection {
-  background-color: #c7c9a7;
-  color: #272a12;
+  background-color: #b4cad6;
+  color: #162a34;
 }
 
 .overview-search-box-spotlight {
@@ -2451,14 +2541,14 @@ widget {
   margin-bottom: 4rem;
   border-radius: 1.364rem;
   padding: 0.2rem 3.5rem 0.2rem 0;
-  border: 0.3px solid rgba(199, 201, 167, 0);
-  background-color: #13140d;
-  color: #c8c7b7;
+  border: 0.3px solid rgba(180, 202, 214, 0);
+  background-color: #0f1417;
+  color: #c0c7cd;
   caret-color: transparent;
 }
 .overview-search-box-spotlight selection {
-  background-color: #c7c9a7;
-  color: #272a12;
+  background-color: #b4cad6;
+  color: #162a34;
 }
 
 .overview-search-box-extended {
@@ -2469,7 +2559,7 @@ widget {
 }
 
 .overview-search-prompt {
-  color: #979788;
+  color: #90979c;
 }
 
 .overview-search-icon {
@@ -2488,17 +2578,17 @@ widget {
 
 .overview-search-results {
   border-radius: 1.159rem;
-  border-top: 1px solid #23231b;
-  border-left: 1px solid #23231b;
-  border-right: 1px solid #23231b;
-  border-bottom: 1px solid #23231b;
-  border: 0.3px solid rgba(199, 201, 167, 0);
+  border-top: 1px solid #1f2426;
+  border-left: 1px solid #1f2426;
+  border-right: 1px solid #1f2426;
+  border-bottom: 1px solid #1f2426;
+  border: 0.3px solid rgba(180, 202, 214, 0);
   margin: 0.476rem;
   margin: 0.8rem 4rem 4rem 4rem;
   min-width: 48.5rem;
   padding: 0.682rem;
-  background-color: #13140d;
-  color: #e5e3d6;
+  background-color: #0f1417;
+  color: #dfe3e7;
 }
 
 .overview-search-results-icon {
@@ -2514,7 +2604,7 @@ widget {
 
 .overview-search-results-txt-cmd {
   margin-right: 0.682rem;
-  font-family: "SF Mono", "Menlo", "Courier", monospace;
+  font-family: "Geist Mono", "Geist Mono NF", "Cascadia Mono", "Fira Mono", monospace;
   font-size: 1.227rem;
 }
 
@@ -2529,11 +2619,11 @@ widget {
 
 .overview-search-result-btn:hover,
 .overview-search-result-btn:focus {
-  background-color: rgb(39.5, 39.95, 31.95);
+  background-color: rgb(35.5, 40.5, 42.95);
 }
 
 .overview-search-result-btn:active {
-  background-color: rgb(58.85, 59.055, 50.555);
+  background-color: rgb(54.65, 59.55, 62.155);
 }
 
 .overview-round {
@@ -2541,75 +2631,85 @@ widget {
 }
 
 .overview-tasks {
-  border-top: 0.2px solid rgba(199, 201, 167, 0);
+  border-top: 0.2px solid rgba(180, 202, 214, 0);
   padding: 1rem;
-  background-color: #13140d;
-  color: #e5e3d6;
+  background-color: #0f1417;
+  color: #dfe3e7;
 }
 
 .overview-tasks-workspace {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
   margin: 0.341rem;
-  background-color: #1c1d15;
+  background-color: #181d20;
 }
 
 .overview-tasks-workspace-number {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
-  color: #c8c7b7;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+  color: #c0c7cd;
 }
 
 .overview-tasks-window {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
   transition: 400ms cubic-bezier(0.1, 1, 0, 1);
-  background-color: rgba(45, 46, 38, 0.8);
-  color: #e9e7da;
-  border: 0.1px solid rgba(199, 201, 167, 0);
+  background-color: rgba(41, 46, 49, 0.8);
+  color: #e3e7eb;
+  border: 0.1px solid rgba(180, 202, 214, 0);
 }
 
 .overview-tasks-window:hover,
 .overview-tasks-window:focus {
-  background-color: rgba(100, 103, 74, 0.7);
+  background-color: rgba(83, 103, 114, 0.7);
 }
 
 .overview-tasks-window:active {
-  background-color: #64674a;
+  background-color: #536772;
 }
 
 .overview-tasks-window-selected {
-  background-color: rgba(100, 103, 74, 0.7);
+  background-color: rgba(83, 103, 114, 0.7);
 }
 
 .overview-tasks-window-dragging {
   opacity: 0.2;
 }
 
-.sidebar-right {
+.sidebar-right-bg {
   transition: 400ms cubic-bezier(0.1, 1, 0, 1);
-  background-color: #13140d;
+  background-color: #0f1417;
   padding: 1.023rem;
+}
+
+.sidebar-right-rounded {
   border-radius: 0 0.818rem 0.818rem 0;
 }
 
-.sidebar-left {
+.sidebar-left-bg {
   transition: 400ms cubic-bezier(0.1, 1, 0, 1);
-  background-color: #13140d;
-  border-radius: 0.818rem 0 0 0.818rem;
+  background-color: #0f1417;
   padding: 1.023rem;
+}
+
+.sidebar-left-rounded {
+  border-radius: 0.818rem 0 0 0.818rem;
 }
 
 .sidebar-group {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
   padding: 0.341rem;
-  background-color: #1c1d15;
+  background-color: #181d20;
+}
+
+.calendarsep {
+  margin: 50px;
 }
 
 .sidebar-group-nopad {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  background-color: #1c1d15;
+  background-color: #181d20;
 }
 
 .sidebar-group-invisible {
@@ -2624,45 +2724,45 @@ widget {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
   padding: 0.341rem;
-  background-color: #1c1d15;
+  background-color: #181d20;
 }
 
 .sidebar-iconbutton {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
-  color: #c8c7b7;
+  color: #c0c7cd;
   min-width: 2.727rem;
   min-height: 2.727rem;
 }
 
 .sidebar-iconbutton:hover,
 .sidebar-iconbutton:focus {
-  background-color: rgb(53.8, 54.5, 45.3);
+  background-color: rgb(49.2, 54.5, 57.95);
 }
 
 .sidebar-iconbutton:active {
-  background-color: rgb(79.6, 80, 69.6);
+  background-color: rgb(74.4, 80, 83.9);
 }
 
 .sidebar-button-active {
-  background-color: #c4cd7b;
-  color: #262a00;
+  background-color: #8ccff1;
+  color: #002c3b;
 }
 
 .sidebar-button-active:hover,
 .sidebar-button-active:focus {
-  background-color: rgb(153.34, 159.85, 99.69);
+  background-color: rgb(112.76, 161.25, 186.085);
 }
 
 .sidebar-button-active:active {
-  background-color: rgb(126.16, 130, 90.96);
+  background-color: rgb(100.64, 130.8, 146.74);
 }
 
 .sidebar-buttons-separator {
   min-width: 0.068rem;
   min-height: 0.068rem;
-  background-color: #c8c7b7;
+  background-color: #c0c7cd;
 }
 
 .sidebar-navrail {
@@ -2677,22 +2777,22 @@ widget {
 
 .sidebar-navrail-btn:hover > box > label:first-child,
 .sidebar-navrail-btn:focus > box > label:first-child {
-  background-color: rgb(53.8, 54.5, 45.3);
+  background-color: rgb(49.2, 54.5, 57.95);
 }
 
 .sidebar-navrail-btn:active > box > label:first-child {
-  background-color: rgb(79.6, 80, 69.6);
+  background-color: rgb(74.4, 80, 83.9);
 }
 
 .sidebar-navrail-btn-active > box > label:first-child {
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
 .sidebar-navrail-btn-active:hover > box > label:first-child,
 .sidebar-navrail-btn-active:focus > box > label:first-child {
-  background-color: rgb(95.38, 98.15, 71.13);
-  color: rgb(234.88, 234.95, 234.03);
+  background-color: rgb(79.62, 98.15, 108.395);
+  color: rgb(234.42, 234.95, 235.295);
 }
 
 .sidebar-sysinfo-grouppad {
@@ -2704,7 +2804,7 @@ widget {
   min-width: 0.818rem;
   min-height: 4.091rem;
   padding: 0.409rem;
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
   font-size: 0px;
 }
@@ -2715,7 +2815,7 @@ widget {
   min-height: 2.255rem;
   padding: 0.409rem;
   margin: 0.918rem;
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
   font-size: 0px;
 }
@@ -2724,7 +2824,7 @@ widget {
   min-width: 0.818rem;
   min-height: 3.409rem;
   padding: 0.409rem;
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
   transition: 1000ms cubic-bezier(0.1, 1, 0, 1);
   font-size: 0px;
@@ -2742,14 +2842,14 @@ widget {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
   min-width: 0.273rem;
   min-height: 2.045rem;
-  background-color: rgba(200, 199, 183, 0.3);
+  background-color: rgba(192, 199, 205, 0.3);
 }
 .sidebar-scrollbar slider:hover,
 .sidebar-scrollbar slider:focus {
-  background-color: rgba(200, 199, 183, 0.4);
+  background-color: rgba(192, 199, 205, 0.4);
 }
 .sidebar-scrollbar slider:active {
-  background-color: rgba(233, 231, 218, 0.5);
+  background-color: rgba(227, 231, 235, 0.5);
 }
 
 .sidebar-calendar-btn {
@@ -2758,16 +2858,16 @@ widget {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
   min-height: 2.523rem;
   min-width: 2.523rem;
-  color: #e9e7da;
+  color: #e3e7eb;
 }
 
 .sidebar-calendar-btn:hover,
 .sidebar-calendar-btn:focus {
-  background-color: #2d2e26;
+  background-color: #292e31;
 }
 
 .sidebar-calendar-btn:active {
-  background-color: #393930;
+  background-color: #34393c;
 }
 
 .sidebar-calendar-btn-txt {
@@ -2776,21 +2876,21 @@ widget {
 }
 
 .sidebar-calendar-btn-today {
-  background-color: #c4cd7b;
-  color: #262a00;
+  background-color: #8ccff1;
+  color: #002c3b;
 }
 
 .sidebar-calendar-btn-today:hover,
 .sidebar-calendar-btn-today:focus {
-  background-color: rgb(150.7, 157.3, 97.5);
+  background-color: rgb(110.3, 158.7, 183.4);
 }
 
 .sidebar-calendar-btn-today:active {
-  background-color: rgb(105.4, 109.6, 72);
+  background-color: rgb(80.6, 110.4, 125.8);
 }
 
 .sidebar-calendar-btn-othermonth {
-  color: #979788;
+  color: #90979c;
 }
 
 .sidebar-calendar-header {
@@ -2802,17 +2902,17 @@ widget {
   -gtk-outline-radius: 9999px;
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
   padding: 0rem 0.682rem;
-  background-color: rgb(39.5, 39.95, 31.95);
-  color: #e9e7da;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #e3e7eb;
 }
 
 .sidebar-calendar-monthyear-btn:hover,
 .sidebar-calendar-monthyear-btn:focus {
-  background-color: #2d2e26;
+  background-color: #292e31;
 }
 
 .sidebar-calendar-monthyear-btn:active {
-  background-color: #393930;
+  background-color: #34393c;
 }
 
 .sidebar-calendar-monthshift-btn {
@@ -2821,24 +2921,24 @@ widget {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
   min-width: 2.045rem;
   min-height: 2.045rem;
-  background-color: rgb(39.5, 39.95, 31.95);
-  color: #979788;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #90979c;
 }
 
 .sidebar-calendar-monthshift-btn:hover {
-  background-color: #2d2e26;
+  background-color: #292e31;
 }
 
 .sidebar-calendar-monthshift-btn:active {
-  background-color: #393930;
+  background-color: #34393c;
 }
 
 .sidebar-todo-item {
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
   margin-right: 0.545rem;
-  background-color: rgb(39.5, 39.95, 31.95);
-  color: #e9e7da;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #e3e7eb;
 }
 
 .sidebar-todo-txt {
@@ -2861,11 +2961,11 @@ widget {
 
 .sidebar-todo-item-action:hover,
 .sidebar-todo-item-action:focus {
-  background-color: rgb(58.85, 59.055, 50.555);
+  background-color: rgb(54.65, 59.55, 62.155);
 }
 
 .sidebar-todo-item-action:active {
-  background-color: rgb(78.2, 78.16, 69.16);
+  background-color: rgb(73.8, 78.6, 81.36);
 }
 
 .sidebar-todo-crosser {
@@ -2885,8 +2985,8 @@ widget {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
-  background-color: rgb(39.5, 39.95, 31.95);
-  color: #e9e7da;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #e3e7eb;
   margin: 0.341rem;
   padding: 0.205rem 0.545rem;
 }
@@ -2894,12 +2994,12 @@ widget {
 .sidebar-todo-new,
 .sidebar-todo-new:focus {
   color: #ffffff;
-  background-color: #64674a;
+  background-color: #536772;
 }
 
 .sidebar-todo-new:active {
   color: #ffffff;
-  background-color: #616923;
+  background-color: #1f6c89;
 }
 
 .sidebar-todo-add {
@@ -2909,16 +3009,16 @@ widget {
   min-width: 1.705rem;
   min-height: 1.705rem;
   color: #ffffff;
-  border: 0.068rem solid #e9e7da;
+  border: 0.068rem solid #e3e7eb;
 }
 
 .sidebar-todo-add:hover,
 .sidebar-todo-add:focus {
-  background-color: #2d2e26;
+  background-color: #292e31;
 }
 
 .sidebar-todo-add:active {
-  background-color: #393930;
+  background-color: #34393c;
 }
 
 .sidebar-todo-add-available {
@@ -2927,74 +3027,354 @@ widget {
   -gtk-outline-radius: 0.818rem;
   min-width: 1.705rem;
   min-height: 1.705rem;
-  background-color: #c4cd7b;
-  color: #262a00;
-  border: 0.068rem solid #c4cd7b;
+  background-color: #8ccff1;
+  color: #002c3b;
+  border: 0.068rem solid #8ccff1;
 }
 
 .sidebar-todo-add-available:hover,
 .sidebar-todo-add-available:focus {
-  background-color: rgb(150.7, 157.3, 97.5);
+  background-color: rgb(110.3, 158.7, 183.4);
 }
 
 .sidebar-todo-add-available:active {
-  background-color: rgb(105.4, 109.6, 72);
+  background-color: rgb(80.6, 110.4, 125.8);
 }
 
 .sidebar-todo-entry {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
-  background-color: #47483b;
-  color: #c8c7b7;
-  caret-color: #c8c7b7;
+  background-color: #40484c;
+  color: #c0c7cd;
+  caret-color: #c0c7cd;
   margin: 0rem 0.341rem;
   min-height: 1.773rem;
   min-width: 0rem;
   padding: 0.205rem 0.682rem;
-  border: 0.068rem solid #979788;
+  border: 0.068rem solid #90979c;
 }
 
 .sidebar-todo-entry:focus {
-  border: 0.068rem solid #c8c7b7;
+  border: 0.068rem solid #c0c7cd;
 }
 
 .sidebar-module {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
   padding: 0.341rem;
-  background-color: #1c1d15;
+  background-color: #181d20;
   padding: 0.682rem;
+}
+
+.bluetooth-controller-info {
+  margin-top: 0.682rem;
+  margin-bottom: 0.682rem;
+}
+
+.bluetooth-status-indicator {
+  border-radius: 9999px;
+  -gtk-outline-radius: 9999px;
+  padding: 0.341rem;
+  background-color: #292e31;
+  color: #c0c7cd;
+  opacity: 0.5;
+}
+.bluetooth-status-indicator.active {
+  background-color: #536772;
+  color: #ffffff;
+  opacity: 1;
+}
+.bluetooth-status-indicator.inactive {
+  background-color: #292e31;
+  color: #c0c7cd;
+  opacity: 0.5;
+}
+
+.bluetooth-device-section {
+  margin-bottom: 1rem;
+}
+
+.bluetooth-section-separator {
+  min-height: 1px;
+  background-color: #5e656a;
+  opacity: 0.5;
+  margin: 0.8rem 0;
+  border-radius: 1px;
+}
+
+.sidebar-bluetooth-controls {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #181d20;
+  border-radius: 1.159rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.bluetooth-controls-row {
+  margin-bottom: 0.8rem;
+  /* GTK doesn't support align-items */
+  /* Use valign property on child elements instead */
+}
+
+.sidebar-bluetooth-scan-button {
+  background-color: #8ccff1;
+  color: #002c3b;
+  padding: 0.5rem 1rem;
+  border-radius: 1.159rem;
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: all 200ms ease;
+}
+.sidebar-bluetooth-scan-button:hover {
+  background-color: rgb(131.2, 192, 222.9);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+.sidebar-bluetooth-scan-button:active {
+  background-color: rgb(113.6, 162, 186.7);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.sidebar-bluetooth-scan-button.scanning {
+  background-color: #c7c2ea;
+  color: #272443;
+}
+
+.bluetooth-empty-state {
+  padding: 2rem;
+}
+
+.bluetooth-empty-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 1rem 0 0.5rem;
+}
+
+.bluetooth-empty-subtitle {
+  color: #c0c7cd;
+  margin-bottom: 1rem;
+}
+
+.bluetooth-empty-scan-button {
+  background-color: #8ccff1;
+  color: #002c3b;
+  padding: 0.5rem 1.5rem;
+  border-radius: 1.159rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  /* GTK doesn't support all transitions */
+  /* We'll use specific properties instead */
+}
+.bluetooth-empty-scan-button:hover {
+  background-color: rgb(131.2, 192, 222.9);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  /* GTK doesn't support transform or margin transitions */
+  /* We'll use opacity changes instead */
+  opacity: 0.9;
+}
+
+.bluetooth-empty-manager-button {
+  background-color: #292e31;
+  color: #c0c7cd;
+  padding: 0.5rem 1.5rem;
+  border-radius: 1.159rem;
+  margin-top: 0.5rem;
+  /* GTK doesn't support all transitions */
+  /* We'll use specific properties instead */
+}
+.bluetooth-empty-manager-button:hover {
+  background-color: #34393c;
+  color: #e3e7eb;
+}
+
+.bluetooth-controller-info {
+  background-color: #080c0f;
+  padding: 1rem;
+  border-radius: 1.159rem;
+  margin-top: 1rem;
+}
+
+.bluetooth-controller-status {
+  margin-top: 0.5rem;
+}
+
+.bluetooth-status-indicator {
+  /* GTK doesn't support display, align-items, justify-content, width, height */
+  /* Use min-width, min-height and child element positioning instead */
+  min-width: 2rem;
+  min-height: 2rem;
+  border-radius: 9999px; /* Use a large value for circular shape */
+  background-color: #181d20;
+}
+.bluetooth-status-indicator.active {
+  background-color: #1f6c89;
+  color: #ffffff;
+}
+.bluetooth-status-indicator.inactive {
+  background-color: #292e31;
+  color: #c0c7cd;
+  opacity: 0.7;
+}
+
+.sidebar-bluetooth-bottombar {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  background-color: #181d20;
+  border-radius: 1.159rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-bluetooth-bottombar-button {
+  background-color: #292e31;
+  color: #e3e7eb;
+  padding: 0.5rem 1rem;
+  border-radius: 1.159rem;
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  /* GTK doesn't support all transitions */
+  /* We'll use specific properties instead */
+}
+.sidebar-bluetooth-bottombar-button:hover {
+  background-color: #1f6c89;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* GTK doesn't support transform or margin transitions */
+  /* We'll use opacity changes instead */
+  opacity: 0.9;
+}
+.sidebar-bluetooth-bottombar-button:active {
+  background-color: #8ccff1;
+  color: #002c3b;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  opacity: 0.8;
+}
+
+.sidebar-bluetooth-settings-button {
+  background-color: #292e31;
+  color: #c0c7cd;
+  padding: 0.5rem;
+  border-radius: 9999px; /* Use a large value for circular shape */
+  /* GTK doesn't support all transitions */
+  /* We'll use specific properties instead */
+}
+.sidebar-bluetooth-settings-button:hover {
+  background-color: #1f6c89;
+  color: #ffffff;
+  /* GTK doesn't support transform */
+  /* We'll skip the rotation effect */
+}
+
+/* Bluetooth toggle with label - spacing handled in JavaScript */
+.sidebar-bluetooth-device-action {
+  border-radius: 9999px;
+  -gtk-outline-radius: 9999px;
+}
+
+.sidebar-bluetooth-device {
+  border-radius: 1.159rem;
+  -gtk-outline-radius: 1.159rem;
+  padding: 0.8rem;
+  margin-bottom: 0.8rem;
+  background-color: #181d20;
+  /* GTK doesn't support all transitions */
+  /* We'll use specific properties instead */
+  border-left: 3px solid transparent;
+  margin-left: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: background-color 200ms ease, box-shadow 200ms ease;
+  /* GTK doesn't support align-items */
+  /* Use valign property on child elements instead */
+}
+.sidebar-bluetooth-device .sidebar-bluetooth-device-icon-container {
+  margin-right: 12px;
+}
+.sidebar-bluetooth-device .sidebar-bluetooth-icon-box {
+  border-radius: 1.159rem;
+  -gtk-outline-radius: 1.159rem;
+}
+.sidebar-bluetooth-device .sidebar-bluetooth-icon {
+  font-family: "Material Icons", "Material Symbols Rounded";
+}
+.sidebar-bluetooth-device .bluetooth-device-name {
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+.sidebar-bluetooth-device .bluetooth-device-status {
+  font-size: 0.8em;
+  opacity: 0.8;
+}
+.sidebar-bluetooth-device.bluetooth-device-connected {
+  background-color: #536772;
+  border-left-color: #8ccff1;
+  margin-left: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.sidebar-bluetooth-device.bluetooth-device-connected .bluetooth-device-name {
+  color: #ffffff;
+  font-weight: 600;
+}
+.sidebar-bluetooth-device.bluetooth-device-connected .bluetooth-device-status {
+  color: #ffffff;
+  opacity: 0.9;
+}
+.sidebar-bluetooth-device.bluetooth-device-paired {
+  background-color: #292e31;
+  border-left-color: #536772;
+}
+.sidebar-bluetooth-device.bluetooth-device-paired .bluetooth-device-name {
+  color: #e3e7eb;
+}
+.sidebar-bluetooth-device.bluetooth-device-paired .bluetooth-device-status {
+  color: #c0c7cd;
+}
+.sidebar-bluetooth-device.bluetooth-device-available {
+  background-color: #080c0f;
+}
+.sidebar-bluetooth-device.bluetooth-device-available .bluetooth-device-name {
+  color: #e3e7eb;
+}
+.sidebar-bluetooth-device:hover {
+  background-color: #34393c;
+  /* GTK doesn't support transform or margin-top/bottom transitions */
+  /* We'll use opacity changes instead */
+  opacity: 0.95;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+.sidebar-bluetooth-device:hover.bluetooth-device-connected {
+  background-color: rgb(79.9, 98.4, 108.6);
+}
+.sidebar-bluetooth-device:hover.bluetooth-device-paired {
+  background-color: rgb(42.1, 47.1, 50.1);
 }
 
 .sidebar-module-btn-arrow {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
-  font-family: "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Symbols Sharp";
-  background-color: rgb(39.5, 39.95, 31.95);
+  font-family: "Material Icons", "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Icons Outlined", "Material Symbols Sharp";
+  background-color: rgb(35.5, 40.5, 42.95);
   min-width: 1.705rem;
   min-height: 1.705rem;
 }
 .sidebar-module-btn-arrow:hover, .sidebar-module-btn-arrow:focus {
-  background-color: rgb(58.85, 59.055, 50.555);
+  background-color: rgb(54.65, 59.55, 62.155);
 }
 .sidebar-module-btn-arrow:active {
-  background-color: rgb(78.2, 78.16, 69.16);
+  background-color: rgb(73.8, 78.6, 81.36);
 }
 
 .sidebar-module-scripts-button {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
-  font-family: "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Symbols Sharp";
-  background-color: #1c1d15;
+  font-family: "Material Icons", "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Icons Outlined", "Material Symbols Sharp";
+  background-color: #181d20;
   min-width: 1.705rem;
   min-height: 1.705rem;
 }
 .sidebar-module-scripts-button:hover, .sidebar-module-scripts-button:focus {
-  background-color: rgb(53.8, 54.5, 45.3);
+  background-color: rgb(49.2, 54.5, 57.95);
 }
 .sidebar-module-scripts-button:active {
-  background-color: rgb(79.6, 80, 69.6);
+  background-color: rgb(74.4, 80, 83.9);
 }
 
 .sidebar-module-colorpicker-wrapper {
@@ -3012,8 +3392,8 @@ widget {
 }
 
 .sidebar-module-colorpicker-hue-cursor {
-  background-color: #e5e3d6;
-  border: 0.136rem solid #e5e3d6;
+  background-color: #dfe3e7;
+  border: 0.136rem solid #dfe3e7;
   min-height: 0.136rem;
   margin-top: -0.136rem;
   border-radius: 0.341rem;
@@ -3060,15 +3440,15 @@ widget {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
   padding: 0.341rem;
-  background-color: #1c1d15;
+  background-color: #181d20;
 }
 
 .sidebar-chat-providerswitcher {
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
   padding: 0.477rem 0.682rem;
-  background-color: #2d2e26;
-  color: #c8c7b7;
+  background-color: #292e31;
+  color: #c0c7cd;
 }
 
 .sidebar-chat-viewport {
@@ -3079,22 +3459,19 @@ widget {
 .sidebar-chat-textarea {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  background-color: #1c1d15;
-  color: #c8c7b7;
+  background-color: #181d20;
+  color: #c0c7cd;
   padding: 0.682rem;
 }
 
 .sidebar-chat-entry {
-  color: #c8c7b7;
-  caret-color: #c8c7b7;
+  color: #c0c7cd;
+  caret-color: #c0c7cd;
   min-height: 1.773rem;
   min-width: 0rem;
 }
 
-.sidebar-chat-wrapper {
-  transition: 400ms cubic-bezier(0.1, 1, 0, 1);
-}
-
+/* Removed transition from sidebar-chat-wrapper */
 .sidebar-chat-wrapper-extended {
   min-height: 7.5rem;
 }
@@ -3108,25 +3485,25 @@ widget {
 
 .sidebar-chat-send:hover,
 .sidebar-chat-send:focus {
-  background-color: #3e3e35;
+  background-color: #393e41;
 }
 
 .sidebar-chat-send:active {
-  background-color: #47483b;
+  background-color: #40484c;
 }
 
 .sidebar-chat-send-available {
-  background-color: #c4cd7b;
-  color: #262a00;
+  background-color: #8ccff1;
+  color: #002c3b;
 }
 
 .sidebar-chat-send-available:hover,
 .sidebar-chat-send-available:focus {
-  background-color: rgb(150.7, 157.3, 97.5);
+  background-color: rgb(110.3, 158.7, 183.4);
 }
 
 .sidebar-chat-send-available:active {
-  background-color: rgb(105.4, 109.6, 72);
+  background-color: rgb(80.6, 110.4, 125.8);
 }
 
 .sidebar-chat-messagearea {
@@ -3137,7 +3514,7 @@ widget {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
   padding: 0.341rem;
-  background-color: #1c1d15;
+  background-color: #181d20;
 }
 
 @keyframes sidebar-chat-message-skeletonline-anim {
@@ -3151,12 +3528,12 @@ widget {
 .sidebar-chat-message-skeletonline {
   border-radius: 0.477rem;
   min-height: 1.364rem;
-  background-color: rgb(39.5, 39.95, 31.95);
+  background-color: rgb(35.5, 40.5, 42.95);
 }
 
 .sidebar-chat-message-skeletonline-offset0 {
   background-repeat: no-repeat;
-  background: linear-gradient(to right, #2d2e26 0%, rgb(119, 121.5, 92.5) 25%, #2d2e26 50%, #2d2e26 100%);
+  background: linear-gradient(to right, #292e31 0%, #657a85 25%, #292e31 50%, #292e31 100%);
   background-size: 500% 500%;
   animation: sidebar-chat-message-skeletonline-anim 2s linear;
   animation-iteration-count: infinite;
@@ -3164,7 +3541,7 @@ widget {
 
 .sidebar-chat-message-skeletonline-offset1 {
   background-repeat: no-repeat;
-  background: linear-gradient(to right, #2d2e26 0%, #2d2e26 50%, rgb(119, 121.5, 92.5) 75%, #2d2e26 100%);
+  background: linear-gradient(to right, #292e31 0%, #292e31 50%, #657a85 75%, #292e31 100%);
   background-size: 500% 500%;
   animation: sidebar-chat-message-skeletonline-anim 2s linear;
   animation-iteration-count: infinite;
@@ -3173,7 +3550,7 @@ widget {
 .sidebar-chat-message-skeletonline-offset2 {
   margin-right: 5.795rem;
   background-repeat: no-repeat;
-  background: linear-gradient(to right, #2d2e26 0%, #2d2e26 25%, rgb(119, 121.5, 92.5) 50%, #2d2e26 75%, #2d2e26 100%);
+  background: linear-gradient(to right, #292e31 0%, #292e31 25%, #657a85 50%, #292e31 75%, #292e31 100%);
   background-size: 500% 500%;
   animation: sidebar-chat-message-skeletonline-anim 2s linear;
   animation-iteration-count: infinite;
@@ -3187,27 +3564,27 @@ widget {
 }
 
 .sidebar-chat-name {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
   padding: 0.341rem 0.818rem;
   margin: 0.341rem;
-  background-color: rgb(39.5, 39.95, 31.95);
-  color: #e9e7da;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #e3e7eb;
 }
 
 .sidebar-chat-name-user {
-  background-color: rgb(39.5, 39.95, 31.95);
-  color: #e9e7da;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #e3e7eb;
 }
 
 .sidebar-chat-name-bot {
-  background-color: #c7c9a7;
-  color: #272a12;
+  background-color: #b4cad6;
+  color: #162a34;
 }
 
 .sidebar-chat-name-system {
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
@@ -3218,7 +3595,7 @@ widget {
 }
 
 .sidebar-chat-txt {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Open Sans", sans-serif;
   font-weight: 500;
 }
 
@@ -3227,21 +3604,21 @@ widget {
   -gtk-outline-radius: 0.818rem;
   margin: 0rem 0.682rem;
   padding: 0.682rem;
-  color: #e5e3d6;
+  color: #dfe3e7;
 }
 
 .sidebar-chat-codeblock {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  background-color: rgb(39.5, 39.95, 31.95);
-  color: #e9e7da;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #e3e7eb;
   margin: 0rem 0.682rem;
 }
 
 .sidebar-chat-codeblock-topbar {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
-  background-color: #2d2e26;
-  color: #e9e7da;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+  background-color: #292e31;
+  color: #e3e7eb;
   border-top-left-radius: 0.818rem;
   border-top-right-radius: 0.818rem;
   padding: 0.341rem 0.477rem;
@@ -3262,21 +3639,21 @@ widget {
 
 .sidebar-chat-codeblock-topbar-btn:hover,
 .sidebar-chat-codeblock-topbar-btn:focus {
-  background-color: #3e3e35;
+  background-color: #393e41;
 }
 
 .sidebar-chat-codeblock-topbar-btn:active {
-  background-color: #47483b;
+  background-color: #40484c;
 }
 
 .sidebar-chat-codeblock-code {
-  font-family: "SF Mono", "Menlo", "Courier", monospace;
+  font-family: "Geist Mono", "Geist Mono NF", "Cascadia Mono", "Fira Mono", monospace;
   padding: 0.682rem;
 }
 
 .sidebar-chat-divider {
   min-height: 1px;
-  background-color: rgb(122.6, 122.8, 108.6);
+  background-color: rgb(115.2, 122.8, 127.6);
   margin: 0rem 0.545rem;
 }
 
@@ -3298,11 +3675,11 @@ widget {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
-  font-family: "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Symbols Sharp";
+  font-family: "Material Icons", "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Icons Outlined", "Material Symbols Sharp";
   min-height: 4.773rem;
   min-width: 4.773rem;
   font-size: 3.076rem;
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
@@ -3315,22 +3692,22 @@ widget {
 
 .sidebar-chat-chip-action {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
-  background-color: rgb(39.5, 39.95, 31.95);
-  color: #c8c7b7;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #c0c7cd;
 }
 
 .sidebar-chat-chip-action:hover,
 .sidebar-chat-chip-action:focus {
-  background-color: #2d2e26;
+  background-color: #292e31;
 }
 
 .sidebar-chat-chip-action:active {
-  background-color: #393930;
+  background-color: #34393c;
 }
 
 .sidebar-chat-chip-action-active {
-  color: rgb(122.6, 122.8, 108.6);
-  border: 0.068rem solid rgb(122.6, 122.8, 108.6);
+  color: rgb(115.2, 122.8, 127.6);
+  border: 0.068rem solid rgb(115.2, 122.8, 127.6);
 }
 
 .sidebar-chat-chip-toggle {
@@ -3338,17 +3715,17 @@ widget {
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
   padding: 0.341rem 0.477rem;
-  background-color: #2d2e26;
-  color: #c8c7b7;
+  background-color: #292e31;
+  color: #c0c7cd;
 }
 
 .sidebar-chat-chip-toggle:focus,
 .sidebar-chat-chip-toggle:hover {
-  background-color: #2d2e26;
+  background-color: #292e31;
 }
 
 .sidebar-chat-chip-toggle:active {
-  background-color: #393930;
+  background-color: #34393c;
 }
 
 .sidebar-pin {
@@ -3357,38 +3734,38 @@ widget {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
   min-height: 2.386rem;
   min-width: 2.386rem;
-  color: #e9e7da;
+  color: #e3e7eb;
 }
 
 .sidebar-pin:hover,
 .sidebar-pin:focus {
-  background-color: #2d2e26;
+  background-color: #292e31;
 }
 
 .sidebar-pin:active {
-  background-color: #393930;
+  background-color: #34393c;
 }
 
 .sidebar-pin-enabled {
-  background-color: #c4cd7b;
+  background-color: #8ccff1;
 }
 .sidebar-pin-enabled label {
-  color: #262a00;
+  color: #002c3b;
 }
 
 .sidebar-pin-enabled:hover,
 .sidebar-pin-enabled:focus {
-  background-color: rgb(150.7, 157.3, 97.5);
+  background-color: rgb(110.3, 158.7, 183.4);
 }
 
 .sidebar-pin-enabled:active {
-  background-color: rgb(105.4, 109.6, 72);
+  background-color: rgb(80.6, 110.4, 125.8);
 }
 
 .sidebar-volmixer-stream {
-  border-bottom: 0.068rem solid #656558;
+  border-bottom: 0.068rem solid #5e656a;
   padding: 0.682rem;
-  color: #e9e7da;
+  color: #e3e7eb;
 }
 
 .sidebar-volmixer-stream-appicon {
@@ -3399,13 +3776,13 @@ widget {
   border-radius: 0.477rem;
   min-height: 1.364rem;
   min-width: 1.364rem;
-  background-color: #64674a;
+  background-color: #536772;
 }
 .sidebar-volmixer-stream-slider highlight {
   border-radius: 0.477rem;
   min-height: 1.364rem;
   min-width: 1.364rem;
-  background-color: #c4cd7b;
+  background-color: #8ccff1;
 }
 .sidebar-volmixer-stream-slider slider {
   border-radius: 0.477rem;
@@ -3414,7 +3791,7 @@ widget {
 }
 
 .sidebar-volmixer-status {
-  color: #e9e7da;
+  color: #e3e7eb;
   margin: 0rem 0.682rem;
 }
 
@@ -3422,21 +3799,134 @@ widget {
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
   padding: 0.477rem 0.682rem;
-  background-color: #2d2e26;
-  color: #c8c7b7;
+  background-color: #292e31;
+  color: #c0c7cd;
+}
+
+.sidebar-bluetooth-controls {
+  padding: 0.682rem;
+  margin-bottom: 0.682rem;
+  border-radius: 1.159rem;
+  -gtk-outline-radius: 1.159rem;
+  background-color: #181d20;
+  /* Removed bottom border */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-bluetooth-header {
+  padding: 0.341rem 0;
+  margin-bottom: 0.682rem;
+}
+
+.sidebar-bluetooth-title {
+  font-weight: bold;
+  color: #8ccff1;
+}
+
+.sidebar-bluetooth-divider {
+  background-color: #5e656a;
+  margin: 0.341rem 0;
+}
+
+.material-card {
+  border-radius: 1.159rem;
+  -gtk-outline-radius: 1.159rem;
+  background-color: rgb(35.5, 40.5, 42.95);
+  /* GTK doesn't support transitions */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.material-button {
+  border-radius: 1.159rem;
+  -gtk-outline-radius: 1.159rem;
+  background-color: #8ccff1;
+  color: #002c3b;
+  padding: 0.341rem 0.682rem;
+  /* GTK doesn't support transitions */
+}
+
+.material-icon-button {
+  border-radius: 9999px;
+  -gtk-outline-radius: 9999px;
+  padding: 0.341rem;
+  /* GTK doesn't support transitions */
+}
+
+.sidebar-bluetooth-scan-button {
+  border-radius: 1.159rem;
+  -gtk-outline-radius: 1.159rem;
+  transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
+  padding: 0.341rem 0.682rem;
+  background-color: #8ccff1;
+  color: #002c3b;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: rgb(90.5, 126.5, 145);
+  }
+  50% {
+    background-color: rgb(110.3, 158.7, 183.4);
+  }
+  100% {
+    background-color: rgb(90.5, 126.5, 145);
+  }
+}
+.scanning {
+  background-color: rgb(90.5, 126.5, 145);
+  animation: pulse 2s infinite ease-in-out;
 }
 
 .sidebar-bluetooth-device {
   padding: 0.682rem;
+  margin-bottom: 0.682rem;
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  background-color: rgb(39.5, 39.95, 31.95);
-  color: #e9e7da;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #e3e7eb;
+  /* GTK doesn't support transitions */
+  border-left: 3px solid transparent;
+}
+.sidebar-bluetooth-device:hover {
+  background-color: rgb(45.95, 57.15, 62.755);
+}
+
+.sidebar-bluetooth-device-icon-container {
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-bluetooth-battery {
+  color: #8ccff1;
+  font-weight: bold;
+  margin-top: 0.2rem;
 }
 
 .sidebar-bluetooth-appicon {
   -gtk-icon-theme: "Adwaita";
   font-size: 2.045rem;
+}
+
+.sidebar-bluetooth-battery {
+  margin-top: -0.341rem;
+  margin-left: -0.341rem;
+  background-color: #292e31;
+  padding: 0.136rem 0.273rem;
+  border-radius: 0.682rem;
+}
+
+.sidebar-bluetooth-device-action {
+  border-radius: 9999px;
+  -gtk-outline-radius: 9999px;
+  min-width: 2.045rem;
+  min-height: 2.045rem;
+  padding: 0.341rem;
+}
+.sidebar-bluetooth-device-action:hover, .sidebar-bluetooth-device-action:focus {
+  background-color: rgb(54.65, 59.55, 62.155);
+}
+.sidebar-bluetooth-device-action:active {
+  background-color: rgb(73.8, 78.6, 81.36);
 }
 
 .sidebar-bluetooth-device-remove {
@@ -3446,30 +3936,183 @@ widget {
   min-height: 2.045rem;
   padding: 0.341rem;
 }
+.sidebar-bluetooth-device-remove:hover, .sidebar-bluetooth-device-remove:focus {
+  background-color: rgb(54.65, 59.55, 62.155);
+}
+.sidebar-bluetooth-device-remove:active {
+  background-color: rgb(73.8, 78.6, 81.36);
+}
 
-.sidebar-bluetooth-device-remove:hover,
-.sidebar-bluetooth-device-remove:focus {
+.sidebar-bluetooth-device-actions {
+  padding: 0.341rem;
+  background-color: #292e31;
+  border-radius: 0.818rem;
+  -gtk-outline-radius: 0.818rem;
+}
+
+.sidebar-bluetooth-action-button {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
-  background-color: rgb(58.85, 59.055, 50.555);
-  padding: 0.341rem;
+  transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
+  padding: 0.341rem 0.682rem;
+  background-color: rgb(35.5, 40.5, 42.95);
+}
+.sidebar-bluetooth-action-button label {
+  color: #8ccff1;
+}
+.sidebar-bluetooth-action-button:hover, .sidebar-bluetooth-action-button:focus {
+  background-color: rgb(54.65, 59.55, 62.155);
+}
+.sidebar-bluetooth-action-button:active {
+  background-color: rgb(73.8, 78.6, 81.36);
+}
+
+.sidebar-bluetooth-bottombar {
+  margin-top: 0.682rem;
+}
+
+.bluetooth-info-popup {
+  padding: 1rem;
+  background-color: rgb(35.5, 40.5, 42.95);
+  min-width: 400px;
+  min-height: 300px;
+  border-radius: 1.159rem;
+  -gtk-outline-radius: 1.159rem;
+}
+
+.bluetooth-info-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #8ccff1;
+  margin-bottom: 0.5rem;
+}
+
+.bluetooth-info-content {
+  background-color: #181d20;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border-radius: 0.818rem;
+  -gtk-outline-radius: 0.818rem;
+  min-height: 200px;
+}
+
+.bluetooth-info-close-button {
+  border-radius: 1.159rem;
+  -gtk-outline-radius: 1.159rem;
+  background-color: #8ccff1;
+  color: #002c3b;
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+}
+
+.bluetooth-rename-popup {
+  padding: 1rem;
+  background-color: rgb(35.5, 40.5, 42.95);
+  min-width: 350px;
+  border-radius: 1.159rem;
+  -gtk-outline-radius: 1.159rem;
+}
+
+.bluetooth-rename-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #8ccff1;
+  margin-bottom: 0.5rem;
+}
+
+.bluetooth-rename-content {
+  background-color: #181d20;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border-radius: 0.818rem;
+  -gtk-outline-radius: 0.818rem;
+}
+
+.bluetooth-rename-buttons {
+  margin-top: 0.5rem;
+}
+
+.bluetooth-rename-cancel-button {
+  border-radius: 1.159rem;
+  -gtk-outline-radius: 1.159rem;
+  background-color: #292e31;
+  color: #e3e7eb;
+  padding: 0.5rem 1rem;
+}
+
+.bluetooth-rename-confirm-button {
+  border-radius: 1.159rem;
+  -gtk-outline-radius: 1.159rem;
+  background-color: #8ccff1;
+  color: #002c3b;
+  padding: 0.5rem 1rem;
+}
+
+.bluetooth-empty-state {
+  padding: 2rem;
+  opacity: 0.8;
+}
+
+.bluetooth-empty-title {
+  font-weight: bold;
+  color: #8ccff1;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+.bluetooth-empty-subtitle {
+  color: #c0c7cd;
+  margin-bottom: 1rem;
+}
+
+.bluetooth-empty-scan-button {
+  border-radius: 1.159rem;
+  -gtk-outline-radius: 1.159rem;
+  background-color: #8ccff1;
+  color: #002c3b;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.bluetooth-section-header {
+  padding: 0.5rem 0;
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid #8ccff1;
+}
+
+.bluetooth-section-title {
+  font-weight: bold;
+  color: #8ccff1;
+  font-size: 1rem;
+}
+
+.bluetooth-device-section {
+  margin-bottom: 1rem;
+}
+
+.bluetooth-no-devices {
+  padding: 1rem;
+  color: #c0c7cd;
+  font-style: italic;
+  opacity: 0.7;
 }
 
 .sidebar-wifinetworks-network {
   padding: 0.682rem;
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  background-color: rgb(39.5, 39.95, 31.95);
-  color: #e9e7da;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #e3e7eb;
 }
 
 .sidebar-wifinetworks-network:hover,
 .sidebar-wifinetworks-network:focus {
-  background-color: rgb(58.85, 59.055, 50.555);
+  background-color: rgb(54.65, 59.55, 62.155);
 }
 
 .sidebar-wifinetworks-network:active {
-  background-color: rgb(78.2, 78.16, 69.16);
+  background-color: rgb(73.8, 78.6, 81.36);
 }
 
 .sidebar-wifinetworks-signal {
@@ -3480,8 +4123,8 @@ widget {
 .sidebar-wifinetworks-auth-entry {
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
-  background-color: #1c1d15;
-  color: #c8c7b7;
+  background-color: #181d20;
+  color: #c0c7cd;
   padding: 0.682rem;
 }
 
@@ -3491,21 +4134,21 @@ widget {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
   min-width: 6.818rem;
   min-height: 2.25rem;
-  background-color: rgb(39.5, 39.95, 31.95);
-  color: #e9e7da;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #e3e7eb;
 }
 
 .sidebar-centermodules-bottombar-button:hover,
 .sidebar-centermodules-bottombar-button:focus {
-  background-color: rgb(58.85, 59.055, 50.555);
+  background-color: rgb(54.65, 59.55, 62.155);
 }
 
 .sidebar-centermodules-bottombar-button:active {
-  background-color: rgb(78.2, 78.16, 69.16);
+  background-color: rgb(73.8, 78.6, 81.36);
 }
 
 .sidebar-centermodules-scrollgradient-bottom {
-  background: linear-gradient(to top, #1c1d15 0%, rgba(28, 29, 21, 0) 1.023rem);
+  background: linear-gradient(to top, #181d20 0%, rgba(24, 29, 32, 0) 1.023rem);
 }
 
 .sidebar-scrollable {
@@ -3517,14 +4160,14 @@ widget {
 }
 
 .sidebar-chat-message-box {
-  background-color: rgb(39.5, 39.95, 31.95);
+  background-color: rgb(35.5, 40.5, 42.95);
   border-radius: 0.818rem;
   padding: 0.682rem;
 }
 
 .sidebar-chat-divider {
   margin: 0.341rem 0;
-  border-top: 0.068rem solid #656558;
+  border-top: 0.068rem solid #5e656a;
 }
 
 .sidebar-module-box {
@@ -3534,7 +4177,7 @@ widget {
 .sidebar-prayertime-top {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  background: linear-gradient(270deg, #c4cd7b 0%, rgb(139.8, 139.8, 118.2) 100%);
+  background: #0f1417;
   padding: 0.82rem;
   margin-bottom: 1rem;
   color: #ffffff;
@@ -3544,38 +4187,38 @@ widget {
   margin: 1.682rem 0;
   margin-top: 0.341rem;
   margin-right: 1.5rem;
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   color: #ffffff;
 }
 
 .sidebar-prayertime-item {
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   color: #ffffff;
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
   padding: 0.682rem;
-  background-color: rgb(41.44, 41.8, 30.84);
+  background-color: rgb(35.36, 42.84, 46.12);
 }
 
 .sidebar-prayertime-item:hover {
-  background-color: rgb(53.2, 55.4, 36.3);
+  background-color: rgb(41.4, 55.7, 63.35);
 }
 
 .sidebar-prayertime-item:active {
-  background-color: rgb(78.4, 81.8, 51.6);
+  background-color: rgb(58.8, 82.4, 94.7);
 }
 
 .sidebar-prayertime-name {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
-  color: #e9e7da;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+  color: #e3e7eb;
   margin: 0.273rem 0;
   font-weight: 500;
 }
 
 .sidebar-prayertime-time {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
-  color: #c4cd7b;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+  color: #8ccff1;
   font-weight: bold;
   font-size: 1.1rem;
   min-width: 45px;
@@ -3584,7 +4227,7 @@ widget {
 
 .sidebar-prayertimes {
   transition: 400ms cubic-bezier(0.1, 1, 0, 1);
-  border: 0.3px solid rgba(199, 201, 167, 0);
+  border: 0.3px solid rgba(180, 202, 214, 0);
   margin: 0.476rem;
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
@@ -3594,7 +4237,7 @@ widget {
 }
 
 .sidebar-prayertimes-header {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.364rem;
   color: #ffffff;
 }
@@ -3605,49 +4248,49 @@ widget {
 }
 
 .sidebar-prayertimes-time {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.023rem;
-  color: rgb(224, 224.6, 218.8);
+  color: rgb(220.6, 224.6, 226.8);
 }
 
 .sidebar-prayertimes-time-icon {
   margin-right: 0.682rem;
-  color: rgb(224, 224.6, 218.8);
+  color: rgb(220.6, 224.6, 226.8);
 }
 
 .sidebar-prayertimes-time-text {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.023rem;
-  color: rgb(224, 224.6, 218.8);
+  color: rgb(220.6, 224.6, 226.8);
 }
 
 .sidebar-prayertimes-time-remaining {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 0.818rem;
-  color: rgb(193, 194.2, 182.6);
+  color: rgb(186.2, 194.2, 198.6);
   margin: 0.273rem 0;
 }
 
 .sidebar-prayertimes-time-remaining-text {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 0.818rem;
-  color: rgb(193, 194.2, 182.6);
+  color: rgb(186.2, 194.2, 198.6);
   margin: 0.273rem 0;
 }
 
 .prayer-times-box {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  background-color: #1c1d15;
+  background-color: #181d20;
   padding: 0.682rem;
   margin: 0.341rem 0;
 }
 
 .prayer-times-header {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   padding: 0.341rem;
   margin-bottom: 0.682rem;
-  color: #e9e7da;
+  color: #e3e7eb;
 }
 .prayer-times-header label {
   font-size: 1.2rem;
@@ -3656,38 +4299,38 @@ widget {
 .prayer-times-next {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  background: linear-gradient(135deg, #c4cd7b 0%, rgb(175.15, 182.8, 111.75) 100%);
-  color: #262a00;
+  background: linear-gradient(135deg, #8ccff1 0%, rgb(126.8, 184.5, 213.85) 100%);
+  color: #002c3b;
   padding: 1.2rem 0.682rem;
   margin-bottom: 0.682rem;
 }
 .prayer-times-next:hover {
-  background: linear-gradient(135deg, #c4cd7b 0%, rgb(161.25, 168, 104.25) 100%);
+  background: linear-gradient(135deg, #8ccff1 0%, rgb(118, 169.5, 195.75) 100%);
 }
 
 .prayer-times-item {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
   padding: 1.2rem 0.682rem;
-  background-color: #2d2e26;
+  background-color: #292e31;
   margin: 0.341rem 0;
   transition: all 200ms ease;
   border: 1px solid transparent;
 }
 .prayer-times-item:hover {
-  background-color: #393930;
-  border-color: #656558;
+  background-color: #34393c;
+  border-color: #5e656a;
 }
 
 .prayer-times-name {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
-  color: #e9e7da;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+  color: #e3e7eb;
   font-size: 1.1rem;
 }
 
 .prayer-times-time {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
-  color: #c4cd7b;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+  color: #8ccff1;
   font-weight: bold;
   font-size: 1.1rem;
   min-width: 5.5rem;
@@ -3697,10 +4340,10 @@ widget {
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
   padding: 0.341rem 0.682rem;
-  background: linear-gradient(to right, #2d2e26 0%, rgb(52.55, 53.95, 42.25) 100%);
-  color: #c8c7b7;
+  background: linear-gradient(to right, #292e31 0%, rgb(45.95, 54.05, 58.6) 100%);
+  color: #c0c7cd;
   margin-bottom: 0.682rem;
-  border-left: 3px solid #c4cd7b;
+  border-left: 3px solid #8ccff1;
 }
 .prayer-times-date label {
   font-size: 0.95rem;
@@ -3709,27 +4352,30 @@ widget {
 .prayer-times-remaining {
   border-radius: 0.818rem;
   -gtk-outline-radius: 0.818rem;
-  color: rgb(158.1, 157.15, 146.25);
+  color: rgb(152.8, 157.15, 160.8);
   font-size: 0.85rem;
   margin-top: 0.2rem;
 }
 
 .prayer-times-icon {
-  font-family: "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Symbols Sharp";
-  color: rgb(179.5, 178.25, 166.75);
+  font-family: "Material Icons", "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Icons Outlined", "Material Symbols Sharp";
+  color: rgb(174, 178.25, 182);
   margin-right: 0.5rem;
 }
+
 .prayer-times-icon-next {
-  color: #262a00;
+  font-family: "Material Icons", "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Icons Outlined", "Material Symbols Sharp";
+  color: #002c3b;
   margin-right: 0.5rem;
 }
 
 .sidebar-timer {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
-  color: #e9e7da;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+  color: #e3e7eb;
 }
+
 .sidebar-timer-btn {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
@@ -3737,13 +4383,12 @@ widget {
   min-width: 1.8rem;
   min-height: 1.8rem;
 }
+
 .sidebar-timer-btn-start {
-  background-color: #c4cd7b;
-  color: #262a00;
+  background-color: #8ccff1;
+  color: #002c3b;
 }
-.sidebar-timer-btn-start:hover {
-  background-color: rgb(175.15, 182.8, 111.75);
-}
+
 .sidebar-timer-delete {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
@@ -3753,42 +4398,43 @@ widget {
   background-color: #ffb4ab;
   color: #580003;
 }
-.sidebar-timer-delete:hover {
-  background-color: rgb(225.3, 161.55, 152.55);
-}
+
 .sidebar-timer-item {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
-  color: #e9e7da;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+  color: #e3e7eb;
 }
+
 .sidebar-timer-icon {
-  font-family: "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Symbols Sharp";
+  font-family: "Material Icons", "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Icons Outlined", "Material Symbols Sharp";
 }
 
 .sidebar-todo-add {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  background-color: rgb(39.5, 39.95, 31.95);
+  background-color: rgb(35.5, 40.5, 42.95);
   padding: 0.3em 0.5em;
   margin: 0 0.5em;
 }
+
 .sidebar-todo-add:focus {
-  background-color: rgb(77.85, 79.2, 59.25);
+  background-color: rgb(65.2, 79.5, 87.15);
 }
 
 .sidebar-todo-new {
   padding: 0.3em;
   margin: 0 0.5em;
 }
+
 .sidebar-todo-new:hover {
-  background-color: rgb(77.85, 79.2, 59.25);
+  background-color: rgb(65.2, 79.5, 87.15);
 }
 
 .sidebar-timer-presets {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  background-color: #1c1d15;
+  background-color: #181d20;
   padding: 0.5em;
   margin: 0 0.5em;
 }
@@ -3801,7 +4447,7 @@ widget {
   font-family: "TE HAFS2 Tharwat Emara", "Noto Naskh Arabic", "Noto Sans Arabic", serif;
   font-size: 2.2rem;
   font-weight: bold;
-  color: #c4cd7b;
+  color: #8ccff1;
   margin: 1rem 0;
 }
 
@@ -3811,7 +4457,7 @@ widget {
 }
 
 .quran-message {
-  background-color: #1c1d15;
+  background-color: #181d20;
   border-radius: 1.159rem;
   padding: 0.682rem;
   margin: 0.341rem 0;
@@ -3819,7 +4465,7 @@ widget {
 
 .quran-message-container {
   padding: 1rem;
-  background-color: #1c1d15;
+  background-color: #181d20;
   border-radius: 1.705rem;
   margin: 1rem;
 }
@@ -3831,11 +4477,11 @@ widget {
   font-size: 2em;
   font-weight: bold;
   margin-bottom: 0.5rem;
-  color: #e9e7da;
+  color: #e3e7eb;
 }
 .welcome-message .welcome-subtitle {
   opacity: 0.8;
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 .welcome-message .welcome-examples {
   margin: 1rem 0;
@@ -3843,19 +4489,19 @@ widget {
 }
 .welcome-message .welcome-examples .welcome-example-btn {
   border-radius: 1.705rem;
-  background-color: #1c1d15;
-  border: 1px solid #393930;
+  background-color: #181d20;
+  border: 1px solid #34393c;
   transition: all 0.2s ease;
   min-width: 300px;
-  color: #e9e7da;
+  color: #e3e7eb;
 }
 .welcome-message .welcome-examples .welcome-example-btn:hover {
-  background-color: #2d2e26;
-  border-color: #c4cd7b;
+  background-color: #292e31;
+  border-color: #8ccff1;
 }
 .welcome-message .capability-item {
   opacity: 0.8;
-  color: #c8c7b7;
+  color: #c0c7cd;
   margin: 0.25rem 0;
 }
 
@@ -3870,7 +4516,7 @@ widget {
 .task-manager-widget {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  background-color: #1c1d15;
+  background-color: #181d20;
   padding: 0.682rem;
 }
 
@@ -3887,10 +4533,10 @@ widget {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
   padding: 0.682rem;
-  background-color: #2d2e26;
+  background-color: #292e31;
 }
 .task-manager-item:hover {
-  background-color: #393930;
+  background-color: #34393c;
 }
 
 .task-manager-button {
@@ -3910,11 +4556,11 @@ widget {
   -gtk-outline-radius: 9999px;
   padding: 0.341rem;
   background-color: transparent;
-  color: #e9e7da;
+  color: #e3e7eb;
   transition: background-color 0.2s ease;
 }
 .task-manager-refresh-button:hover {
-  background-color: #393930;
+  background-color: #34393c;
 }
 
 .task-manager-scrollable {
@@ -3923,7 +4569,7 @@ widget {
 
 .audio-files-widget {
   padding: 0.6rem;
-  background-color: #13140d;
+  background-color: #0f1417;
   border-radius: 0.9rem;
 }
 
@@ -3935,25 +4581,25 @@ widget {
 .media-header-title {
   font-weight: 500;
   font-size: 1rem;
-  color: #e9e7da;
+  color: #e3e7eb;
 }
 
 .media-mode-button {
   min-height: 2rem;
   min-width: 2rem;
   border-radius: 2rem;
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
   margin-left: 8px;
   padding: 0;
 }
 
 .media-mode-button:hover {
-  background-color: rgb(93.55, 96.1, 70.1);
+  background-color: rgb(78.35, 96.1, 105.9);
 }
 
 .media-mode-button:active {
-  background-color: rgb(87.1, 89.2, 66.2);
+  background-color: rgb(73.7, 89.2, 97.8);
 }
 
 .empty-media-message {
@@ -3962,7 +4608,7 @@ widget {
 
 .empty-media-icon {
   margin-bottom: 0.6rem;
-  color: #979788;
+  color: #90979c;
   opacity: 0.8;
   font-size: 24px;
 }
@@ -3971,13 +4617,13 @@ widget {
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: #e9e7da;
+  color: #e3e7eb;
 }
 
 .empty-media-subtitle {
   font-size: 0.85rem;
   opacity: 0.8;
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .audio-files-scrollable {
@@ -3993,19 +4639,19 @@ widget {
   padding: 0.6rem;
   margin-bottom: 0.3rem;
   border-radius: 0.6rem;
-  background-color: #1c1d15;
+  background-color: rgb(27.4, 32.4, 35.4);
 }
 
 .audio-files-button:hover {
-  background-color: rgb(31.4, 32.4, 24.4);
+  background-color: rgb(27.4, 32.4, 35.4);
 }
 
 .audio-files-button:active {
-  background-color: rgb(33.8, 34.6, 26.4);
+  background-color: rgb(27.4, 32.4, 35.4);
 }
 
 .audio-files-icon {
-  color: #c7c9a7;
+  color: #b4cad6;
   font-size: 22px;
   margin-right: 8px;
   min-width: 22px;
@@ -4013,54 +4659,58 @@ widget {
 
 .audio-files-label {
   font-size: 1rem;
-  color: #e9e7da;
+  color: #e3e7eb;
   min-width: 150px;
 }
 
 .audio-files-player-name {
   font-weight: 600;
   font-size: 1rem;
-  color: #e9e7da;
+  color: #e3e7eb;
   min-width: 120px;
 }
 
 .audio-files-player-track {
   font-size: 0.9rem;
   opacity: 0.8;
-  color: #c8c7b7;
+  color: #c0c7cd;
   margin-top: 4px;
   min-width: 150px;
 }
 
 .audio-files-button-active {
-  background-color: rgb(168.2, 175.4, 108);
-  border-left: 3px solid #c4cd7b;
+  background-color: rgb(27.4, 32.4, 35.4);
+  border-left: 3px solid #8ccff1;
 }
 
 .audio-files-button-active .audio-files-player-name {
-  color: #c7c9a7;
+  color: #b4cad6;
   font-weight: bold;
 }
 
 .audio-files-button-active .audio-files-player-track {
-  color: #c7c9a7;
+  color: #b4cad6;
   opacity: 0.9;
 }
 
 .audio-files-button-active .audio-files-icon {
-  color: #c7c9a7;
+  color: #b4cad6;
 }
 
 .audio-files-button-last-played {
-  border-left: 3px solid rgb(113.5, 115, 94);
+  background-color: rgb(27.4, 32.4, 35.4);
   padding-left: 0.4rem;
 }
 
 .media-container {
-  background-color: #1c1d15;
   border-radius: 0.8rem;
-  padding: 0.6rem 0.6rem 0.4rem;
+  padding: 0.8rem;
   margin-top: 0.4rem;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #181d20; /* Use onSecondary for background */
+  min-height: 160px; /* Reduced height */
 }
 
 .media-controls-box {
@@ -4070,14 +4720,17 @@ widget {
 .media-title-label {
   font-weight: 500;
   font-size: 0.95rem;
-  margin-bottom: 0.4rem;
-  padding: 0 0.4rem;
-  color: #e9e7da;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  color: #b4cad6; /* Use secondary color for text */
   min-width: 180px;
+  background-color: #0f1417; /* Use theme variable instead of black */
+  border-radius: 0.4rem;
 }
 
 .media-progress-container {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
+  padding: 0;
 }
 
 .media-progress-bar {
@@ -4087,12 +4740,12 @@ widget {
 }
 
 .media-progress-bar highlight {
-  background-color: #c7c9a7;
+  background-color: #b4cad6;
   border-radius: 0.4rem;
 }
 
 .media-progress-bar trough {
-  background-color: #393930;
+  background-color: #34393c;
   border-radius: 0.4rem;
   min-height: 0.4rem;
 }
@@ -4101,7 +4754,7 @@ widget {
   min-height: 0.9rem;
   min-width: 0.9rem;
   border-radius: 0.9rem;
-  background-color: #c7c9a7;
+  background-color: #b4cad6;
   border: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
@@ -4111,45 +4764,52 @@ widget {
   opacity: 0.9;
   font-family: monospace;
   margin-bottom: 0.2rem;
-  color: #c8c7b7;
+  color: #b4cad6; /* Use secondary color for text */
+  padding: 0;
+}
+
+.media-bottom-container {
+  margin-top: 0.5rem; /* Reduced space above bottom container */
+  padding: 0;
+  background-color: transparent;
 }
 
 .media-buttons-box {
-  padding: 0.1rem 0.8rem;
-  margin: 0.2rem 0;
+  padding: 0.5rem 0;
+  background-color: transparent;
 }
 
 .media-control-button {
   min-height: 2.1rem;
   min-width: 2.1rem;
-  border-radius: 0.9rem;
+  border-radius: 0.3rem; /* More square corners for M3 design */
   padding: 0;
-  margin: 0;
-  background-color: #c4cd7b;
-  color: #262a00;
+  margin: 0 0.15rem;
+  background-color: #8ccff1;
+  color: #002c3b;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .media-control-button:hover {
-  background-color: rgb(180.9, 189.1, 114.5);
+  background-color: rgb(130.1, 190.9, 221.8);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .media-control-button:active {
-  background-color: rgb(168.2, 175.4, 108);
+  background-color: rgb(122.4, 177, 204.8);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .media-control-button-toggled {
-  background-color: rgb(196.9, 203.8, 136.2);
-  color: #262a00;
+  background-color: rgb(152, 205.5, 232.9);
+  color: #002c3b;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .media-playpause-button {
   min-height: 2.1rem;
   min-width: 2.1rem;
-  border-radius: 0.9rem;
+  border-radius: 0.3rem; /* More square corners for M3 design */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
@@ -4159,15 +4819,11 @@ widget {
   margin-left: 0.135rem;
 }
 
-.media-container {
-  margin-top: 10px;
-  padding: 0;
-}
-
+/* This is a duplicate rule that was causing issues */
 .media-section-title {
   font-weight: bold;
   font-size: 1.1em;
-  color: #c8c7b7;
+  color: #c0c7cd;
   margin-bottom: 8px;
   padding-left: 5px;
 }
@@ -4180,7 +4836,7 @@ widget {
 .media-header-title {
   font-weight: 600;
   font-size: 1rem;
-  color: #e9e7da;
+  color: #e3e7eb;
   margin: 4px 0;
 }
 
@@ -4190,42 +4846,45 @@ widget {
   min-width: 30px;
   min-height: 30px;
   padding: 6px;
-  background-color: #c4cd7b;
-  color: #262a00;
+  background-color: #8ccff1;
+  color: #002c3b;
   margin-left: 8px;
 }
 .media-mode-button:hover {
-  background-color: rgb(150.7, 157.3, 97.5);
+  background-color: rgb(110.3, 158.7, 183.4);
 }
 
 .audio-files-player-name {
   font-weight: 600;
   font-size: 0.95rem;
-  color: #e9e7da;
+  color: #e3e7eb;
 }
 
 .audio-files-player-track {
   font-size: 0.85rem;
-  color: #c8c7b7;
+  color: #c0c7cd;
   margin-top: 2px;
 }
 
 .audio-files-button-active {
-  background-color: rgb(168.2, 175.4, 108);
-  border-left: 3px solid #c4cd7b;
+  background-color: rgb(27.4, 32.4, 35.4);
+  border-left: 3px solid #8ccff1;
 }
 .audio-files-button-active .audio-files-player-name {
-  color: #262a00;
+  color: #b4cad6;
   font-weight: bold;
 }
-
-.media-buttons-box {
-  padding: 0.1rem 0.5rem;
-  margin: 0.2rem 0;
+.audio-files-button-active .audio-files-player-track {
+  color: #b4cad6;
+  opacity: 0.9;
+}
+.audio-files-button-active .audio-files-icon {
+  color: #b4cad6;
 }
 
+/* This is a duplicate rule that was causing issues */
 .session-bg {
-  background-color: rgba(19, 20, 13, 0.6);
+  background-color: rgba(15, 20, 23, 0.6);
 }
 
 .session-button {
@@ -4233,18 +4892,18 @@ widget {
   -gtk-outline-radius: 1.705rem;
   min-width: 8.182rem;
   min-height: 8.182rem;
-  background-color: #1c1d15;
-  color: #c8c7b7;
+  background-color: #181d20;
+  color: #c0c7cd;
   font-size: 3rem;
 }
 
 .session-button-focused {
-  background-color: rgb(53.8, 54.5, 45.3);
+  background-color: rgb(49.2, 54.5, 57.95);
 }
 
 .session-button-desc {
-  background-color: rgb(39.5, 39.95, 31.95);
-  color: #e9e7da;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #e3e7eb;
   border-bottom-left-radius: 1.705rem;
   border-bottom-right-radius: 1.705rem;
   padding: 0.205rem 0.341rem;
@@ -4256,44 +4915,44 @@ widget {
   -gtk-outline-radius: 1.705rem;
   min-width: 8.182rem;
   min-height: 5.455rem;
-  background-color: #1c1d15;
-  color: #c8c7b7;
+  background-color: #181d20;
+  color: #c0c7cd;
   font-size: 3rem;
 }
 
 .session-color-1 {
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .session-color-2 {
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .session-color-3 {
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .session-color-4 {
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .session-color-5 {
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .session-color-6 {
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .session-color-7 {
-  color: #c8c7b7;
+  color: #c0c7cd;
 }
 
 .notif-low {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  background-color: rgb(39.5, 39.95, 31.95);
-  color: #e9e7da;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #e3e7eb;
   padding: 0.818rem;
   padding-right: 1.363rem;
 }
@@ -4301,8 +4960,8 @@ widget {
 .notif-normal {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  background-color: rgb(39.5, 39.95, 31.95);
-  color: #e9e7da;
+  background-color: rgb(35.5, 40.5, 42.95);
+  color: #e3e7eb;
   padding: 0.818rem;
   padding-right: 1.363rem;
 }
@@ -4310,22 +4969,22 @@ widget {
 .notif-critical {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
   padding: 0.818rem;
   padding-right: 1.363rem;
 }
 
 .notif-clicked-low {
-  background-color: rgb(53.8, 54.5, 45.3);
+  background-color: rgb(49.2, 54.5, 57.95);
 }
 
 .notif-clicked-normal {
-  background-color: rgb(53.8, 54.5, 45.3);
+  background-color: rgb(49.2, 54.5, 57.95);
 }
 
 .notif-clicked-critical {
-  background-color: #272a12;
+  background-color: #162a34;
   color: #ffffff;
 }
 
@@ -4333,9 +4992,9 @@ widget {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
   min-width: 30.682rem;
-  background-color: rgb(39.5, 39.95, 31.95);
-  border: 0.034rem solid #656558;
-  color: #e9e7da;
+  background-color: rgb(35.5, 40.5, 42.95);
+  border: 0.034rem solid #5e656a;
+  color: #e3e7eb;
   padding: 0.818rem;
   padding-right: 1.363rem;
 }
@@ -4344,9 +5003,9 @@ widget {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
   min-width: 30.682rem;
-  background-color: rgb(39.5, 39.95, 31.95);
-  border: 0.034rem solid #656558;
-  color: #e9e7da;
+  background-color: rgb(35.5, 40.5, 42.95);
+  border: 0.034rem solid #5e656a;
+  color: #e3e7eb;
   padding: 0.818rem;
   padding-right: 1.363rem;
 }
@@ -4355,7 +5014,7 @@ widget {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
   min-width: 30.682rem;
-  background-color: #64674a;
+  background-color: #536772;
   border: 0.034rem solid #ffffff;
   color: #ffffff;
   padding: 0.818rem;
@@ -4363,28 +5022,28 @@ widget {
 }
 
 .popup-notif-clicked-low {
-  background-color: #1c1d15;
+  background-color: #181d20;
 }
 
 .popup-notif-clicked-normal {
-  background-color: #1c1d15;
+  background-color: #181d20;
 }
 
 .popup-notif-clicked-critical {
-  background-color: #272a12;
+  background-color: #162a34;
   color: #ffffff;
 }
 
 .notif-body-low {
-  color: #979788;
+  color: #90979c;
 }
 
 .notif-body-normal {
-  color: #979788;
+  color: #90979c;
 }
 
 .notif-body-critical {
-  color: rgb(203.85, 204.84, 195.27);
+  color: rgb(198.24, 204.84, 208.47);
 }
 
 .notif-icon {
@@ -4396,23 +5055,23 @@ widget {
 }
 
 .notif-icon-material {
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
 .notif-icon-material-low {
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
 .notif-icon-material-normal {
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
 .notif-icon-material-critical {
-  background-color: #c7c9a7;
-  color: #272a12;
+  background-color: #b4cad6;
+  color: #162a34;
 }
 
 .notif-expand-btn {
@@ -4424,11 +5083,11 @@ widget {
 
 .notif-expand-btn:hover,
 .notif-expand-btn:focus {
-  background: rgb(58.85, 59.055, 50.555);
+  background: rgb(54.65, 59.55, 62.155);
 }
 
 .notif-expand-btn:active {
-  background: rgb(78.2, 78.16, 69.16);
+  background: rgb(73.8, 78.6, 81.36);
 }
 
 .notif-listaction-btn {
@@ -4439,31 +5098,31 @@ widget {
 
 .notif-listaction-btn:hover,
 .notif-listaction-btn:focus {
-  background-color: rgb(58.85, 59.055, 50.555);
+  background-color: rgb(54.65, 59.55, 62.155);
 }
 
 .notif-listaction-btn:active {
-  background-color: rgb(78.2, 78.16, 69.16);
+  background-color: rgb(73.8, 78.6, 81.36);
 }
 
 .notif-listaction-btn-enabled {
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
 }
 
 .notif-listaction-btn-enabled:hover,
 .notif-listaction-btn-enabled:focus {
-  background-color: rgb(115.5, 118.2, 92.1);
+  background-color: rgb(100.2, 118.2, 128.1);
 }
 
 .notif-listaction-btn-enabled:active {
-  background-color: rgb(138.75, 141, 119.25);
+  background-color: rgb(126, 141, 149.25);
 }
 
 .osd-notif {
   border-radius: 1.159rem;
   -gtk-outline-radius: 1.159rem;
-  background-color: #13140d;
+  background-color: #0f1417;
   min-width: 30.682rem;
 }
 
@@ -4488,7 +5147,7 @@ widget {
   min-width: 0.136rem;
   min-height: 3.136rem;
   padding: 0rem;
-  color: #64674a;
+  color: #536772;
 }
 
 .notif-actions {
@@ -4501,55 +5160,55 @@ widget {
 }
 
 .notif-action-low {
-  background-color: #393930;
-  color: #e9e7da;
+  background-color: #34393c;
+  color: #e3e7eb;
 }
 
 .notif-action-low:focus,
 .notif-action-low:hover {
-  border: 0.04rem solid #656558;
+  border: 0.04rem solid #5e656a;
 }
 
 .notif-action-low:active {
-  background-color: #3e3e35;
+  background-color: #393e41;
 }
 
 .notif-action-normal {
-  background-color: #393930;
-  color: #e9e7da;
+  background-color: #34393c;
+  color: #e3e7eb;
 }
 
 .notif-action-normal:focus,
 .notif-action-normal:hover {
-  border: 0.04rem solid #656558;
+  border: 0.04rem solid #5e656a;
 }
 
 .notif-action-normal:active {
-  background-color: #3e3e35;
+  background-color: #393e41;
 }
 
 .notif-action-critical {
-  background-color: rgb(87, 89.7, 62.7);
-  color: #c8c7b7;
+  background-color: rgb(69.4, 90, 100.6);
+  color: #c0c7cd;
 }
 
 .notif-action-critical:focus,
 .notif-action-critical:hover {
-  border: 0.04rem solid #979788;
+  border: 0.04rem solid #90979c;
 }
 
 .notif-action-critical:active {
-  background-color: rgb(103, 105.6, 77.6);
+  background-color: rgb(85.2, 106, 116.8);
 }
 
 .wallselect-bg {
-  background-color: #13140d;
-  border-bottom: 0.5px solid rgba(199, 201, 167, 0);
+  background-color: #0f1417;
+  border-bottom: 0.5px solid rgba(180, 202, 214, 0);
   padding: 1rem 0rem 1.2rem;
 }
 
 .colorpicker {
-  background-color: #13140d;
+  background-color: #0f1417;
   padding: 0.2rem 1.5rem;
 }
 
@@ -4573,7 +5232,7 @@ widget {
 }
 
 .wallselect-content {
-  background-color: #1c1d15;
+  background-color: #181d20;
   padding: 0.5rem 0.5rem;
   margin: 0 0.952rem;
   border-radius: 1.159rem;
@@ -4582,61 +5241,103 @@ widget {
 .corner-wallselect {
   border-radius: 1.705rem;
   -gtk-outline-radius: 1.705rem;
-  background-color: #13140d;
+  background-color: #0f1417;
 }
 
 .wallpaper-placeholder {
   padding: 2rem;
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
-  color: #c8c7b7;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+  color: #c0c7cd;
 }
 
 .generate-thumbnails {
   padding: 0.5rem 1rem;
   border-radius: 9999px;
-  background-color: #64674a;
+  background-color: #536772;
   color: #ffffff;
   margin-right: 0.5rem;
 }
 .generate-thumbnails:hover {
-  background-color: rgb(115.5, 118.2, 92.1);
+  background-color: rgb(100.2, 118.2, 128.1);
 }
 .generate-thumbnails:active {
-  background-color: rgb(131, 133.4, 110.2);
+  background-color: rgb(117.4, 133.4, 142.2);
+}
+
+.material-pagination-container {
+  margin: 8px 0;
+  padding: 4px 8px;
+  border-radius: 1.159rem;
+  background-color: rgba(24, 29, 32, 0.8);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.wallpaper-pagination-btn {
+  padding: 4px;
+  border-radius: 50%;
+  background-color: rgba(8, 12, 15, 0.7);
+  color: #e3e7eb;
+  margin: 0 2px;
+  min-width: 32px;
+  min-height: 32px;
+  transition: background-color 200ms ease, box-shadow 200ms ease;
+}
+.wallpaper-pagination-btn label {
+  font-size: 18px;
+}
+.wallpaper-pagination-btn:hover {
+  background-color: rgb(55.85, 70.15, 77.8);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.wallpaper-pagination-btn:active {
+  background-color: rgb(41.9, 117.9, 147.4);
+  color: #ffffff;
+}
+
+.wallpaper-pagination-counter {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #c0c7cd;
+  margin: 0 8px;
+  min-width: 45px;
+  /* Use xalign instead of text-align for GTK */
+  /* text-align is not supported in GTK CSS */
 }
 
 .osd-music {
   transition: 400ms cubic-bezier(0.1, 1, 0, 1);
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.08), 0 10px 20px rgba(0, 0, 0, 0.2);
-  background-color: #13140d;
-  border: 0.2px solid rgba(199, 201, 167, 0);
-  border-radius: 0 0 0 0;
-  padding: 0.46rem 1.423rem;
+  background-color: #0f1417;
+  border: 0.2px solid rgba(180, 202, 214, 0);
+  padding: 1.423rem 1.423rem;
   min-width: 600px;
 }
 
+.osd-music-round {
+  border-radius: 1.705rem 1.705rem 0 0;
+}
+
 .normal-music {
-  background-color: #13140d;
+  background-color: #0f1417;
 }
 
 .amberoled {
-  background: linear-gradient(#13140d, #13140d);
+  background: linear-gradient(#0f1417, #0f1417);
 }
 
 .corner-amberoled {
-  background-color: #13140d;
+  background-color: #0f1417;
 }
 
 .osd-music-cover {
   transition: 400ms cubic-bezier(0.1, 1, 0, 1);
-  margin: 0.8rem;
+  margin: 1rem;
+  margin-top: 1rem;
   min-width: 150px;
   min-height: 150px;
 }
 .osd-music-cover .osd-music-cover-art {
   border-radius: 16px;
   margin: 0.4rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .elevate-music {
@@ -4649,26 +5350,26 @@ widget {
 
 .osd-music-title {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 2.5rem;
   color: #ffffff;
 }
 
 .osd-music-artists {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.5rem;
-  color: rgba(239.6923076923, 239.8, 238.7384615385, 0.9);
+  color: rgba(239.0923076923, 239.8, 240.1846153846, 0.9);
 }
 
 .osd-music-pill {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   min-width: 2.833rem;
   padding: 0.273rem 0.682rem;
-  background-color: rgba(56, 57.4, 43.6, 0.5);
+  background-color: rgba(48.2, 57.4, 62.4, 0.5);
   color: #ffffff;
 }
 
@@ -4676,35 +5377,69 @@ widget {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   min-width: 2.833rem;
-  padding: 0.205rem;
-  background-color: rgba(56, 57.4, 43.6, 0.5);
+  padding: 0.3rem;
+  background-color: rgba(48.2, 57.4, 62.4, 0.5);
   color: #ffffff;
-  border: 0.6px solid rgba(199, 201, 167, 0);
+  border: 1px solid rgba(180, 202, 214, 0);
 }
 
 .osd-music-controlbtn {
   transition: 400ms cubic-bezier(0.1, 1, 0, 1);
-  min-width: 2.1rem;
-  min-height: 2.1rem;
-  border-radius: 0.8rem;
+  min-width: 2.3rem;
+  min-height: 2.3rem;
+  border-radius: 1rem;
+  margin: 0 0.1rem;
+  transition: all 200ms cubic-bezier(0.05, 0.7, 0.1, 1);
+  background-color: rgba(48.2, 57.4, 62.4, 0);
 }
 
 .osd-music-controlbtn:hover,
 .osd-music-controlbtn:focus {
-  background-color: rgba(105.75, 106.8, 96.45, 0.55);
-  border: 0.1px solid rgba(199, 201, 167, 0);
+  background-color: rgba(79.9769230769, 109.1846153846, 124.2230769231, 0.575);
+  margin-top: -1px;
+  margin-bottom: 1px;
 }
 
 .osd-music-controlbtn:active {
-  background-color: rgba(124.8846153846, 125.8, 116.7769230769, 0.575);
+  background-color: rgba(94.1, 132.2, 151.7, 0.625);
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.osd-music-controlbtn.active {
+  background-color: rgba(99.8375, 141.55, 162.8625, 0.65);
+  color: #002c3b;
+}
+
+.osd-music-player-btn {
+  min-width: 6rem;
+  padding: 0 0.2rem;
+  margin: 0 0.3rem;
+  border-radius: 1rem;
+  background-color: rgba(76.4, 84.3454545455, 88.6636363636, 0.525);
+  border: 1px solid rgba(180, 202, 214, 0);
+}
+
+.osd-music-player-btn:hover {
+  background-color: rgba(71.15, 94.8, 107.05, 0.55);
+}
+
+.osd-music-player-indicator {
+  transition: opacity 200ms cubic-bezier(0.05, 0.7, 0.1, 1);
+}
+
+.osd-music-player-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
 }
 
 .osd-music-controlbtn-txt {
   transition: 300ms cubic-bezier(0, 0.55, 0.45, 1);
   transition: 100ms cubic-bezier(0.05, 0.7, 0.1, 1);
-  font-family: "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Symbols Sharp";
+  font-family: "Material Icons", "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Icons Outlined", "Material Symbols Sharp";
   font-size: 1.4rem;
   margin: 0;
 }
@@ -4722,13 +5457,13 @@ widget {
   min-height: 3.5rem;
   min-width: 3.5rem;
   border-radius: 100px;
-  background-color: rgba(56, 57.4, 43.6, 0.5);
+  background-color: rgba(48.2, 57.4, 62.4, 0.5);
   color: #ffffff;
 }
 
 .osd-music-playstate-btn > label {
   transition: 50ms cubic-bezier(0.05, 0.7, 0.1, 1);
-  font-family: "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Symbols Sharp";
+  font-family: "Material Icons", "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined", "Material Icons Outlined", "Material Symbols Sharp";
   font-size: 2.364rem;
   margin: -0.1rem 0rem;
 }
@@ -4741,23 +5476,23 @@ widget {
 .cava-container .cava-visualizer {
   font-family: techfont;
   font-size: 24px;
-  color: #c4cd7b;
+  color: #8ccff1;
   border-radius: 12px;
-  background-color: rgba(56, 57.4, 43.6, 0.5);
+  background-color: rgba(48.2, 57.4, 62.4, 0.5);
 }
 .cava-container .cava-visualizer .cava-bar {
-  background-color: rgb(145, 146.7, 120.8);
+  background-color: rgb(130.5, 147.4, 156.7);
   border-radius: 4px;
   transition: all 80ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .cava-container .cava-visualizer .cava-bar.cava-bar-low {
-  background-color: rgb(145, 146.7, 120.8);
+  background-color: rgb(130.5, 147.4, 156.7);
 }
 .cava-container .cava-visualizer .cava-bar.cava-bar-med {
-  background-color: rgb(160.6, 168, 101);
+  background-color: rgb(115, 169.6, 197.4);
 }
 .cava-container .cava-visualizer .cava-bar.cava-bar-high {
-  background-color: rgb(187.15, 195.75, 117.5);
+  background-color: rgb(133.75, 197.65, 230.1);
 }
 .cava-container .cava-visualizer .cava-bar-up {
   border-radius: 4px 4px 0 0;
@@ -4771,7 +5506,7 @@ widget {
   padding: 0.5rem;
   margin-bottom: 1rem;
   border-radius: 1.159rem;
-  background-color: rgba(56, 57.4, 43.6, 0.2);
+  background-color: rgba(48.2, 57.4, 62.4, 0.2);
 }
 
 .music-mode-button {
@@ -4780,18 +5515,18 @@ widget {
   -gtk-outline-radius: 9999px;
   min-width: 1.6rem;
   min-height: 1.6rem;
-  background-color: rgba(56, 57.4, 43.6, 0.5);
+  background-color: rgba(48.2, 57.4, 62.4, 0.5);
   color: #ffffff;
 }
 .music-mode-button:hover {
-  background-color: rgba(105.75, 106.8, 96.45, 0.55);
+  background-color: rgba(99.9, 106.8, 110.55, 0.55);
 }
 .music-mode-button:active {
-  background-color: rgba(124.8846153846, 125.8, 116.7769230769, 0.575);
+  background-color: rgba(119.7846153846, 125.8, 129.0692307692, 0.575);
 }
 
 .music-mode-indicator {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   color: #ffffff;
   font-size: 1.2rem;
   margin: 0.4rem 0.1rem;
@@ -4802,28 +5537,28 @@ widget {
   border-radius: 1.159rem;
   padding: 0.6rem 0.8rem;
   margin: 0.2rem 0;
-  background-color: rgba(56, 57.4, 43.6, 0.5);
+  background-color: rgba(48.2, 57.4, 62.4, 0.5);
 }
 .mpris-player-button:hover {
-  background-color: rgba(105.75, 106.8, 96.45, 0.55);
+  background-color: rgba(99.9, 106.8, 110.55, 0.55);
 }
 .mpris-player-button:active {
-  background-color: rgba(124.8846153846, 125.8, 116.7769230769, 0.575);
+  background-color: rgba(119.7846153846, 125.8, 129.0692307692, 0.575);
 }
 .mpris-player-button.mpris-player-button-active {
-  background-color: rgba(134.75, 140.425, 88.2625, 0.65);
-  border-left: 3px solid #c4cd7b;
+  background-color: rgba(99.8375, 141.55, 162.8625, 0.65);
+  border-left: 3px solid #8ccff1;
 }
 
 .player-name-label {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   color: #ffffff;
   font-size: 1.1rem;
 }
 
 .player-track-label {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
-  color: rgba(239.6923076923, 239.8, 238.7384615385, 0.9);
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+  color: rgba(239.0923076923, 239.8, 240.1846153846, 0.9);
   font-size: 0.9rem;
 }
 
@@ -4831,18 +5566,18 @@ widget {
   padding: 2rem;
 }
 .empty-music-message .empty-music-icon {
-  color: rgba(218.8181818182, 219.0727272727, 216.5636363636, 0.8);
+  color: rgba(217.4, 219.0727272727, 219.9818181818, 0.8);
   margin-bottom: 1rem;
 }
 .empty-music-message .empty-music-title {
-  font-family: "SF Pro Display", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   color: #ffffff;
   font-size: 1.4rem;
   margin-bottom: 0.5rem;
 }
 .empty-music-message .empty-music-subtitle {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
-  color: rgba(239.6923076923, 239.8, 238.7384615385, 0.9);
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
+  color: rgba(239.0923076923, 239.8, 240.1846153846, 0.9);
   font-size: 1rem;
 }
 
@@ -4856,16 +5591,16 @@ widget {
   margin: 0 5px;
 }
 .osd-music-volume-slider trough {
-  background-color: rgba(124.8846153846, 125.8, 116.7769230769, 0.575);
+  background-color: rgba(119.7846153846, 125.8, 129.0692307692, 0.575);
   border-radius: 100px;
   min-height: 6px;
 }
 .osd-music-volume-slider highlight {
-  background-color: #c4cd7b;
+  background-color: #8ccff1;
   border-radius: 100px;
 }
 .osd-music-volume-slider slider {
-  background-color: #c4cd7b;
+  background-color: #8ccff1;
   border-radius: 50%;
   min-width: 16px;
   min-height: 16px;
@@ -4873,8 +5608,8 @@ widget {
 }
 
 .osd-music-player-menu {
-  background-color: #13140d;
-  border: 1px solid rgba(199, 201, 167, 0);
+  background-color: #0f1417;
+  border: 1px solid rgba(180, 202, 214, 0);
   border-radius: 1.159rem;
   padding: 4px;
 }
@@ -4883,19 +5618,19 @@ widget {
   border-radius: 0.818rem;
 }
 .osd-music-player-menu menuitem:hover {
-  background-color: rgba(56, 57.4, 43.6, 0.5);
+  background-color: rgba(48.2, 57.4, 62.4, 0.5);
 }
 
 .auva-clock {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.8rem;
-  color: #262a00;
+  color: #002c3b;
 }
 
 .auva-date {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.4rem;
-  color: #262a00;
+  color: #002c3b;
 }
 
 .auva-day {
@@ -4905,12 +5640,12 @@ widget {
 
 .auva-day-color {
   font-family: "steelfish";
-  color: #c4cd7b;
+  color: #8ccff1;
   font-size: 4rem;
 }
 
 .auva-weather {
-  font-family: "SF Pro Text", "Helvetica Neue", "Arial", sans-serif;
+  font-family: "Geist", "GeistMono", "Cascadia Code", "Segoe UI", "Roboto", sans-serif;
   font-size: 1.3rem;
   font-weight: 300;
 }
@@ -4925,14 +5660,27 @@ widget {
   min-width: 0.705rem;
   min-height: 4.7rem;
   padding: 0rem;
-  background: linear-gradient(to right, #c4cd7b 0%, #13140d 100%);
+  background: linear-gradient(to right, #8ccff1 0%, #0f1417 100%);
+}
+
+.auva-resource-container {
+  min-height: 4.7rem;
+  min-width: 4.7rem;
+}
+
+.auva-circprog-main + .icon-material {
+  margin: 0;
+  padding: 0;
+  font-size: 1.8182rem;
+  margin-top: 0px;
+  margin-left: 0px;
 }
 
 .auva-clock-box {
   border-radius: 9999px;
   -gtk-outline-radius: 9999px;
   padding: 0.2rem 1.5rem;
-  background-color: #c4cd7b;
+  background-color: #8ccff1;
 }
 
 .growingRadial {

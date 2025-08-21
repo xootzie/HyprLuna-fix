@@ -1,0 +1,33 @@
+/**
+ * @name LunaZen (HyprLuna theme) - Zen Browser Background Only
+ * @description Applies only the main background color from the Material You 3 scheme to Zen Browser.
+ * @author AI (Based on your variables)
+ * @version 1.0.0
+ *
+ * IMPORTANT NOTE: This code only sets the main background color.
+ * YOU MUST REPLACE THE GENERIC CSS SELECTOR (e.g., body, html, #browser)
+ * WITH THE ACTUAL SELECTOR USED BY ZEN BROWSER FOR ITS MAIN WINDOW BACKGROUND.
+ */
+
+/* === Material You Color Options === */
+/* تعريف المتغيرات اللونية لضمان عمل var(--bg-4) */
+:root {
+    /* الألوان الأساسية المتعلقة بالخلفية */
+    --bg-4: {{colors.surface.default.hex}}; /* main background color */
+    /* يمكنك ترك بقية المتغيرات هنا إذا أردت الرجوع إليها، أو إزالتها لتبسيط أكبر */
+    
+    --text-3: {{colors.on_surface_variant.default.hex}};
+   
+}
+
+
+/* === Main Browser Background (Color Only) === */
+/* قاعدة لتغيير لون الخلفية الرئيسية للمتصفح */
+/* !!! استبدل المحددات body, html, #browser بالمحدد الفعلي لخلفية نافذة Zen Browser !!! */
+body, html, #browser {
+    background-color: var(--bg-4) !important; /* تطبيق لون الخلفية الأساسي من Material You */
+    /* يمكنك إضافة لون النص الأساسي إذا أردت تغييره مع الخلفية */
+    color: var(--text-3) !important; 
+}
+
+/* --- نهاية الكود --- */

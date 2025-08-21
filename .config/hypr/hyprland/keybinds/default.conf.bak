@@ -33,9 +33,9 @@ bind = Ctrl+Super+Shift,S,exec,grim -g "$(slurp $SLURP_ARGS)" "tmp.png" && tesse
 
 
 # Recording stuff
-bind = Super+Alt, R, exec, ~/.config/ags/scripts/record-script.sh # Record region (no sound)
-bind = Ctrl+Alt, R, exec, ~/.config/ags/scripts/record-script.sh --fullscreen # [hidden] Record screen (no sound)
-bind = Super+Shift+Alt, R, exec, ~/.config/ags/scripts/record-script.sh --fullscreen-sound # Record screen (with sound)
+bind = Super+Alt, R, exec, lunactl record toggle # Record region
+bind = Ctrl+Alt, R, exec, lunactl record toggle --fullscreen # [hidden] Record screen
+bind = Super+Shift+Alt, R, exec, lunactl record toggle --fullscreen # Record screen (with sound)
 ##! Session
 bind = Ctrl+Super, L, exec, agsv1 run-js 'lock.lock()' # [hidden]
 bind = Super, L, exec, loginctl lock-session # Lock

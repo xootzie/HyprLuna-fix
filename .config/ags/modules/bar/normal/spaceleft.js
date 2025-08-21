@@ -31,7 +31,7 @@ const WindowTitle = async () => {
                         keyFile.load_from_file(file.get_path(), GLib.KeyFileFlags.NONE);
                         const icon = keyFile.get_string('Desktop Entry', 'Icon');
                         if (icon) return icon;
-                    } catch (e) { }
+                    } catch (e) { /* empty */ }
                 }
             }
             
@@ -50,13 +50,24 @@ const WindowTitle = async () => {
                 const classname = Hyprland.active.client.class;
                 const icon = findAppIcon(classname);
 
-                if (!icon) {
+                // Only show app icon if there's an active client class and an icon is found
+                if (classname && icon) {
+                    self.icon = icon;
+                    self.visible = true;
+                } else {
                     self.visible = false;
-                    return;
                 }
+            }),
+        });
 
-                self.icon = icon;
-                self.visible = true;
+        const DEFAULT_ICON = `${GLib.get_home_dir()}/.config/ags/assets/icons/hyprland.svg`;
+
+        const defaultWorkspaceIcon = Widget.Icon({
+            className: 'default-workspace-icon',
+            icon: DEFAULT_ICON,
+            size: 20,
+            setup: (self) => self.hook(Hyprland.active.client, () => {
+                self.visible = !Hyprland.active.client.class;
             }),
         });
 
@@ -64,6 +75,7 @@ const WindowTitle = async () => {
             ...commonLabelProps,
             className: 'txt-smaller bar-wintitle-topdesc',
             setup: (self) => self.hook(Hyprland.active.client, () => {
+                // Display DEFAULT_WORKSPACE_LABEL when no active client, otherwise client class
                 self.label = Hyprland.active.client.class || DEFAULT_WORKSPACE_LABEL;
             }),
         });
@@ -83,7 +95,14 @@ const WindowTitle = async () => {
         return Widget.Box({
             spacing: 3,
             children: [
-                appIcon,
+                // Box to hold either appIcon or defaultWorkspaceIcon in the same spot
+                Widget.Box({
+                    homogeneous: true, // Ensures both children occupy the same space
+                    children: [
+                        appIcon,
+                        defaultWorkspaceIcon,
+                    ]
+                }),
                 Widget.Box({ className: 'bar-wintitle-icon-spacer' }),
                 Widget.Box({
                     vertical: true,
@@ -94,7 +113,9 @@ const WindowTitle = async () => {
                 })
             ]
         });
-    } catch {
+    } catch (e) {
+        // Log the error for debugging purposes
+        console.error("Error in WindowTitle component:", e);
         return null;
     }
 }
@@ -102,6 +123,45 @@ const WindowTitle = async () => {
 export default async (monitor = 0) => {
     const optionalWindowTitleInstance = await WindowTitle();
     
+    // If WindowTitle returns null due to an error, we should handle it gracefully
+    if (!optionalWindowTitleInstance) {
+        console.warn("WindowTitle component could not be loaded. Returning a fallback widget.");
+        return Widget.EventBox({
+            onScrollUp: () => Indicator.popup(1), // Still allow brightness control
+            onScrollDown: () => Indicator.popup(-1),
+            onPrimaryClick: () => App.toggleWindow('sideleft'),
+            child: Widget.Box({
+                homogeneous: false,
+                children: [
+                    Widget.Box({ className: 'bar-corner-spacing' }),
+                    Widget.Overlay({
+                        overlays: [
+                            Widget.Box({ hexpand: true }),
+                            Widget.Box({
+                                className: 'bar-sidemodule',
+                                hexpand: true,
+                                children: [Widget.Box({
+                                    vertical: true,
+                                    className: 'bar-space-button',
+                                    children: [
+                                        Widget.Label({
+                                            className: 'txt-smaller bar-wintitle-topdesc',
+                                            label: 'Error Loading Title'
+                                        }),
+                                        Widget.Label({
+                                            className: 'txt-smallie bar-wintitle-txt',
+                                            label: 'Check Console'
+                                        })
+                                    ]
+                                })]
+                            }),
+                        ]
+                    })
+                ]
+            })
+        });
+    }
+
     const handleScroll = (direction) => {
         Indicator.popup(1);
         Brightness[monitor].screen_value += direction * BRIGHTNESS_STEP;
@@ -114,7 +174,7 @@ export default async (monitor = 0) => {
         child: Widget.Box({
             homogeneous: false,
             children: [
-                Widget.Box({ className: 'bar-corner-spacing' }),
+                // Widget.Box({ className: 'bar-corner-spacing' }),
                 Widget.Overlay({
                     overlays: [
                         Widget.Box({ hexpand: true }),

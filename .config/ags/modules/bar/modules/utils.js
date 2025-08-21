@@ -105,7 +105,7 @@ const Shortcuts = () => {
   const screenSnipButton = createUtilButton({
     name: "Screen snip",
     icon: "screenshot_region",
-    onClicked: () => Utils.execAsync(`${App.configDir}/scripts/grimblast.sh copy area`).catch(print),
+    onClicked: () => Utils.execAsync(`lunactl screenshot copy area`).catch(print),
   });
 
   const colorPickerButton = createUtilButton({

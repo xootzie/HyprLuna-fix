@@ -38,14 +38,20 @@ const getFontWeightName = (weight) => {
 
 // Number style conversion functions
 const numberStyles = {
-    'arabic': (n) => n.toString().replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d]),
-    'thai': (n) => n.toString().replace(/[0-9]/g, d => '๐๑๒๓๔๕๖๗๘๙'[d]),
-    'japanese': (n) => n.toString().replace(/[0-9]/g, d => '〇一二三四五六七八九'[d]),
-    'chinese': (n) => n.toString().replace(/[0-9]/g, d => '零一二三四五六七八九'[d]),
-    'korean': (n) => n.toString().replace(/[0-9]/g, d => '영일이삼사오육칠팔구'[d]),
-    'devanagari': (n) => n.toString().replace(/[0-9]/g, d => '०१२३४५६७८९'[d]),
-    'bengali': (n) => n.toString().replace(/[0-9]/g, d => '০১২৩৪৫৬৭৮৯'[d])
+  'english': (n) => n.toString(),
+  'arabic': (n) => n.toString().replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d]),
+  'persian': (n) => n.toString().replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]),
+  'devanagari': (n) => n.toString().replace(/[0-9]/g, d => '०१२३४५६७८९'[d]),
+  'bengali': (n) => n.toString().replace(/[0-9]/g, d => '০১২৩৪৫৬৭৮৯'[d]),
+  'thai': (n) => n.toString().replace(/[0-9]/g, d => '๐๑๒๓๔๕๖๗๘๙'[d]),
+  'japanese': (n) => n.toString().replace(/[0-9]/g, d => '〇一二三四五六七八九'[d]),
+  'korean': (n) => n.toString().replace(/[0-9]/g, d => '영일이삼사오육칠팔구'[d]),
+  'tamil': (n) => n.toString().replace(/[0-9]/g, d => '௦௧௨௩௪௫௬௭௮௯'[d]),
+  'telugu': (n) => n.toString().replace(/[0-9]/g, d => '౦౧౨౩౪౫౬౭౮౯'[d]),
+  'myanmar': (n) => n.toString().replace(/[0-9]/g, d => '၀၁၂၃၄၅၆၇၈၉'[d]),
+  'khmer': (n) => n.toString().replace(/[0-9]/g, d => '០១២៣៤៥៦៧៨៩'[d])
 };
+
 
 const convertNumber = (number, style = 'arabic') => {
     const converter = numberStyles[style] || numberStyles.arabic;
@@ -230,7 +236,7 @@ export default () => EventBox({
             const [_, cursorX, cursorY] = event.get_coords();
             const widgetHeight = self.get_allocation().height;
             const wsId = Math.ceil(cursorY * userOptions.asyncGet().workspaces.shown / widgetHeight);
-            Utils.execAsync([`${App.configDir}/scripts/hyprland/workspace_action.sh`, 'workspace', `${wsId}`])
+            Utils.execAsync(['lunactl', 'hyprland', 'workspace', `${wsId}`])
                 .catch(print);
         })
         self.on('button-press-event', (self, event) => {
@@ -239,7 +245,7 @@ export default () => EventBox({
                 const [_, cursorX, cursorY] = event.get_coords();
                 const widgetHeight = self.get_allocation().height;
                 const wsId = Math.ceil(cursorY * userOptions.asyncGet().workspaces.shown / widgetHeight);
-                Utils.execAsync([`${App.configDir}/scripts/hyprland/workspace_action.sh`, 'workspace', `${wsId}`])
+                Utils.execAsync(['lunactl', 'hyprland', 'workspace', `${wsId}`])
                     .catch(print);
             }
             else if (event.get_button()[1] === 8) {

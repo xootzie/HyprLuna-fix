@@ -1,0 +1,37 @@
+[package]
+name = "lunactl"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "lunactl"
+path = "src/main.rs"
+
+[[bin]]
+name = "luna-settings"
+path = "src/bin/settings.rs"
+required-features = ["settings-ui"]
+
+[dependencies]
+anyhow = "1.0.97"
+clap = { version = "4.5.40", features = ["derive"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0.140"
+wayland-client = "0.31"
+wayland-protocols = { version = "0.31", features = ["unstable", "client"] }
+chrono = "0.4"
+xdg-user = "0.1.1"
+notify-rust = "4.11.7"
+regex = "1.10.5"
+ctrlc = "3.4.4"
+rand = "0.9.1"
+
+# Dependencies for the settings UI
+gtk4 = { version = "0.8.2", optional = true }
+adw = { package = "libadwaita", version = "0.6.0", optional = true, features = ["v1_4"] }
+json_comments = { version = "0.2.1", optional = true }
+shellexpand = "3.1.0"
+
+[features]
+default = []
+settings-ui = ["dep:gtk4", "dep:adw", "dep:json_comments"]

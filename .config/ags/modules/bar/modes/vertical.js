@@ -17,7 +17,7 @@ import { MaterialIcon } from '../../.commonwidgets/materialicon.js';
 import { setupCursorHover } from '../../.widgetutils/cursorhover.js';
 
 export const VerticalBar = Widget.CenterBox({
-  className: "bar-floating-outline",
+  className: "bar-floating bar-bg",
   css:`min-width:3rem`,
   vertical:true,
   startWidget: Widget.Box({

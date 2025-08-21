@@ -4,31 +4,31 @@
  ******************/
 
 /* الألوان الأساسية */
-@define-color accent_color #b7d07b;
-@define-color accent_bg_color #576c22;
+@define-color accent_color #8ccff1;
+@define-color accent_bg_color #1f6c89;
 @define-color accent_fg_color #ffffff;
 
 /* ألوان نافذة التطبيق */
-@define-color window_bg_color #10131a;
-@define-color window_fg_color #e4e7f0;
+@define-color window_bg_color #0f1417;
+@define-color window_fg_color #e3e7eb;
 
 /* ألوان شريط العنوان */
-@define-color headerbar_bg_color #1f232a;
-@define-color headerbar_fg_color #e4e7f0;
-@define-color headerbar_border_color #9096a4;
-@define-color headerbar_shade_color #2a2d35;
+@define-color headerbar_bg_color #1f2426;
+@define-color headerbar_fg_color #e3e7eb;
+@define-color headerbar_border_color #90979c;
+@define-color headerbar_shade_color #292e31;
 
 /* ألوان العناصر المنبثقة */
-@define-color popover_bg_color #1f232a;
-@define-color popover_fg_color #e4e7f0;
+@define-color popover_bg_color #1f2426;
+@define-color popover_fg_color #e3e7eb;
 
 /* ألوان العرض */
-@define-color view_bg_color #10131a;
-@define-color view_fg_color #e4e7f0;
+@define-color view_bg_color #0f1417;
+@define-color view_fg_color #e3e7eb;
 
 /* ألوان البطاقات */
-@define-color card_bg_color #191c23;
-@define-color card_fg_color #e4e7f0;
+@define-color card_bg_color #181d20;
+@define-color card_fg_color #e3e7eb;
 @define-color card_shade_color #000000;
 
 /* ألوان الشريط الجانبي */
@@ -38,27 +38,27 @@
 @define-color sidebar_backdrop_color @window_bg_color;
 
 /* ألوان الخلفية والنص */
-@define-color bg_color #10131a;
-@define-color fg_color #e4e7f0;
-@define-color text_color #e4e7f0;
-@define-color text_color_disabled #e4e7f0;
+@define-color bg_color #0f1417;
+@define-color fg_color #e3e7eb;
+@define-color text_color #e3e7eb;
+@define-color text_color_disabled #e3e7eb;
 
 /* ألوان الأزرار */
-@define-color button_bg_color #1f232a;
-@define-color button_fg_color #e4e7f0;
-@define-color button_hover_color #b7d07b;
-@define-color button_active_color #b7d07b;
-@define-color button_checked_bg_color #576c22;
+@define-color button_bg_color #1f2426;
+@define-color button_fg_color #e3e7eb;
+@define-color button_hover_color #8ccff1;
+@define-color button_active_color #8ccff1;
+@define-color button_checked_bg_color #1f6c89;
 @define-color button_checked_fg_color #ffffff;
 
 /* ألوان الإطارات */
-@define-color borders #9096a4;
-@define-color outline_color #9096a4;
-@define-color outline_variant_color #5e6572;
+@define-color borders #90979c;
+@define-color outline_color #90979c;
+@define-color outline_variant_color #5e656a;
 
 /* ألوان الروابط */
-@define-color link_color #acc8f8;
-@define-color link_visited_color #4a6590;
+@define-color link_color #c7c2ea;
+@define-color link_visited_color #646083;
 
 /* ألوان التحذير والخطأ */
 @define-color warning_color #ffb4ab;
@@ -67,29 +67,29 @@
 @define-color error_color #ffb4ab;
 @define-color error_bg_color #c32220;
 @define-color error_fg_color #ffffff;
-@define-color success_color #acc8f8;
-@define-color success_bg_color #4a6590;
+@define-color success_color #c7c2ea;
+@define-color success_bg_color #646083;
 @define-color success_fg_color #ffffff;
 
 /* ألوان الحالة النشطة والمحددة */
-@define-color selected_bg_color #576c22;
+@define-color selected_bg_color #1f6c89;
 @define-color selected_fg_color #ffffff;
 @define-color selected_text_color #ffffff;
 
 /* ألوان التفاعلية */
-@define-color hover_color #b7d07b;
-@define-color focus_color #b7d07b;
+@define-color hover_color #8ccff1;
+@define-color focus_color #8ccff1;
 
 /* ألوان وضع الظلام المخصصة */
-@define-color dark_fill_color #353840;
-@define-color light_fill_color #3a3e45;
+@define-color dark_fill_color #34393c;
+@define-color light_fill_color #393e41;
 
 /* ألوان الاشعارات */
-@define-color info_color #e4bada;
-@define-color info_bg_color #7c5a75;
+@define-color info_color #b4cad6;
+@define-color info_bg_color #536772;
 @define-color info_fg_color #ffffff;
 
 /* ألوان الشفافية */
 @define-color shade_color #000000;
-@define-color backdrop_color #404753;
+@define-color backdrop_color #40484c;
 @define-color overlay_color #000000;

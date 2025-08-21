@@ -7,14 +7,20 @@ import { MaterialIcon } from "../../.commonwidgets/materialicon.js";
 const REFRESH_INTERVAL = 1000;
 
 const formatSpeed = (bytesPerSec) => {
-    if (bytesPerSec === 0) return '0 Mb/s';
-    if (!bytesPerSec || isNaN(bytesPerSec)) return '0 Mb/s';
-    
-    // Convert bytes to bits and then to megabits
-    const bitsPerSec = bytesPerSec * 8;
-    const mbps = bitsPerSec / 1000000;
-    
-    return `${mbps.toFixed(1)} Mb/s`;
+    if (bytesPerSec === 0) return '0 B/s';
+    if (!bytesPerSec || isNaN(bytesPerSec)) return '0 B/s';
+
+    // Dynamically choose the appropriate unit (B, KB, MB)
+    if (bytesPerSec < 1000) {
+        // Bytes
+        return `${bytesPerSec.toFixed(0)} B/s`;
+    } else if (bytesPerSec < 1000000) {
+        // Kilobytes
+        return `${(bytesPerSec / 1000).toFixed(1)} KB/s`;
+    } else {
+        // Megabytes
+        return `${(bytesPerSec / 1000000).toFixed(1)} MB/s`;
+    }
 };
 
 const getNetworkBytes = () => {
@@ -26,13 +32,13 @@ const getNetworkBytes = () => {
 
         const stats = Utils.exec(`ip -s link show ${activeIface}`);
         const lines = stats.split('\n');
-        
+
         const rxLine = lines[3]?.trim().split(/\s+/);
         const txLine = lines[5]?.trim().split(/\s+/);
-        
+
         const rxBytes = parseInt(rxLine?.[0]) || 0;
         const txBytes = parseInt(txLine?.[0]) || 0;
-        
+
         return { rxBytes, txBytes };
     } catch (error) {
         return { rxBytes: 0, txBytes: 0 };
@@ -46,12 +52,12 @@ const NetworkSpeedIndicator = () => {
 
     const downloadLabel = Widget.Label({
         className: 'bar-cpu-txt onSurfaceVariant',
-        label: '0 Mb/s',
+        label: '0 B/s',
     });
 
     const uploadLabel = Widget.Label({
         className: 'bar-cpu-txt onSurfaceVariant',
-        label: '0 Mb/s',
+        label: '0 B/s',
     });
 
     const downloadIcon = Widget.Box({ className: 'sec-txt', child: MaterialIcon('download', 'larger') });

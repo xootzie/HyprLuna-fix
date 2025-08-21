@@ -140,6 +140,6 @@ function getCurrentLayout(configuredLayouts, nameToLayout) {
 export default () => Widget.Box({
     vpack: 'center',
     hpack: 'center',
-    css: 'margin-right: 0.9rem;',
+    css: 'margin-left: 0.9rem; margin-right: 0.9rem;',
     children: [createKeyboardWidget()],
 });

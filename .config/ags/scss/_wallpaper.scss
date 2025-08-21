@@ -63,19 +63,21 @@
     margin: 8px 0;
     padding: 4px 8px;
     border-radius: $rounding_medium;
-    background-color: transparentize($surfaceContainerLow, 0.2);
-    box-shadow: 0 1px 3px transparentize($shadow, 0.8);
+    background-color: $surfaceContainerLow;
+    @include elevation-border-softer;
+    box-shadow: 0 1px 3px rgba($shadow, 0.2);
 }
 
 .wallpaper-pagination-btn {
     padding: 4px;
     border-radius: 50%;
-    background-color: transparentize($surfaceContainerLowest, 0.3);
+    background-color: $surfaceContainerLowest;
     color: $onSurface;
     margin: 0 2px;
     min-width: 32px;
     min-height: 32px;
     transition: background-color 200ms ease, box-shadow 200ms ease;
+    border: 0.068rem solid $outliner;
 
     // Make the icon larger
     label {
@@ -84,12 +86,14 @@
 
     &:hover {
         background-color: mix($surfaceContainerHigh, $primary, 85%);
-        box-shadow: 0 1px 2px transparentize($shadow, 0.8);
+        box-shadow: 0 1px 2px rgba($shadow, 0.2);
+        border-color: $outlineVariant;
     }
 
     &:active {
         background-color: mix($primaryContainer, $primary, 90%);
         color: $onPrimaryContainer;
+        border-color: $outline;
     }
 }
 
@@ -99,6 +103,71 @@
     color: $onSurfaceVariant;
     margin: 0 8px;
     min-width: 45px;
-    /* Use xalign instead of text-align for GTK */
-    /* text-align is not supported in GTK CSS */
+}
+
+// New wallpaper preview styles
+.wallpaper-preview-button {
+    transition-property: background-color;
+    transition-duration: 200ms;
+    transition-timing-function: ease;
+    border-radius: 22px;
+    padding: 2px;
+    border: 0.068rem solid transparent;
+    
+    &:hover {
+        background-color: rgba($onSurface, 0.08);
+        border-color: $outliner;
+    }
+
+    &:active {
+        background-color: rgba($onSurface, 0.12);
+        border-color: $outline;
+    }
+}
+
+.wallpaper-container {
+    border-radius: 20px;
+    padding: 8px;
+    background-color: $surfaceContainerLow;
+    @include elevation-border;
+}
+
+.wallpaper-content-box {
+    background-color: $surfaceContainerLowest;
+    border-radius: 16px;
+    padding: 6px;
+    border: 0.034rem solid $outlineVariant;
+}
+
+.wallpaper-name {
+    margin-top: 4px;
+    color: $onSurface;
+    font-size: 12px;
+    background-color: $surfaceContainerHigh;
+    border-radius: 10px;
+    padding: 2px 8px;
+    border: 0.034rem solid $outliner;
+}
+
+.wallpaper-search-entry {
+    background-color: $surfaceContainerHigh;
+    border-radius: 16px;
+    padding: 4px 12px;
+    min-width: 200px;
+    color: $onSurface;
+    caret-color: $primary;
+    border: 0.068rem solid $outliner;
+    
+    &:focus {
+        background-color: $surfaceContainerHighest;
+        border-color: $primary;
+    }
+}
+
+.wallpaper-search-entry-container {
+    min-width: 200px;
+}
+
+.wallpaper-icon-size {
+    font-size: 18px;
 }

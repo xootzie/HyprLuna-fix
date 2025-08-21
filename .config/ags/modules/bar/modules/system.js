@@ -119,7 +119,7 @@ const Utilities = () => {
     tooltipText: getString("Screen snip"),
     onClicked: () => {
       Utils.execAsync(
-        `${App.configDir}/scripts/grimblast.sh copy area`,
+        ['lunactl', 'screenshot', 'copy', 'area'],
       ).catch(print);
     },
     className: "bar-util-btn icon-material txt-norm",

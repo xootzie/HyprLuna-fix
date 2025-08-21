@@ -1,3 +1,4 @@
+const { Gdk } = imports.gi;
 import Widget from "resource:///com/github/Aylur/ags/widget.js";
 import PopupWindow from "../.widgethacks/popupwindow.js";
 import OptionalOverview from "./overview_hyprland.js";
@@ -12,6 +13,16 @@ export default (id = "") => {
     name: `glance`,
     keymode: "on-demand",
     anchor: ["top", "left", "right"],
+    // Add explicit key handling for Escape
+    setup: (self) => {
+      self.on('key-press-event', (_, event) => {
+        if (event.get_keyval()[1] === Gdk.KEY_Escape) {
+          App.closeWindow("glance");
+          return true;
+        }
+        return false;
+      });
+    },
     child: Widget.Box({
       vertical: true,
       vexpand: true,
@@ -36,6 +47,9 @@ export default (id = "") => {
             const overviewTick = globalThis.overviewTick;
             if (overviewTick) overviewTick.setValue(!overviewTick.value);
           });
+
+          // Close the glance window after navigation
+          App.closeWindow("glance");
         });
 
         self.keybind("ISO_Left_Tab", () => {
@@ -47,6 +61,18 @@ export default (id = "") => {
             const overviewTick = globalThis.overviewTick;
             if (overviewTick) overviewTick.setValue(!overviewTick.value);
           });
+
+          // Close the glance window after navigation
+          App.closeWindow("glance");
+        });
+
+        // Add explicit key event handler for Escape
+        self.on('key-press-event', (_, event) => {
+          if (event.get_keyval()[1] === Gdk.KEY_Escape) {
+            App.closeWindow("glance");
+            return true;
+          }
+          return false;
         });
 
         // Close the window when Alt is released (simulating Alt+Tab behavior)
@@ -65,6 +91,14 @@ export default (id = "") => {
           },
           "release"
         );
+
+        // Listen for Hyprland events to close glance when switching windows
+        self.hook(Hyprland, (_, eventName) => {
+          // Close glance when a window is focused or workspace changes
+          if (eventName === "activewindow" || eventName === "workspace") {
+            App.closeWindow("glance");
+          }
+        }, "event");
       },
     }),
   });

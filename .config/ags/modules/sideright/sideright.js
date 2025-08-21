@@ -13,6 +13,7 @@ import {
   ModulePowerIcon,
   ModuleGameMode,
   ModuleCloudflareWarp,
+  ModuleReloadIcon,
 } from "./modules/quicktoggles.js";
 import ModuleNotificationList from "./centermodules/notificationlist.js";
 import ModuleAudioControls from "./centermodules/audiocontrols.js";
@@ -41,6 +42,10 @@ const elevate = userOptions.asyncGet().etc.widgetCorners ? "sidebar-right-bg sid
     }),
     transition: "slide_up",
   });
+
+
+
+
 const modulesList = {
   vpnGate: {
     name: "VPN Gate",
@@ -183,9 +188,10 @@ const togglesBox = Widget.Box({
     userOptions.asyncGet().sidebar.ModuleCalendar.enabled
       ? await ToggleIconCalendar()
       : null, // Add the calendar toggle here
-    ModuleIdleInhibitor(),
-    ModuleSettingsIcon(),
+    await ModuleIdleInhibitor(),
+    await ModuleSettingsIcon(),
     await ModuleCloudflareWarp(),
+    await ModuleReloadIcon(),
   ],
 });
 

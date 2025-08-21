@@ -13,6 +13,7 @@ import { VerticalBarPinned } from "./modes/verticalPinned.js";
 import { IslandBar } from "./modes/macLike.js";
 import { NotchBar } from "./modes/notch.js";
 import { SaadiBar } from "./modes/saadi.js";
+import { PadBar } from "./modes/pad.js";
 import Gio from "gi://Gio";
 import GLib from "gi://GLib";
 import * as Utils from "resource:///com/github/Aylur/ags/utils.js";
@@ -26,21 +27,23 @@ const DEFAULT_MODE = settings.get_string(KEY_BAR_MODE) || "0";
 // Performance optimization: Cache bar components
 const barComponentCache = new Map();
 
+// Define bar modes as factory functions to avoid widget reuse issues
 const horizontalModes = new Map([
-  ["0", [await NormalBar, true, "Normal"]],
-  ["1", [await FocusBar, true, "Focus"]],
-  ["2", [await FloatingBar, false, "Floating"]],
-  ["3", [await MinimalBar, true, "Minimal"]],
-  ["4", [await AnoonBar, false, "Anoon"]],
-  ["5", [await WindowsTaskbar, false, "Windows Taskbar"]],
-  ["6", [await IslandBar, false, "Dynamic"]],
-  ["7", [await NotchBar, false, "Notch"]],
-  ["8", [await SaadiBar, true, "Saadi"]],
+  ["0", [SaadiBar, true, "Saadi"]],
+  ["1", [FocusBar, true, "Focus"]],
+  ["2", [FloatingBar, false, "Floating"]],
+  ["3", [MinimalBar, true, "Minimal"]],
+  ["4", [AnoonBar, false, "Anoon"]],
+  ["5", [WindowsTaskbar, false, "Windows Taskbar"]],
+  ["6", [IslandBar, false, "Dynamic"]],
+  ["7", [NotchBar, false, "Notch"]],
+  ["8", [NormalBar, true, "Normal"]],
+  ["9", [PadBar, false, "Pad"]],
 ]);
 
 const verticalModes = new Map([
-  ["9", [await VerticalBar, false, "Vertical Bar"]],
-  ["10", [await VerticalBarPinned, true, "Vertical Bar Pinned"]],
+  ["10", [VerticalBar, false, "Vertical Bar"]],
+  ["11", [VerticalBarPinned, true, "Vertical Bar Pinned"]],
 ]);
 
 const modes = new Map([...horizontalModes, ...verticalModes]);
@@ -103,13 +106,16 @@ const createCorner = (monitor, side) => {
     ],
     exclusivity: "normal",
     visible: shouldShowCorners(monitor),
-    child: RoundedCorner(
-      getCornerStyle(
-        getValidPosition(currentShellMode.value[monitor] || DEFAULT_MODE, barPosition.value),
-        verticalModes.has(currentShellMode.value[monitor] || DEFAULT_MODE)
-      ),
-      { className: "corner" }
-    ),
+    child: (() => {
+      // Create a fresh instance of RoundedCorner to avoid widget reuse issues
+      return RoundedCorner(
+        getCornerStyle(
+          getValidPosition(currentShellMode.value[monitor] || DEFAULT_MODE, barPosition.value),
+          verticalModes.has(currentShellMode.value[monitor] || DEFAULT_MODE)
+        ),
+        { className: "corner" }
+      );
+    })(),
     setup: (self) => {
       enableClickthrough(self);
 
@@ -158,6 +164,10 @@ const createCorner = (monitor, side) => {
               // Only update child and anchor if visible
               if (shouldShow) {
                 const newCornerStyle = getCornerStyle(pos, isVert);
+                // Destroy old child first to prevent widget reuse issues
+                if (self.child && typeof self.child.destroy === 'function') {
+                  self.child.destroy();
+                }
                 self.child = RoundedCorner(newCornerStyle, { className: "corner" });
                 lastCornerStyle = newCornerStyle;
 
@@ -176,6 +186,10 @@ const createCorner = (monitor, side) => {
               // Only update if necessary
               if ((self.child && lastCornerStyle !== newCornerStyle) ||
                   lastAnchorString !== newAnchorString) {
+                // Destroy old child first to prevent widget reuse issues
+                if (self.child && typeof self.child.destroy === 'function') {
+                  self.child.destroy();
+                }
                 self.child = RoundedCorner(newCornerStyle, { className: "corner" });
                 self.anchor = newAnchor;
 
@@ -248,7 +262,6 @@ const getAnchor = (mode) => {
 export const BarCornerTopleft = (monitor = 0) => createCorner(monitor, "left");
 export const BarCornerTopright = (monitor = 0) => createCorner(monitor, "right");
 
-import userOptions from "../.configuration/user_options.js";
 
 // Cache user options to avoid repeated calls to asyncGet()
 let cachedOptions = null;
@@ -282,10 +295,8 @@ export const Bar = async (monitor = 0) => {
   // Check if we already have a cached bar for this monitor
   const cacheKey = `bar-${monitor}`;
   if (barComponentCache.has(cacheKey)) {
-    // Only log in multi-monitor setups
-    if (Hyprland.monitors.length > 1) {
-      console.log(`Using cached bar for monitor ${monitor}`);
-    }
+    // Log bar usage for debugging
+    console.log(`Using cached bar for monitor ${monitor}`);
     return barComponentCache.get(cacheKey);
   }
 
@@ -295,16 +306,19 @@ export const Bar = async (monitor = 0) => {
   // Create corners only once and cache them
   const corners = ["left", "right"].map((side) => createCorner(monitor, side));
 
-  // Create stack children only once
+  // Create stack children only once, with proper cleanup
   const children = {};
   for (const [key, [component]] of modes) {
     try {
-      children[key] = component;
-    } catch (error) {
-      // Only log in multi-monitor setups
-      if (Hyprland.monitors.length > 1) {
-        console.log(`Error creating component for mode ${key}: ${error}`);
+      // Handle both widget objects and widget-creating functions to be resilient to caching issues
+      if (typeof component === 'function') {
+        children[key] = component();
+      } else {
+        children[key] = component;
       }
+    } catch (error) {
+      // Log errors in component creation
+      console.log(`Error creating component for mode ${key}: ${error}`);
     }
   }
 
@@ -336,10 +350,8 @@ export const Bar = async (monitor = 0) => {
             self.shown = newMode;
             lastMode = newMode;
 
-            // Only log in multi-monitor setups
-            if (Hyprland.monitors.length > 1) {
-              console.log(`Bar stack for monitor ${monitor} updated to mode ${newMode}`);
-            }
+            // Log bar mode updates
+            console.log(`Bar stack for monitor ${monitor} updated to mode ${newMode}`);
           }
 
           updateTimeout = 0;
@@ -415,10 +427,8 @@ export const Bar = async (monitor = 0) => {
             if (newAnchorString !== lastAnchorString) {
               self.anchor = newAnchor;
 
-              // Only log in multi-monitor setups
-              if (Hyprland.monitors.length > 1) {
-                console.log(`Bar window for monitor ${monitor} anchor updated for mode ${newMode}`);
-              }
+              // Log bar anchor updates
+              console.log(`Bar window for monitor ${monitor} anchor updated for mode ${newMode}`);
 
               // Update the stored values
               lastMode = newMode;
