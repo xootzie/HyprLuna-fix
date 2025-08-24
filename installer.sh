@@ -926,7 +926,7 @@ echo -e "${C_ANSI_PRIMARY_FG}├$(printf '%*s' "$BOX_CONTENT_WIDTH" '' | tr ' ' 
 printf_box_line "${C_ANSI_SECONDARY_FG}Summary:${C_ANSI_RESET}"
 printf_box_line "${C_ANSI_TEXT_BRIGHT}- System prerequisites installed${C_ANSI_RESET}"
 printf_box_line "${C_ANSI_TEXT_BRIGHT}- HyprLuna packages installed${C_ANSI_RESET}"
-printf_box_line "${C_ANSI_TEXT_BRIGHT}- AGS v1
+printf_box_line "${C_ANSI_TEXT_BRIGHT}- AGS v1 installed${C_ANSI_RESET}"
 printf_box_line "${C_ANSI_TEXT_BRIGHT}- HyprLuna configured${C_ANSI_RESET}"
 printf_box_line "${C_ANSI_TEXT_BRIGHT}- SDDM configured (if selected)${C_ANSI_RESET}"
 printf_box_line ""
