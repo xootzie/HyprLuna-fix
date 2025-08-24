@@ -70,7 +70,6 @@ show_help() {
 # Parse command line arguments
 while getopts "tmh" opt; do
     case $opt in
-<<<<<<< HEAD
         t)
             BRANCH="testers"
             ;;
@@ -85,7 +84,6 @@ while getopts "tmh" opt; do
             echo "Use -h for help."
             exit 1
             ;;
-=======
     t)
         BRANCH="testers"
         ;;
@@ -100,7 +98,7 @@ while getopts "tmh" opt; do
         echo "Use -h for help."
         exit 1
         ;;
->>>>>>> testers
+
     esac
 done
 
@@ -114,11 +112,11 @@ fi
 # --- Configuration and Variables ---
 HYPRLUNA_INSTALL_DIR="$HOME/HyprLuna"
 PARU_CLONE_DIR="/tmp/paru_install_$$"
-<<<<<<< HEAD
+
 AGSV1_CLONE_DIR="/tmp/agsv1_install_$$"
-=======
+
 # AGSV1_CLONE_DIR="/tmp/agsv1_install_$$"
->>>>>>> testers
+
 BACKUP_DIR="$HOME/HyprLuna-User-Bak_$(date +%Y%m%d_%H%M%S)"
 PARU_LOG_FILE=$(mktemp /tmp/hyprluna_paru_log.XXXXXX)
 
@@ -177,11 +175,11 @@ show_section_progress() {
     local bar_str=""
     if [ "$filled_count" -gt 0 ]; then
         for i in $(seq 1 "$filled_count"); do
-<<<<<<< HEAD
+
             if (( i % 2 != 0 )); then
-=======
+
             if ((i % 2 != 0)); then
->>>>>>> testers
+
                 bar_str+="${C_ANSI_PRIMARY_FG}${progress_char}"
             else
                 bar_str+="${C_ANSI_SECONDARY_FG}${progress_char}"
@@ -195,11 +193,11 @@ show_section_progress() {
 
     local unfilled_spaces=""
     if [ "$unfilled_count" -gt 0 ]; then
-<<<<<<< HEAD
+
          unfilled_spaces=$(printf "%${unfilled_count}s" "")
-=======
+
         unfilled_spaces=$(printf "%${unfilled_count}s" "")
->>>>>>> testers
+
     fi
 
     printf "\n"
@@ -208,7 +206,7 @@ show_section_progress() {
     printf "\n"
 }
 
-<<<<<<< HEAD
+
 
 generate_simple_progress_bar() {
     local current_val=$1
@@ -240,7 +238,6 @@ run_with_spinner() {
     local temp_log
     temp_log=$(mktemp)
 
-=======
 generate_simple_progress_bar() {
     local current_val=$1
     local total_val=$2
@@ -271,7 +268,7 @@ run_with_spinner() {
     local temp_log
     temp_log=$(mktemp)
 
->>>>>>> testers
+
     gum spin --spinner dot --title "$title" \
         --title.foreground "$C_ACCENT_SECONDARY" --spinner.foreground "$C_ACCENT_PRIMARY" \
         -- bash -c "$command_to_run" >"$temp_log" 2>&1
@@ -353,7 +350,7 @@ gum style --padding "1 2" --margin "1 0" --align center --width 80 --border norm
     "$(gum style --bold --foreground "$C_ACCENT_SECONDARY" "Installing from branch: $(gum style --foreground "$C_ACCENT_PRIMARY" "$BRANCH")")" \
     "" \
     "$(gum style --bold --foreground "$C_ACCENT_SECONDARY" 'The following steps will be performed:')" \
-<<<<<<< HEAD
+
     "$(gum style --foreground "$C_TEXT_MUTED" --margin "0 0 0 2" \
         "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 1. Verify & Install Prerequisites" \
         "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 2. Install AUR Helper (paru)" \
@@ -362,7 +359,7 @@ gum style --padding "1 2" --margin "1 0" --align center --width 80 --border norm
         "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 5. Backup Existing User Configurations (Optional)" \
         "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 6. Clone & Set Up HyprLuna" \
         "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 7. Configure SDDM (Astronaut Theme)" \
-=======
+
     "$(
         gum style --foreground "$C_TEXT_MUTED" --margin "0 0 0 2" \
             "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 1. Verify & Install Prerequisites" \
@@ -372,16 +369,16 @@ gum style --padding "1 2" --margin "1 0" --align center --width 80 --border norm
             "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 5. Backup Existing User Configurations (Optional)" \
             "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 6. Clone & Set Up HyprLuna" \
             "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 7. Configure SDDM (Astronaut Theme)"
->>>>>>> testers
+
     )" \
     "" \
     "$(gum style --foreground "$C_WARN_TEXT" 'Some steps will require sudo privileges.')" \
     "$(gum style --foreground "$C_TEXT_MUTED" 'The script will guide you through each step and ask for confirmation.')"
 
-<<<<<<< HEAD
 
-=======
->>>>>>> testers
+
+
+
 if ! gum_confirm "Are you ready to begin the HyprLuna installation?"; then
     gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Installation cancelled by the user."
     exit 0
@@ -442,15 +439,15 @@ else
 
         original_dir=$(pwd)
         cd "$PARU_CLONE_DIR" || {
-<<<<<<< HEAD
+
             gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $PARU_CLONE_DIR";
             rm -rf "$PARU_CLONE_DIR";
             exit 1;
-=======
+
             gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $PARU_CLONE_DIR"
             rm -rf "$PARU_CLONE_DIR"
             exit 1
->>>>>>> testers
+
         }
 
         if ! run_with_spinner "Installing paru..." "makepkg -si --noconfirm"; then
@@ -496,19 +493,19 @@ if gum_confirm "Proceed with package installation?"; then
     SKIPPED_PACKAGES=()
     SUCCESS_PACKAGES=()
 
-<<<<<<< HEAD
+
     echo "=== HyprLuna Package Installation Log ($(date)) ===" > "$PARU_LOG_FILE"
     echo "Total packages to install: $TOTAL_PACKAGES" >> "$PARU_LOG_FILE"
     echo "Python packages to install first: ${#PYTHON_PACKAGES[@]}" >> "$PARU_LOG_FILE"
     echo "Other packages to install: ${#OTHER_PACKAGES[@]}" >> "$PARU_LOG_FILE"
     echo "" >> "$PARU_LOG_FILE"
-=======
+
     echo "=== HyprLuna Package Installation Log ($(date)) ===" >"$PARU_LOG_FILE"
     echo "Total packages to install: $TOTAL_PACKAGES" >>"$PARU_LOG_FILE"
     echo "Python packages to install first: ${#PYTHON_PACKAGES[@]}" >>"$PARU_LOG_FILE"
     echo "Other packages to install: ${#OTHER_PACKAGES[@]}" >>"$PARU_LOG_FILE"
     echo "" >>"$PARU_LOG_FILE"
->>>>>>> testers
+
 
     is_package_installed() {
         pacman -Q "$1" &>/dev/null
@@ -527,7 +524,7 @@ if gum_confirm "Proceed with package installation?"; then
             printf "\r%b %d%% (%d/%d) - Installing (Python): %-30.30s " "[${pkg_bar_fill_str}]" "$PROGRESS" "$PROCESSED_COUNT" "$TOTAL_PACKAGES" "$pkg"
 
             if is_package_installed "$pkg"; then
-<<<<<<< HEAD
+
                 echo "SKIPPED: $pkg is already installed." >> "$PARU_LOG_FILE"
                 SKIPPED_PACKAGES+=("$pkg")
             else
@@ -540,7 +537,7 @@ if gum_confirm "Proceed with package installation?"; then
                     echo "SUCCESS: $pkg installed successfully." >> "$PARU_LOG_FILE"
                 fi
                 echo "" >> "$PARU_LOG_FILE"
-=======
+
                 echo "SKIPPED: $pkg is already installed." >>"$PARU_LOG_FILE"
                 SKIPPED_PACKAGES+=("$pkg")
             else
@@ -553,7 +550,7 @@ if gum_confirm "Proceed with package installation?"; then
                     echo "SUCCESS: $pkg installed successfully." >>"$PARU_LOG_FILE"
                 fi
                 echo "" >>"$PARU_LOG_FILE"
->>>>>>> testers
+
             fi
         done
         printf "\n"
@@ -573,7 +570,7 @@ if gum_confirm "Proceed with package installation?"; then
             printf "\r%b %d%% (%d/%d) - Installing (Other): %-30.30s " "[${pkg_bar_fill_str}]" "$PROGRESS" "$PROCESSED_COUNT" "$TOTAL_PACKAGES" "$pkg"
 
             if is_package_installed "$pkg"; then
-<<<<<<< HEAD
+
                 echo "SKIPPED: $pkg is already installed." >> "$PARU_LOG_FILE"
                 SKIPPED_PACKAGES+=("$pkg")
             else
@@ -586,7 +583,7 @@ if gum_confirm "Proceed with package installation?"; then
                     echo "SUCCESS: $pkg installed successfully." >> "$PARU_LOG_FILE"
                 fi
                 echo "" >> "$PARU_LOG_FILE"
-=======
+
                 echo "SKIPPED: $pkg is already installed." >>"$PARU_LOG_FILE"
                 SKIPPED_PACKAGES+=("$pkg")
             else
@@ -599,24 +596,24 @@ if gum_confirm "Proceed with package installation?"; then
                     echo "SUCCESS: $pkg installed successfully." >>"$PARU_LOG_FILE"
                 fi
                 echo "" >>"$PARU_LOG_FILE"
->>>>>>> testers
+
             fi
         done
         printf "\n"
         gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "Remaining packages processed."
     fi
 
-<<<<<<< HEAD
+
     echo "=== Installation Summary ===" >> "$PARU_LOG_FILE"
     echo "Successful packages: ${#SUCCESS_PACKAGES[@]}" >> "$PARU_LOG_FILE"
     echo "Skipped packages (already installed): ${#SKIPPED_PACKAGES[@]}" >> "$PARU_LOG_FILE"
     echo "Failed packages: ${#FAILED_PACKAGES[@]}" >> "$PARU_LOG_FILE"
-=======
+
     echo "=== Installation Summary ===" >>"$PARU_LOG_FILE"
     echo "Successful packages: ${#SUCCESS_PACKAGES[@]}" >>"$PARU_LOG_FILE"
     echo "Skipped packages (already installed): ${#SKIPPED_PACKAGES[@]}" >>"$PARU_LOG_FILE"
     echo "Failed packages: ${#FAILED_PACKAGES[@]}" >>"$PARU_LOG_FILE"
->>>>>>> testers
+
 
     if [ ${#FAILED_PACKAGES[@]} -gt 0 ]; then
         gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "Some packages failed to install: $(gum style --bold --foreground "$C_ACCENT_PRIMARY" "${FAILED_PACKAGES[*]}")"
@@ -626,11 +623,11 @@ if gum_confirm "Proceed with package installation?"; then
             gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "Continuing with installation. Some components might not work."
         else
             gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Installation cancelled due to package errors."
-<<<<<<< HEAD
+
             gum_confirm "View the installation log now?" && gum pager < "$PARU_LOG_FILE"
-=======
+
             gum_confirm "View the installation log now?" && gum pager <"$PARU_LOG_FILE"
->>>>>>> testers
+
             exit 1
         fi
     else
@@ -639,11 +636,11 @@ if gum_confirm "Proceed with package installation?"; then
     fi
 
     if gum_confirm "View detailed installation log?"; then
-<<<<<<< HEAD
+
         gum pager < "$PARU_LOG_FILE"
-=======
+
         gum pager <"$PARU_LOG_FILE"
->>>>>>> testers
+
     fi
 else
     gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Package installation cancelled. Aborting."
@@ -656,7 +653,7 @@ show_section_progress "$CURRENT_STEP" "$TOTAL_STEPS" "STEP 3: Installing AGS v1"
 gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "STEP 3: Installing AGS v1 (Aylur's GTK Shell)."
 
 if gum_confirm "Install AGS v1?"; then
-<<<<<<< HEAD
+
     if ! command_exists npm; then
         gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "npm not found. Installing..."
         if ! run_with_spinner "Installing npm..." "sudo pacman -S --noconfirm npm"; then
@@ -758,14 +755,14 @@ if gum_confirm "Install AGS v1?"; then
 
     printf "\n"
     cd "$original_dir_ags" || true
-=======
+
 
     gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "Installing AGS v1 by copying binaries to their appropriate paths you'll be prompted for your password:"
     sudo cp -r ./ags_bin_lib/com.github.Aylur.ags/ /usr/share/
     sudo cp -r ./ags_bin_lib/agsv1/ /usr/lib/
     sudo ln -sf /usr/share/com.github.Aylur.ags/com.github.Aylur.ags /usr/bin/agsv1
 
->>>>>>> testers
+
     rm -rf "$AGSV1_CLONE_DIR"
     gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "AGS v1 installed successfully."
 else
@@ -795,17 +792,17 @@ if gum_confirm "Create a backup of your configurations in '$BACKUP_DIR'?"; then
 
         if [ -d "$dir_path" ]; then
             rsync -aq "$dir_path" "$BACKUP_DIR/" >/dev/null 2>&1 || {
-<<<<<<< HEAD
+
                  echo "Error backing up $dir_name." >> "$PARU_LOG_FILE"
             }
         else
              echo "$dir_name not found for backup." >> "$PARU_LOG_FILE"
-=======
+
                 echo "Error backing up $dir_name." >>"$PARU_LOG_FILE"
             }
         else
             echo "$dir_name not found for backup." >>"$PARU_LOG_FILE"
->>>>>>> testers
+
         fi
     done
     printf "\n"
@@ -833,7 +830,7 @@ if [ -d "$HYPRLUNA_INSTALL_DIR" ]; then
             "Reinstall (remove and clone again)")
 
         case "$repo_action" in
-<<<<<<< HEAD
+
             "Skip (keep existing installation)")
                 gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Keeping existing HyprLuna installation."
                 ;;
@@ -875,7 +872,7 @@ if [ -d "$HYPRLUNA_INSTALL_DIR" ]; then
                     exit 1
                 fi
                 ;;
-=======
+
         "Skip (keep existing installation)")
             gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Keeping existing HyprLuna installation."
             ;;
@@ -917,7 +914,7 @@ if [ -d "$HYPRLUNA_INSTALL_DIR" ]; then
                 exit 1
             fi
             ;;
->>>>>>> testers
+
         esac
     else
         # Directory exists but not a git repository
@@ -962,13 +959,13 @@ fi
 
 original_dir_step5=$(pwd)
 cd "$HYPRLUNA_INSTALL_DIR" || {
-<<<<<<< HEAD
+
     gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $HYPRLUNA_INSTALL_DIR. Aborting.";
     exit 1;
-=======
+
     gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $HYPRLUNA_INSTALL_DIR. Aborting."
     exit 1
->>>>>>> testers
+
 }
 
 # Only apply configuration files if not using "Skip" option
@@ -1005,27 +1002,27 @@ total_actions=${#setup_actions[@]}
 # Only execute setup actions if not using "Skip" option
 if [ "${repo_action:-}" != "Skip (keep existing installation)" ]; then
     echo "Copying configuration files..." | tee -a "$PARU_LOG_FILE"
-<<<<<<< HEAD
+
     echo "--- Start of Setup Actions ---" >> "$PARU_LOG_FILE"
 
     for i in "${!setup_actions[@]}"; do
         action="${setup_actions[$i]}"
         action_num=$((i+1))
         progress=$(( action_num * 100 / total_actions ))
-=======
+
     echo "--- Start of Setup Actions ---" >>"$PARU_LOG_FILE"
 
     for i in "${!setup_actions[@]}"; do
         action="${setup_actions[$i]}"
         action_num=$((i + 1))
         progress=$((action_num * 100 / total_actions))
->>>>>>> testers
+
 
         setup_bar_fill_str=$(generate_simple_progress_bar "$action_num" "$total_actions" 25)
 
         printf "\r%b %d%% (%d/%d) - Applying configuration...      " "[${setup_bar_fill_str}]" "$progress" "$action_num" "$total_actions"
 
-<<<<<<< HEAD
+
         echo "Executing setup_action $action_num/$total_actions: $action" >> "$PARU_LOG_FILE"
 
         action_output_tmp=$(mktemp)
@@ -1036,7 +1033,7 @@ if [ "${repo_action:-}" != "Skip (keep existing installation)" ]; then
             echo "FAILURE ($ret_code): $action" >> "$PARU_LOG_FILE"
             echo "Failure output:" >> "$PARU_LOG_FILE"
             cat "$action_output_tmp" >> "$PARU_LOG_FILE"
-=======
+
         echo "Executing setup_action $action_num/$total_actions: $action" >>"$PARU_LOG_FILE"
 
         action_output_tmp=$(mktemp)
@@ -1047,22 +1044,22 @@ if [ "${repo_action:-}" != "Skip (keep existing installation)" ]; then
             echo "FAILURE ($ret_code): $action" >>"$PARU_LOG_FILE"
             echo "Failure output:" >>"$PARU_LOG_FILE"
             cat "$action_output_tmp" >>"$PARU_LOG_FILE"
->>>>>>> testers
+
         fi
         rm -f "$action_output_tmp"
     done
     printf "\n"
-<<<<<<< HEAD
+
     echo "--- End of Setup Actions ---" >> "$PARU_LOG_FILE"
     gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "HyprLuna configuration applied."
 else
     echo "Skipping configuration files (using existing installation)..." >> "$PARU_LOG_FILE"
-=======
+
     echo "--- End of Setup Actions ---" >>"$PARU_LOG_FILE"
     gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "HyprLuna configuration applied."
 else
     echo "Skipping configuration files (using existing installation)..." >>"$PARU_LOG_FILE"
->>>>>>> testers
+
     gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Using existing HyprLuna configuration."
 fi
 cd "$original_dir_step5" || true
@@ -1091,11 +1088,11 @@ if pacman -Q sddm &>/dev/null; then
 
     if gum_confirm "Configure SDDM Astronaut theme?"; then
         sddm_setup_url="https://raw.githubusercontent.com/keyitdev/sddm-astronaut-theme/master/setup.sh"
-<<<<<<< HEAD
+
         if ! curl -s --head --fail "$sddm_setup_url" > /dev/null; then
-=======
+
         if ! curl -s --head --fail "$sddm_setup_url" >/dev/null; then
->>>>>>> testers
+
             gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Cannot access SDDM configuration script."
             gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "You can install it manually later."
         else
@@ -1128,11 +1125,11 @@ else
 fi
 
 # --- FINAL CLEANUP ---
-<<<<<<< HEAD
+
 rm -rf "$PARU_CLONE_DIR" "$AGSV1_CLONE_DIR" 2>/dev/null
-=======
+
 # rm -rf "$PARU_CLONE_DIR" "$AGSV1_CLONE_DIR" 2>/dev/null
->>>>>>> testers
+
 gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Cleanup of temporary files completed."
 
 # --- FINAL MESSAGE ---
@@ -1177,10 +1174,10 @@ log_line_text="${C_ANSI_TEXT_BRIGHT}Installation log: ${C_ANSI_UNDERLINE}${PARU_
 printf_box_line "$log_line_text"
 echo -e "${C_ANSI_PRIMARY_FG}└$(printf '%*s' "$BOX_CONTENT_WIDTH" '' | tr ' ' '─')┘${C_ANSI_RESET}"
 
-<<<<<<< HEAD
 
-=======
->>>>>>> testers
+
+
+
 if [ -d "$BACKUP_DIR" ]; then
     echo -e "\n${C_ANSI_TEXT_BRIGHT}Backup created in: ${C_ANSI_UNDERLINE}$BACKUP_DIR${C_ANSI_RESET}\n"
 fi
@@ -1191,21 +1188,21 @@ BOX_RESTART_WIDTH=63
 echo -e "${C_ANSI_PRIMARY_FG}┌$(printf '%*s' "$BOX_RESTART_WIDTH" '' | tr ' ' '─')┐${C_ANSI_RESET}"
 restart_options_text="                 ${C_ANSI_YELLOW}REBOOT OPTIONS:${C_ANSI_RESET}                 "
 restart_options_len=$(echo -e "$restart_options_text" | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2})?)?[mGK]//g" | wc -c)
-<<<<<<< HEAD
+
 restart_options_len=$((restart_options_len -1))
-=======
+
 restart_options_len=$((restart_options_len - 1))
->>>>>>> testers
+
 restart_padding_needed=$((BOX_RESTART_WIDTH - restart_options_len))
 if [ $restart_padding_needed -lt 0 ]; then restart_padding_needed=0; fi
 restart_padding_spaces=$(printf "%${restart_padding_needed}s" "")
 echo -e "${C_ANSI_PRIMARY_FG}│${C_ANSI_RESET} ${restart_options_text}${restart_padding_spaces} ${C_ANSI_PRIMARY_FG}│${C_ANSI_RESET}"
 echo -e "${C_ANSI_PRIMARY_FG}└$(printf '%*s' "$BOX_RESTART_WIDTH" '' | tr ' ' '─')┘${C_ANSI_RESET}"
 
-<<<<<<< HEAD
 
-=======
->>>>>>> testers
+
+
+
 printf "${C_ANSI_TEXT_BRIGHT}Reboot the system now? (y/n): ${C_ANSI_RESET}"
 read -r choice
 if [[ "$choice" =~ ^[Yy]$ ]]; then
