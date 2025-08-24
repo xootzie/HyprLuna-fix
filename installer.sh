@@ -84,21 +84,6 @@ while getopts "tmh" opt; do
             echo "Use -h for help."
             exit 1
             ;;
-    t)
-        BRANCH="testers"
-        ;;
-    m)
-        BRANCH="main"
-        ;;
-    h)
-        show_help
-        ;;
-    \?)
-        echo "Invalid option: -$OPTARG" >&2
-        echo "Use -h for help."
-        exit 1
-        ;;
-
     esac
 done
 
@@ -112,11 +97,7 @@ fi
 # --- Configuration and Variables ---
 HYPRLUNA_INSTALL_DIR="$HOME/HyprLuna"
 PARU_CLONE_DIR="/tmp/paru_install_$$"
-
 AGSV1_CLONE_DIR="/tmp/agsv1_install_$$"
-
-# AGSV1_CLONE_DIR="/tmp/agsv1_install_$$"
-
 BACKUP_DIR="$HOME/HyprLuna-User-Bak_$(date +%Y%m%d_%H%M%S)"
 PARU_LOG_FILE=$(mktemp /tmp/hyprluna_paru_log.XXXXXX)
 
@@ -175,11 +156,7 @@ show_section_progress() {
     local bar_str=""
     if [ "$filled_count" -gt 0 ]; then
         for i in $(seq 1 "$filled_count"); do
-
-            if (( i % 2 != 0 )); then
-
             if ((i % 2 != 0)); then
-
                 bar_str+="${C_ANSI_PRIMARY_FG}${progress_char}"
             else
                 bar_str+="${C_ANSI_SECONDARY_FG}${progress_char}"
@@ -193,11 +170,7 @@ show_section_progress() {
 
     local unfilled_spaces=""
     if [ "$unfilled_count" -gt 0 ]; then
-
-         unfilled_spaces=$(printf "%${unfilled_count}s" "")
-
         unfilled_spaces=$(printf "%${unfilled_count}s" "")
-
     fi
 
     printf "\n"
@@ -205,38 +178,6 @@ show_section_progress() {
     printf "%b%s %d%% - %s\n" "[${bar_str}" "${unfilled_spaces}]" "$progress" "$section_name"
     printf "\n"
 }
-
-
-
-generate_simple_progress_bar() {
-    local current_val=$1
-    local total_val=$2
-    local bar_width=${3:-25}
-    local char="#"
-
-    local progress_val=$((current_val * 100 / total_val))
-    local filled_units=$((progress_val * bar_width / 100))
-
-    local bar_str=""
-    if [ "$filled_units" -gt 0 ]; then
-        for i_fill in $(seq 1 "$filled_units"); do
-            if (( i_fill % 2 != 0 )); then
-                bar_str+="${C_ANSI_PRIMARY_FG}${char}"
-            else
-                bar_str+="${C_ANSI_SECONDARY_FG}${char}"
-            fi
-        done
-        bar_str+="${C_ANSI_RESET}"
-    fi
-    echo "$bar_str"
-}
-
-run_with_spinner() {
-    local title="$1"
-    shift
-    local command_to_run="$@"
-    local temp_log
-    temp_log=$(mktemp)
 
 generate_simple_progress_bar() {
     local current_val=$1
@@ -267,7 +208,6 @@ run_with_spinner() {
     local command_to_run="$@"
     local temp_log
     temp_log=$(mktemp)
-
 
     gum spin --spinner dot --title "$title" \
         --title.foreground "$C_ACCENT_SECONDARY" --spinner.foreground "$C_ACCENT_PRIMARY" \
@@ -340,7 +280,7 @@ fi
 clear
 display_logo
 
-# Centered Welcome Message Block - MODIFIED for better list presentation
+# Centered Welcome Message Block
 gum style --padding "1 2" --margin "1 0" --align center --width 80 --border normal --border-foreground "$C_BORDER_COLOR" \
     "$(gum style --bold --foreground "$C_ACCENT_PRIMARY" 'Welcome to HYPRLUNA installer!')" \
     "" \
@@ -350,7 +290,6 @@ gum style --padding "1 2" --margin "1 0" --align center --width 80 --border norm
     "$(gum style --bold --foreground "$C_ACCENT_SECONDARY" "Installing from branch: $(gum style --foreground "$C_ACCENT_PRIMARY" "$BRANCH")")" \
     "" \
     "$(gum style --bold --foreground "$C_ACCENT_SECONDARY" 'The following steps will be performed:')" \
-
     "$(gum style --foreground "$C_TEXT_MUTED" --margin "0 0 0 2" \
         "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 1. Verify & Install Prerequisites" \
         "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 2. Install AUR Helper (paru)" \
@@ -359,25 +298,10 @@ gum style --padding "1 2" --margin "1 0" --align center --width 80 --border norm
         "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 5. Backup Existing User Configurations (Optional)" \
         "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 6. Clone & Set Up HyprLuna" \
         "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 7. Configure SDDM (Astronaut Theme)" \
-
-    "$(
-        gum style --foreground "$C_TEXT_MUTED" --margin "0 0 0 2" \
-            "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 1. Verify & Install Prerequisites" \
-            "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 2. Install AUR Helper (paru)" \
-            "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 3. Install HyprLuna Dependencies" \
-            "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 4. Install AGS v1 (Aylur's GTK Shell)" \
-            "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 5. Backup Existing User Configurations (Optional)" \
-            "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 6. Clone & Set Up HyprLuna" \
-            "$(gum style --foreground "$C_ACCENT_PRIMARY" '→') 7. Configure SDDM (Astronaut Theme)"
-
     )" \
     "" \
     "$(gum style --foreground "$C_WARN_TEXT" 'Some steps will require sudo privileges.')" \
     "$(gum style --foreground "$C_TEXT_MUTED" 'The script will guide you through each step and ask for confirmation.')"
-
-
-
-
 
 if ! gum_confirm "Are you ready to begin the HyprLuna installation?"; then
     gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Installation cancelled by the user."
@@ -439,15 +363,9 @@ else
 
         original_dir=$(pwd)
         cd "$PARU_CLONE_DIR" || {
-
-            gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $PARU_CLONE_DIR";
-            rm -rf "$PARU_CLONE_DIR";
-            exit 1;
-
             gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $PARU_CLONE_DIR"
             rm -rf "$PARU_CLONE_DIR"
             exit 1
-
         }
 
         if ! run_with_spinner "Installing paru..." "makepkg -si --noconfirm"; then
@@ -493,19 +411,11 @@ if gum_confirm "Proceed with package installation?"; then
     SKIPPED_PACKAGES=()
     SUCCESS_PACKAGES=()
 
-
-    echo "=== HyprLuna Package Installation Log ($(date)) ===" > "$PARU_LOG_FILE"
-    echo "Total packages to install: $TOTAL_PACKAGES" >> "$PARU_LOG_FILE"
-    echo "Python packages to install first: ${#PYTHON_PACKAGES[@]}" >> "$PARU_LOG_FILE"
-    echo "Other packages to install: ${#OTHER_PACKAGES[@]}" >> "$PARU_LOG_FILE"
-    echo "" >> "$PARU_LOG_FILE"
-
     echo "=== HyprLuna Package Installation Log ($(date)) ===" >"$PARU_LOG_FILE"
     echo "Total packages to install: $TOTAL_PACKAGES" >>"$PARU_LOG_FILE"
     echo "Python packages to install first: ${#PYTHON_PACKAGES[@]}" >>"$PARU_LOG_FILE"
     echo "Other packages to install: ${#OTHER_PACKAGES[@]}" >>"$PARU_LOG_FILE"
     echo "" >>"$PARU_LOG_FILE"
-
 
     is_package_installed() {
         pacman -Q "$1" &>/dev/null
@@ -524,20 +434,6 @@ if gum_confirm "Proceed with package installation?"; then
             printf "\r%b %d%% (%d/%d) - Installing (Python): %-30.30s " "[${pkg_bar_fill_str}]" "$PROGRESS" "$PROCESSED_COUNT" "$TOTAL_PACKAGES" "$pkg"
 
             if is_package_installed "$pkg"; then
-
-                echo "SKIPPED: $pkg is already installed." >> "$PARU_LOG_FILE"
-                SKIPPED_PACKAGES+=("$pkg")
-            else
-                echo "=== Installing $pkg ($PROCESSED_COUNT/$TOTAL_PACKAGES) ===" >> "$PARU_LOG_FILE"
-                if ! paru -S --noconfirm --needed "$pkg" >> "$PARU_LOG_FILE" 2>&1; then
-                    FAILED_PACKAGES+=("$pkg")
-                    echo "FAILURE: Installation of $pkg failed." >> "$PARU_LOG_FILE"
-                else
-                    SUCCESS_PACKAGES+=("$pkg")
-                    echo "SUCCESS: $pkg installed successfully." >> "$PARU_LOG_FILE"
-                fi
-                echo "" >> "$PARU_LOG_FILE"
-
                 echo "SKIPPED: $pkg is already installed." >>"$PARU_LOG_FILE"
                 SKIPPED_PACKAGES+=("$pkg")
             else
@@ -550,7 +446,6 @@ if gum_confirm "Proceed with package installation?"; then
                     echo "SUCCESS: $pkg installed successfully." >>"$PARU_LOG_FILE"
                 fi
                 echo "" >>"$PARU_LOG_FILE"
-
             fi
         done
         printf "\n"
@@ -570,20 +465,6 @@ if gum_confirm "Proceed with package installation?"; then
             printf "\r%b %d%% (%d/%d) - Installing (Other): %-30.30s " "[${pkg_bar_fill_str}]" "$PROGRESS" "$PROCESSED_COUNT" "$TOTAL_PACKAGES" "$pkg"
 
             if is_package_installed "$pkg"; then
-
-                echo "SKIPPED: $pkg is already installed." >> "$PARU_LOG_FILE"
-                SKIPPED_PACKAGES+=("$pkg")
-            else
-                echo "=== Installing $pkg ($PROCESSED_COUNT/$TOTAL_PACKAGES) ===" >> "$PARU_LOG_FILE"
-                if ! paru -S --noconfirm --needed "$pkg" >> "$PARU_LOG_FILE" 2>&1; then
-                    FAILED_PACKAGES+=("$pkg")
-                    echo "FAILURE: Installation of $pkg failed." >> "$PARU_LOG_FILE"
-                else
-                    SUCCESS_PACKAGES+=("$pkg")
-                    echo "SUCCESS: $pkg installed successfully." >> "$PARU_LOG_FILE"
-                fi
-                echo "" >> "$PARU_LOG_FILE"
-
                 echo "SKIPPED: $pkg is already installed." >>"$PARU_LOG_FILE"
                 SKIPPED_PACKAGES+=("$pkg")
             else
@@ -596,24 +477,16 @@ if gum_confirm "Proceed with package installation?"; then
                     echo "SUCCESS: $pkg installed successfully." >>"$PARU_LOG_FILE"
                 fi
                 echo "" >>"$PARU_LOG_FILE"
-
             fi
         done
         printf "\n"
         gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "Remaining packages processed."
     fi
 
-
-    echo "=== Installation Summary ===" >> "$PARU_LOG_FILE"
-    echo "Successful packages: ${#SUCCESS_PACKAGES[@]}" >> "$PARU_LOG_FILE"
-    echo "Skipped packages (already installed): ${#SKIPPED_PACKAGES[@]}" >> "$PARU_LOG_FILE"
-    echo "Failed packages: ${#FAILED_PACKAGES[@]}" >> "$PARU_LOG_FILE"
-
     echo "=== Installation Summary ===" >>"$PARU_LOG_FILE"
     echo "Successful packages: ${#SUCCESS_PACKAGES[@]}" >>"$PARU_LOG_FILE"
     echo "Skipped packages (already installed): ${#SKIPPED_PACKAGES[@]}" >>"$PARU_LOG_FILE"
     echo "Failed packages: ${#FAILED_PACKAGES[@]}" >>"$PARU_LOG_FILE"
-
 
     if [ ${#FAILED_PACKAGES[@]} -gt 0 ]; then
         gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "Some packages failed to install: $(gum style --bold --foreground "$C_ACCENT_PRIMARY" "${FAILED_PACKAGES[*]}")"
@@ -623,11 +496,7 @@ if gum_confirm "Proceed with package installation?"; then
             gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "Continuing with installation. Some components might not work."
         else
             gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Installation cancelled due to package errors."
-
-            gum_confirm "View the installation log now?" && gum pager < "$PARU_LOG_FILE"
-
             gum_confirm "View the installation log now?" && gum pager <"$PARU_LOG_FILE"
-
             exit 1
         fi
     else
@@ -636,11 +505,7 @@ if gum_confirm "Proceed with package installation?"; then
     fi
 
     if gum_confirm "View detailed installation log?"; then
-
-        gum pager < "$PARU_LOG_FILE"
-
         gum pager <"$PARU_LOG_FILE"
-
     fi
 else
     gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Package installation cancelled. Aborting."
@@ -653,7 +518,6 @@ show_section_progress "$CURRENT_STEP" "$TOTAL_STEPS" "STEP 3: Installing AGS v1"
 gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "STEP 3: Installing AGS v1 (Aylur's GTK Shell)."
 
 if gum_confirm "Install AGS v1?"; then
-
     if ! command_exists npm; then
         gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "npm not found. Installing..."
         if ! run_with_spinner "Installing npm..." "sudo pacman -S --noconfirm npm"; then
@@ -716,9 +580,9 @@ if gum_confirm "Install AGS v1?"; then
     original_dir_ags=$(pwd)
     cd "$AGSV1_CLONE_DIR" || {
         printf "\n"
-        gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $AGSV1_CLONE_DIR. Aborting.";
-        rm -rf "$AGSV1_CLONE_DIR";
-        exit 1;
+        gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $AGSV1_CLONE_DIR. Aborting."
+        rm -rf "$AGSV1_CLONE_DIR"
+        exit 1
     }
 
     show_ags_progress 4 "Building and installing agsv1"
@@ -755,14 +619,6 @@ if gum_confirm "Install AGS v1?"; then
 
     printf "\n"
     cd "$original_dir_ags" || true
-
-
-    gum style --padding "0 1" --foreground "$C_TEXT_MUTED" "Installing AGS v1 by copying binaries to their appropriate paths you'll be prompted for your password:"
-    sudo cp -r ./ags_bin_lib/com.github.Aylur.ags/ /usr/share/
-    sudo cp -r ./ags_bin_lib/agsv1/ /usr/lib/
-    sudo ln -sf /usr/share/com.github.Aylur.ags/com.github.Aylur.ags /usr/bin/agsv1
-
-
     rm -rf "$AGSV1_CLONE_DIR"
     gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "AGS v1 installed successfully."
 else
@@ -792,17 +648,10 @@ if gum_confirm "Create a backup of your configurations in '$BACKUP_DIR'?"; then
 
         if [ -d "$dir_path" ]; then
             rsync -aq "$dir_path" "$BACKUP_DIR/" >/dev/null 2>&1 || {
-
-                 echo "Error backing up $dir_name." >> "$PARU_LOG_FILE"
-            }
-        else
-             echo "$dir_name not found for backup." >> "$PARU_LOG_FILE"
-
                 echo "Error backing up $dir_name." >>"$PARU_LOG_FILE"
             }
         else
             echo "$dir_name not found for backup." >>"$PARU_LOG_FILE"
-
         fi
     done
     printf "\n"
@@ -830,49 +679,6 @@ if [ -d "$HYPRLUNA_INSTALL_DIR" ]; then
             "Reinstall (remove and clone again)")
 
         case "$repo_action" in
-
-            "Skip (keep existing installation)")
-                gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Keeping existing HyprLuna installation."
-                ;;
-            "Update (pull latest changes)")
-                gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Updating existing HyprLuna installation..."
-                original_dir_update=$(pwd)
-                cd "$HYPRLUNA_INSTALL_DIR" || {
-                    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $HYPRLUNA_INSTALL_DIR. Aborting.";
-                    exit 1;
-                }
-
-                # Switch to the specified branch and pull latest changes
-                if ! run_with_spinner "Switching to $BRANCH branch..." "git checkout $BRANCH"; then
-                    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not switch to $BRANCH branch. Aborting."
-                    cd "$original_dir_update" || true
-                    exit 1
-                fi
-
-                if ! run_with_spinner "Updating HyprLuna from $BRANCH branch..." "git pull origin $BRANCH"; then
-                    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not update HyprLuna from $BRANCH branch. Aborting."
-                    cd "$original_dir_update" || true
-                    exit 1
-                fi
-
-                gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "HyprLuna updated successfully from $BRANCH branch."
-                cd "$original_dir_update" || true
-                ;;
-            "Reinstall (remove and clone again)")
-                gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "Removing existing installation for a fresh clone..."
-                if ! run_with_spinner "Deleting existing directory $HYPRLUNA_INSTALL_DIR..." "rm -rf $HYPRLUNA_INSTALL_DIR"; then
-                    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not delete directory $HYPRLUNA_INSTALL_DIR. Aborting."
-                    exit 1
-                fi
-                gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "Directory $HYPRLUNA_INSTALL_DIR deleted."
-
-                # Clone fresh repository
-                if ! run_with_spinner "Cloning HyprLuna ($BRANCH branch)..." "git clone -b $BRANCH $REPO_URL $HYPRLUNA_INSTALL_DIR"; then
-                    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not clone HyprLuna from $BRANCH branch. Aborting."
-                    exit 1
-                fi
-                ;;
-
         "Skip (keep existing installation)")
             gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Keeping existing HyprLuna installation."
             ;;
@@ -914,7 +720,6 @@ if [ -d "$HYPRLUNA_INSTALL_DIR" ]; then
                 exit 1
             fi
             ;;
-
         esac
     else
         # Directory exists but not a git repository
@@ -944,28 +749,23 @@ else
     fi
 fi
 
-# Success message based on the action taken (repo_action may not be set if directory didn't exist)
+# Success message based on the action taken
 if [ -n "${repo_action:-}" ]; then
     if [ "$repo_action" = "Skip (keep existing installation)" ]; then
-        gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "Using existing HyprLuna installation at $(gum style --underline --foreground "$C_INFO_TEXT" "$HYPRLUNA_INSTALL_DIR")."
+        gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "Using existing HyprLuna installation at $(gum style --underline --foreground "$C_INFO_TEXT" "$HYPRLUNA_INSTALL_DIR")"
     elif [ "$repo_action" = "Update (pull latest changes)" ]; then
-        gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "HyprLuna updated from $BRANCH branch at $(gum style --underline --foreground "$C_INFO_TEXT" "$HYPRLUNA_INSTALL_DIR")."
+        gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "HyprLuna updated from $BRANCH branch at $(gum style --underline --foreground "$C_INFO_TEXT" "$HYPRLUNA_INSTALL_DIR")"
     else
-        gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "HyprLuna ($BRANCH branch) cloned to $(gum style --underline --foreground "$C_INFO_TEXT" "$HYPRLUNA_INSTALL_DIR")."
+        gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "HyprLuna ($BRANCH branch) cloned to $(gum style --underline --foreground "$C_INFO_TEXT" "$HYPRLUNA_INSTALL_DIR")"
     fi
 else
-    gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "HyprLuna ($BRANCH branch) cloned to $(gum style --underline --foreground "$C_INFO_TEXT" "$HYPRLUNA_INSTALL_DIR")."
+    gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_TEXT_MUTED" "HyprLuna ($BRANCH branch) cloned to $(gum style --underline --foreground "$C_INFO_TEXT" "$HYPRLUNA_INSTALL_DIR")"
 fi
 
 original_dir_step5=$(pwd)
 cd "$HYPRLUNA_INSTALL_DIR" || {
-
-    gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $HYPRLUNA_INSTALL_DIR. Aborting.";
-    exit 1;
-
     gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Could not access $HYPRLUNA_INSTALL_DIR. Aborting."
     exit 1
-
 }
 
 # Only apply configuration files if not using "Skip" option
@@ -1002,14 +802,6 @@ total_actions=${#setup_actions[@]}
 # Only execute setup actions if not using "Skip" option
 if [ "${repo_action:-}" != "Skip (keep existing installation)" ]; then
     echo "Copying configuration files..." | tee -a "$PARU_LOG_FILE"
-
-    echo "--- Start of Setup Actions ---" >> "$PARU_LOG_FILE"
-
-    for i in "${!setup_actions[@]}"; do
-        action="${setup_actions[$i]}"
-        action_num=$((i+1))
-        progress=$(( action_num * 100 / total_actions ))
-
     echo "--- Start of Setup Actions ---" >>"$PARU_LOG_FILE"
 
     for i in "${!setup_actions[@]}"; do
@@ -1017,22 +809,9 @@ if [ "${repo_action:-}" != "Skip (keep existing installation)" ]; then
         action_num=$((i + 1))
         progress=$((action_num * 100 / total_actions))
 
-
         setup_bar_fill_str=$(generate_simple_progress_bar "$action_num" "$total_actions" 25)
 
         printf "\r%b %d%% (%d/%d) - Applying configuration...      " "[${setup_bar_fill_str}]" "$progress" "$action_num" "$total_actions"
-
-
-        echo "Executing setup_action $action_num/$total_actions: $action" >> "$PARU_LOG_FILE"
-
-        action_output_tmp=$(mktemp)
-        if eval "$action" > "$action_output_tmp" 2>&1; then
-            echo "SUCCESS: $action" >> "$PARU_LOG_FILE"
-        else
-            ret_code=$?
-            echo "FAILURE ($ret_code): $action" >> "$PARU_LOG_FILE"
-            echo "Failure output:" >> "$PARU_LOG_FILE"
-            cat "$action_output_tmp" >> "$PARU_LOG_FILE"
 
         echo "Executing setup_action $action_num/$total_actions: $action" >>"$PARU_LOG_FILE"
 
@@ -1044,22 +823,15 @@ if [ "${repo_action:-}" != "Skip (keep existing installation)" ]; then
             echo "FAILURE ($ret_code): $action" >>"$PARU_LOG_FILE"
             echo "Failure output:" >>"$PARU_LOG_FILE"
             cat "$action_output_tmp" >>"$PARU_LOG_FILE"
-
         fi
         rm -f "$action_output_tmp"
     done
     printf "\n"
 
-    echo "--- End of Setup Actions ---" >> "$PARU_LOG_FILE"
-    gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "HyprLuna configuration applied."
-else
-    echo "Skipping configuration files (using existing installation)..." >> "$PARU_LOG_FILE"
-
     echo "--- End of Setup Actions ---" >>"$PARU_LOG_FILE"
     gum log --level info --level.foreground "$C_SUCCESS_TEXT" --message.foreground "$C_SUCCESS_TEXT" "HyprLuna configuration applied."
 else
     echo "Skipping configuration files (using existing installation)..." >>"$PARU_LOG_FILE"
-
     gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Using existing HyprLuna configuration."
 fi
 cd "$original_dir_step5" || true
@@ -1089,10 +861,7 @@ if pacman -Q sddm &>/dev/null; then
     if gum_confirm "Configure SDDM Astronaut theme?"; then
         sddm_setup_url="https://raw.githubusercontent.com/keyitdev/sddm-astronaut-theme/master/setup.sh"
 
-        if ! curl -s --head --fail "$sddm_setup_url" > /dev/null; then
-
         if ! curl -s --head --fail "$sddm_setup_url" >/dev/null; then
-
             gum log --level error --level.foreground "$C_ERROR_TEXT" --message.foreground "$C_ERROR_TEXT" "Cannot access SDDM configuration script."
             gum log --level warn --level.foreground "$C_WARN_TEXT" --message.foreground "$C_WARN_TEXT" "You can install it manually later."
         else
@@ -1125,11 +894,7 @@ else
 fi
 
 # --- FINAL CLEANUP ---
-
 rm -rf "$PARU_CLONE_DIR" "$AGSV1_CLONE_DIR" 2>/dev/null
-
-# rm -rf "$PARU_CLONE_DIR" "$AGSV1_CLONE_DIR" 2>/dev/null
-
 gum log --level info --level.foreground "$C_INFO_TEXT" --message.foreground "$C_TEXT_MUTED" "Cleanup of temporary files completed."
 
 # --- FINAL MESSAGE ---
@@ -1161,7 +926,7 @@ echo -e "${C_ANSI_PRIMARY_FG}├$(printf '%*s' "$BOX_CONTENT_WIDTH" '' | tr ' ' 
 printf_box_line "${C_ANSI_SECONDARY_FG}Summary:${C_ANSI_RESET}"
 printf_box_line "${C_ANSI_TEXT_BRIGHT}- System prerequisites installed${C_ANSI_RESET}"
 printf_box_line "${C_ANSI_TEXT_BRIGHT}- HyprLuna packages installed${C_ANSI_RESET}"
-printf_box_line "${C_ANSI_TEXT_BRIGHT}- AGS v1 installed (if selected)${C_ANSI_RESET}"
+printf_box_line "${C_ANSI_TEXT_BRIGHT}- AGS v1
 printf_box_line "${C_ANSI_TEXT_BRIGHT}- HyprLuna configured${C_ANSI_RESET}"
 printf_box_line "${C_ANSI_TEXT_BRIGHT}- SDDM configured (if selected)${C_ANSI_RESET}"
 printf_box_line ""
